@@ -4,11 +4,13 @@ import styled from 'styled-components';
 
 const Buttons = styled.button`
   background: white;
-  border-radius: 3px;
+  border-radius: ${props => props.styled ? props.styled.borderRadius : '3px'};
   border: 1px solid gray;
   color: black;
-  padding : ${props => props.styled.padding};
-  margin : ${props => props.styled.margin};
+  padding : ${props => props.styled ? props.styled.padding : '0px'};
+  margin : ${props => props.styled ? props.styled.margin : '0px'};
+  font-size : ${props => props.styled ? props.styled.fontSize : '12px'};
+  text-align : ${props => props.styled ? props.styled.textAlign : 'left'};
 `;
 
 

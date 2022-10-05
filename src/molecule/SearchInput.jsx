@@ -1,51 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Button } from '../atoms/Button';
 import { Input } from '../atoms/Input';
 import { FaSearch } from 'react-icons/fa';
 
-export const SearchInput = ({ styled, name, values, onChange }) => {
+const SearchInput = ({ styled, name, values, onChange, onClicks}) => {
     
     const searchref = useRef();
-    const [toggle, setToggle] = useState(true); //toggle을 내부에 담을 것인가? 외부에 위임할 것인가 자체 기능이므로 컴포넌트 내부에 내장
-    //SearchInput 분자 고유 기능이므로 state로 toggle 내장
-    
-    const onBtnSearch = () => {
-        setToggle(prev => !prev);
-    };
-
-    useEffect(() => {
-        function handleClickOutside(e) {
-            console.log(searchref.current);
-          if (
-            searchref.current &&
-            !searchref.current.contains(e.target)
-          ) {
-            setToggle(true); 
-          }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
-        };
-      }, [searchref]);
 
     const btnstyles = {...styled.btn };
     const inputstyles = {  ...styled.input, width : '35%'};
     
 
     return(
-        <React.Fragment>
-            { toggle ? //버튼이 눌리면 Input바가 나타나게함
-                <Button onClicks={onBtnSearch} styled={btnstyles}><FaSearch /></Button> 
-                : 
-                <Input name={name}
-                     values={values} 
-                        onChange={onChange} 
-                            styled={inputstyles}
-                             placeholder='원하는 작품을 검색해주세요...'
-                              ref={searchref}/>
-            }
-        </React.Fragment>
+        <div style={{...styled.div}}>
+            <Input name={name}
+                values={values} 
+                  onChange={onChange} 
+                    styled={inputstyles}
+                      placeholder='원하는 작품을 검색해주세요...'
+                        ref={searchref}/>
+            <Button onClicks={onClicks} styled={btnstyles}><FaSearch /></Button>               
+        </div>
     )
     
 }
+
+export default SearchInput;

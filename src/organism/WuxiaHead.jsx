@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import HeadText from '../molecule/HeadText';
-import { SearchInput } from '../molecule/SearchInput';
+import SearchInput from '../molecule/SearchInput';
 
 
 const Head = styled.div`
@@ -11,13 +11,18 @@ const Head = styled.div`
 
 
 
-const WuxiaHead = () => {
+const WuxiaHead = ( { onClicks}) => {
 
     const [input, setInput] = useState("");
+    
 
     const onChange = (e) => {
         const { value } = e.target;
         setInput(value);
+    };
+
+    const onSearch = () => { //서버에 데이터 검색 요청
+        return;
     }
 
 
@@ -29,6 +34,10 @@ const WuxiaHead = () => {
         btn : {
             padding : '12px 20px',
             margin : '4px 8px'
+        },
+        div : {
+            width : '50%',
+            textAlign : 'right'
         }
     };
 
@@ -46,8 +55,8 @@ const WuxiaHead = () => {
 
     return(
         <Head>
-            <HeadText styled={HeadTextstyle}/>
-            <SearchInput styled={SearchInputstyle} values={input} onChange={onChange} />
+            <HeadText styled={HeadTextstyle} onClicks={onClicks}/>
+            <SearchInput styled={SearchInputstyle} values={input} name='search' onChange={onChange} onClicks={onSearch} />
         </Head>
     )
 

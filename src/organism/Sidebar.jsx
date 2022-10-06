@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Button } from '../atoms/Button';
+import Button from '../atoms/Button';
 import { FaTimes } from 'react-icons/fa';
+import Navlist from '../molecule/Navlist';
 
 
 
@@ -70,7 +71,7 @@ const Sidebars = styled.div`
     left : 0;
     margin : 0;
     padding : 0;
-    width : 40%;
+    width : 33%;
     height : 100vh;
     background-color : white;
     
@@ -91,13 +92,42 @@ const Container = styled.div` //버튼 우측 정렬을 위한 컨테이너
     text-align : right;
 `
 
+const togglebtn = {
+    margin : '4px 8px',
+    padding : '4px 8px',
+    borderRadius : '50%',
+    fontSize : '20px',
+};
 
+
+const styleds={
+    btn : {
+        width : '100%',
+        padding : '12px',
+        border : 'none'
+    }
+}
+
+
+const list = [
+    {
+        name : '리스트1',
+        path : '123'
+    },
+    {
+        name : '리스트2',
+        path : '1234'
+    },
+    {
+        name : '리스트3',
+        path : '12345'
+    }
+]
 
 
 
 const Sidebar = ({ onClicks, toggle }) => {
 
-    //console.log(toggle);
     const [animate, setAnimate] = useState(false);
     const [localvisible, setLocalvisible] = useState(toggle);
 
@@ -111,14 +141,7 @@ const Sidebar = ({ onClicks, toggle }) => {
     
 
 
-    const togglebtn = {
-        margin : '4px 8px',
-        padding : '4px 8px',
-        borderRadius : '50%',
-        fontSize : '20px',
-        textAlign : 'right',
-        width : '100%',
-    };
+   
 
 
     if(!animate && !localvisible) {
@@ -130,6 +153,7 @@ const Sidebar = ({ onClicks, toggle }) => {
                 <Container>
                     <Button onClicks={onClicks} styled={togglebtn}><FaTimes /></Button>
                 </Container>
+                <Navlist list={list} styled={styleds} />
             </Sidebars>
         </Sidebackground>
     )

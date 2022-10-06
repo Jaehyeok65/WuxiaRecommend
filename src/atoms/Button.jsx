@@ -11,7 +11,10 @@ const Buttons = styled.button`
   margin : ${props => props.styled ? props.styled.margin : '0px'};
   font-size : ${props => props.styled ? props.styled.fontSize : '12px'};
   text-align : ${props => props.styled ? props.styled.textAlign : 'left'};
-  width : ${props => props.styled ? props.styled.width : '12px'}
+  width : ${props => props.styled ? props.styled.width : '12px'};
+  &:hover {
+    cursor : pointer;
+  }
 `;
 
 

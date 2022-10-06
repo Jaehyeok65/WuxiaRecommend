@@ -4,7 +4,12 @@ import { Link } from 'react-router-dom';
 import Button from '../atoms/Button';
 
 const NavLists = styled.div`
-    
+     button {
+        &:hover {
+            background-color : black;
+            color : white;
+        };
+    };
 `
 
 

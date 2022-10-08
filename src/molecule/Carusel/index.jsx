@@ -71,14 +71,14 @@ function SamplePrevArrow(props) {
 
 
 
-const Carusel = ( { imglist=[] }) => {
+const Carusel = ( { list }) => {
 
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToShow: 4,
+        slidesToScroll: 2,
         initialSlide: 0,
         autoplay : true,
         autoplaySpeed : 5000,
@@ -122,7 +122,7 @@ const Carusel = ( { imglist=[] }) => {
 
     return (
         <StyledSlider {...settings}>
-         { imglist.map((item, index) => (
+         { list && list.map((item, index) => (
             <Banner key={index} url={item.url} name="이미지" />
          ))}
         </StyledSlider>

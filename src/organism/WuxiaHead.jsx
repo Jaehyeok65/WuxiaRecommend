@@ -7,7 +7,10 @@ import SearchInput from '../molecule/SearchInput';
 const Head = styled.div`
     display : flex;
     justify-content : space-between;
-`
+    position : sticky;
+    top : 0;
+    z-index : 20000;
+`;
 
 
 
@@ -32,8 +35,9 @@ const WuxiaHead = ( { onClicks}) => {
             margin : '4px 8px'
         },
         btn : {
-            padding : '12px 20px',
-            margin : '4px 8px'
+            padding : '4px 12px 4px 4px',
+            margin : '4px 12px 4px 4px',
+            border : 'none'
         },
         div : {
             width : '50%',
@@ -44,12 +48,15 @@ const WuxiaHead = ( { onClicks}) => {
     const HeadTextstyle = {
         text : {
             fontSize : '16px',
-            margin : '4px 8px',
-            lineHeight : '60px'
         },
         icon : {
             fontSize : '50px',
             margin : '4px 8px'
+        },
+        btn : {
+            border : 'none',
+            padding : '12px 20px',
+            
         }
     };
 

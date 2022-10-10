@@ -10,17 +10,22 @@ const Main = styled.div`
 const Grid = styled.div`
     margin-bottom : 50px;
     display : grid;
-    grid-template-columns: repeat(6,1fr);
-    gap: 40px 40px;
+    grid-template-columns: ${props => props.styled ? props.styled.pcgrid : 'repeat(2,1fr)'};
+    gap: ${props => props.styled ? props.styled.gap : '20px 20px'};
+
+    @media screen and (max-width: 600px) {
+        grid-template-columns: ${props => props.styled ? props.styled.mobilegrid : 'repeat(2,1fr)'};
+    }
 `
 
-const MainList = ( { list }) => {
+const MainList = ( { list, title, styled }) => {
+
 
 
     return(
         <Main>
-            <Title styled={{marginBottom : '20px'}}>연재 추천</Title>
-            <Grid>
+            <Title styled={{marginBottom : '20px'}}>{ title }</Title>
+            <Grid styled={styled}>
             { list && list.map((item,index) => (
                 <Card key={index} imgsrc={item.url} title={item.title} subtitle={item.subtitle} />
             ))}

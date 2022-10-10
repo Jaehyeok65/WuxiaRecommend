@@ -15,6 +15,11 @@ const Buttons = styled.button`
   &:hover {
     cursor : pointer;
   }
+  background-color: transparent;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
 `;
 
 

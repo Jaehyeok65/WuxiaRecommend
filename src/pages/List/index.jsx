@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Card from '../../molecule/Card';
-import Title from '../../atoms/Title';
 import CardInfo from '../../molecule/CardInfo';
 
 const Lists = styled.div`
@@ -12,6 +11,10 @@ const Lists = styled.div`
     gap : 40px 40px;
     margin-top : 5%;
     margin-bottom : 10%;
+
+    @media screen and (max-width : 1000px) {
+        grid-template-columns: repeat(2,1fr);
+    }
 `
 
 const Grids = styled.div`
@@ -58,9 +61,15 @@ const List = ( { list=[] }) => {
 
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
 
+    const scrollref = useRef();
+
+    useEffect( () => {
+        scrollref.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    },[title])
+
     return(
         <MainFrame>
-            <Title styled={{fontSize: '20px', marginTop : '2%'}}>{title}</Title>
+            <h2 style={{fontSize: '20px', marginTop : '2%'}} ref={scrollref}>{title}</h2>
             <Lists>
                 { list && list.map( (item, index) => (
                     <Grids>

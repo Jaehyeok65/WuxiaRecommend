@@ -3,11 +3,13 @@ import Title from '../../atoms/Title';
 import { Text } from '../../atoms/Text';
 import { FaHeart } from "react-icons/fa";
 import Icon from '../../atoms/Icon';
+import Button from '../../atoms/Button';
+import StarRate from '../StarRate';
 
 
-const Product = ( { product, styled, icon, setIcon }) => {
+const Product = ( { product, styled, icon, setIcon, setToggle, clicked, setClicked, rate }) => {
 
-
+    
     return(
         <>
         <img src={product.url} alt={product.title} />
@@ -18,7 +20,9 @@ const Product = ( { product, styled, icon, setIcon }) => {
             <Icon styled={{fontSize : '15px', color : 'gray'}} icon={icon} setIcon={setIcon}><FaHeart /></Icon>
             <span style={{fontSize : '14px', verticalAlign : 'top', marginLeft : '8px'}}>{product.like}</span>
             <Text styled={{...styled.text, marginTop : '5%'}}>조회수 : {product.view}</Text>
-            <a href='/'>바로가기 링크</a>
+            <StarRate rate={product.rate} styled={{fontSize : '12px'}} clicked={clicked} setClicked={setClicked} />
+            <Button onClicks={setToggle} styled={{width:'100px', marginBottom : '5%', borderRadius : '4px'}}>별점주기</Button><br/>
+            <a href='/' style={{display : 'block', marginTop : '5%'}}>바로가기 링크</a>
         </div>
         </>
     )

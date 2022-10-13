@@ -41,18 +41,22 @@ const productstyle = {
     }
 }
 
+const initialState = [false, false, false, false, false];
 
-const Detail = ( { list }) => {
+
+const Detail = ( { list, setList }) => {
 
     const { title } = useParams();
     const [product, setProduct] = useState('');
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
-    const [clicked, setClicked] = useState([false, false, false, false, false]);
+    const [clicked, setClicked] = useState(initialState);
+    const [index, setIndex] = useState(0);
 
     useEffect( () => {
         setProduct(() => list.filter(item => item.title === title)[0]);
-    },[])
+        setIndex(() => list.findIndex(item => item.title === title));
+    },[]);
 
     const handleStar = (index) => {
         let clickStates = [...clicked];
@@ -61,6 +65,20 @@ const Detail = ( { list }) => {
         }
          setClicked(clickStates);
        };
+       
+    const handleClose = () => {
+        setClicked(initialState);
+        setToggle(prev => !prev);
+    }
+
+    const handleSubmit = () => {
+        let lists = [...list];
+        lists[index] = {
+            ...lists[index], rate : clicked.filter(Boolean).length
+        }
+        setList(lists)
+        setToggle(prev => !prev);
+    }
 
     return(
         <React.Fragment>
@@ -71,9 +89,9 @@ const Detail = ( { list }) => {
             </MainFrame>
             <Modal toggle={toggle}>
                 <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%'}}>별점 주기</Text>
-                <StarRate rate={product.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center'}} setClicked={setClicked} />
-                <Button onClicks={()=>setToggle(prev=>!prev)} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block', marginBottom : '2%', marginTop : '2%'}}>적용하기</Button>
-                <Button onClicks={()=>setToggle(prev=>!prev)} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
+                <StarRate rate={product.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} setClicked={setClicked} />
+                <Button onClicks={handleSubmit} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block', marginBottom : '2%', marginTop : '2%'}}>적용하기</Button>
+                <Button onClicks={handleClose} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
             </Modal>
         </React.Fragment>
     )

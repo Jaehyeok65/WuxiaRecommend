@@ -1,16 +1,18 @@
 import React from 'react';
-import { AiOutlineMedium } from "react-icons/ai";
 import styled from 'styled-components';
-import Sidebar from '../organism/Sidebar';
 
 
 const Icons = styled.span`
     font-size : ${props => props.styled.fontSize};
-`
+    color : ${props => props.icon ? props.styled.color : 'black'};
+`;
 
-const Icon = ( { styled, onClicks }) => {
+const Icon = ( { styled, children, icon, setIcon, color }) => {
+
+    
     return(
-        <Icons styled={styled}><AiOutlineMedium onClick={onClicks}/>
+        <Icons styled={styled} onClick={setIcon} icon={icon}>
+            { children }
         </Icons>
     )
 }

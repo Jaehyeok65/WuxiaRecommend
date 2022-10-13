@@ -16,7 +16,7 @@ const CardInfo = ( { product, styled }) => {
     const init = () => {
         let clickStates = [...clicked];
         for (let i = 0; i < 5; i++) {
-          clickStates[i] = i <= product.rate ? true : false;
+          clickStates[i] = i < product.rate ? true : false;
         }
          setClicked(clickStates);
     }
@@ -27,7 +27,7 @@ const CardInfo = ( { product, styled }) => {
             <Text styled={styled.subtext}>{product.subtitle}</Text>
             <Icon styled={styled.icon} icon={true}><FaHeart /></Icon>
             <span style={styled.span}>{product.like}</span>
-            <StarRate rate={product.rate} styled={{fontSize : '12px'}} clicked={clicked} init={init} />
+            <StarRate rate={product.rate} styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} />
             <Text styled={styled.text}>view:{product.view}</Text>
         </div>
     )

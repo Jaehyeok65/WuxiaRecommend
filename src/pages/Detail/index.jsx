@@ -49,12 +49,16 @@ const Detail = ( { list, setList }) => {
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [clicked, setClicked] = useState([false, false, false, false, false]);
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(-1);
 
     useEffect( () => {
-        setProduct(() => list.filter(item => item.title === title)[0]);
+        setProduct(() => list.find(item => item.title === title));
         setIndex(() => list.findIndex(item => item.title === title));
     },[]);
+
+    useEffect( () => {
+        handleView();
+    },[index]);
 
 
     const handleStar = (index) => {
@@ -63,7 +67,7 @@ const Detail = ( { list, setList }) => {
           clickStates[i] = i <= index ? true : false;
         }
          setClicked(clickStates);
-       };
+    };
        
     const handleClose = () => {
         setToggle(prev => !prev);
@@ -77,6 +81,15 @@ const Detail = ( { list, setList }) => {
         setList(lists)
         setToggle(prev => !prev);
     }
+
+    const handleView = () => {
+        if(index < 0) return;
+        let lists = [...list];
+        lists[index] = {
+            ...lists[index], view : lists[index].view+1
+        };
+        setList(lists);
+    };
 
     const init = () => {
         let clickStates = [...clicked];

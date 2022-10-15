@@ -41,8 +41,6 @@ const productstyle = {
     }
 }
 
-const initialState = [false, false, false, false, false];
-
 
 const Detail = ( { list, setList }) => {
 
@@ -50,13 +48,14 @@ const Detail = ( { list, setList }) => {
     const [product, setProduct] = useState('');
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
-    const [clicked, setClicked] = useState(initialState);
+    const [clicked, setClicked] = useState([false, false, false, false, false]);
     const [index, setIndex] = useState(0);
 
     useEffect( () => {
         setProduct(() => list.filter(item => item.title === title)[0]);
         setIndex(() => list.findIndex(item => item.title === title));
     },[]);
+
 
     const handleStar = (index) => {
         let clickStates = [...clicked];
@@ -67,7 +66,6 @@ const Detail = ( { list, setList }) => {
        };
        
     const handleClose = () => {
-        setClicked(initialState);
         setToggle(prev => !prev);
     }
 
@@ -80,19 +78,31 @@ const Detail = ( { list, setList }) => {
         setToggle(prev => !prev);
     }
 
+    const init = () => {
+        let clickStates = [...clicked];
+        for (let i = 0; i < 5; i++) {
+          clickStates[i] = i < product.rate ? true : false;
+        }
+         setClicked(clickStates);
+    }
+
+
     return(
         <React.Fragment>
-            <MainFrame>
-                <Details>
-                    <Product product={product} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)} setToggle={()=>setToggle(prev => !prev)} clicked={clicked} setClicked={setClicked} />
-                </Details>
-            </MainFrame>
-            <Modal toggle={toggle}>
-                <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%'}}>별점 주기</Text>
-                <StarRate rate={product.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} setClicked={setClicked} />
-                <Button onClicks={handleSubmit} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block', marginBottom : '2%', marginTop : '2%'}}>적용하기</Button>
-                <Button onClicks={handleClose} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
-            </Modal>
+            { product && 
+            <React.Fragment>
+                <MainFrame>
+                    <Details>
+                        <Product product={product} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)} setToggle={()=>setToggle(prev => !prev)} clicked={clicked} setClicked={setClicked} init={init} />
+                    </Details>
+                </MainFrame>
+                    <Modal toggle={toggle}>
+                        <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%'}}>별점 주기</Text>
+                        <StarRate rate={product.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} setClicked={setClicked} />
+                        <Button onClicks={handleSubmit} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block', marginBottom : '2%', marginTop : '2%'}}>적용하기</Button>
+                        <Button onClicks={handleClose} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
+                    </Modal>
+            </React.Fragment>}
         </React.Fragment>
     )
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, forwardRef } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -12,9 +12,14 @@ const Lists = styled.div`
     margin-top : 5%;
     margin-bottom : 10%;
 
-    @media screen and (max-width : 1000px) {
+    @media screen and (max-width : 1200px) {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    @media screen and (max-width : 800px) {
         grid-template-columns: repeat(2,1fr);
     }
+
 `
 
 const Grids = styled.div`
@@ -43,7 +48,8 @@ const cardinfostyle = {
         color : 'gray'
     },
     icon : {
-        fontSize : '15px'
+        fontSize : '15px',
+        color : 'red'
     },
     span : {
         fontSize : '14px',
@@ -57,23 +63,35 @@ const cardinfostyle = {
 
 }
 
-const List = ( { list=[] }) => {
+
+
+const List = ( { list=[]}, ref ) => {
 
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
 
-    const scrollref = useRef();
+
+    const handleScroll = () => {
+        if (!window.scrollY) return;
+        // 현재 위치가 이미 최상단일 경우 return
+      
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      
+      };
 
     useEffect( () => {
-        scrollref.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-    },[title])
+        handleScroll();
+    },[title]);
 
     return(
         <MainFrame>
-            <h2 style={{fontSize: '20px', marginTop : '2%'}} ref={scrollref}>{title}</h2>
+            <h2 style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
             <Lists>
                 { list && list.map( (item, index) => (
-                    <Grids>
-                        <Card key={index} url={item.url} title={item.title} styled={cardstyle}/>
+                    <Grids key={index}>
+                        <Card url={item.url} title={item.title} styled={cardstyle}/>
                         <CardInfo product={item} styled={cardinfostyle} />
                     </Grids>
                 ))}
@@ -84,4 +102,6 @@ const List = ( { list=[] }) => {
 }
 
 
-export default React.memo(List);
+const ForwardList = React.forwardRef(List);
+
+export default React.memo(ForwardList);

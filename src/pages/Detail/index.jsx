@@ -49,16 +49,11 @@ const Detail = ( { list, setList }) => {
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [clicked, setClicked] = useState([false, false, false, false, false]);
-    const [index, setIndex] = useState(-1);
 
     useEffect( () => {
         setProduct(() => list.find(item => item.title === title));
-        setIndex(() => list.findIndex(item => item.title === title));
-    },[]);
-
-    useEffect( () => {
         handleView();
-    },[index]);
+    },[]);
 
 
     const handleStar = (index) => {
@@ -74,20 +69,17 @@ const Detail = ( { list, setList }) => {
     }
 
     const handleSubmit = () => {
-        let lists = [...list];
-        lists[index] = {
-            ...lists[index], rate : clicked.filter(Boolean).length
-        }
+        let lists = list.map(item => (
+            item.title === title ? {...item, rate : clicked.filter(Boolean).length} : item
+        ));
         setList(lists)
         setToggle(prev => !prev);
     }
 
     const handleView = () => {
-        if(index < 0) return;
-        let lists = [...list];
-        lists[index] = {
-            ...lists[index], view : lists[index].view+1
-        };
+        let lists = list.map(item => (
+            item.title === title ? {...item, view : item.view + 1} : item
+        ));
         setList(lists);
     };
 

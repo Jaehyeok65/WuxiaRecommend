@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Card from '../../molecule/Card';
 import CardInfo from '../../molecule/CardInfo';
+import { useSelector, useDispatch } from 'react-redux';
+import { init } from '../../redux/action';
 
 const Lists = styled.div`
     display : grid;
@@ -65,9 +67,12 @@ const cardinfostyle = {
 
 
 
-const List = ( { list=[]}, ref ) => {
+const List = ( { list=[] }, ref ) => {
 
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
+    const { data, loading, error } = useSelector(state => state.wuxia.wuxias);
+    const dispatch = useDispatch();
+
 
 
     const handleScroll = () => {
@@ -78,18 +83,25 @@ const List = ( { list=[]}, ref ) => {
           top: 0,
           behavior: 'smooth'
         });
-      
       };
 
     useEffect( () => {
         handleScroll();
     },[title]);
 
+    useEffect(() => {
+        dispatch(init());
+      }, [dispatch]);
+
+      if (loading) return <div>로딩중...</div>;
+      if (error) return <div>에러 발생!</div>;
+      if (!data) return null;
+
     return(
         <MainFrame>
             <h2 style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
             <Lists>
-                { list && list.map( (item, index) => (
+                { data && data.map( (item, index) => (
                     <Grids key={index}>
                         <Card url={item.url} title={item.title} styled={cardstyle}/>
                         <CardInfo product={item} styled={cardinfostyle} />

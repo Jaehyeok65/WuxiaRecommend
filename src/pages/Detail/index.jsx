@@ -7,6 +7,8 @@ import Modal from '../../molecule/Modal';
 import StarRate from '../../molecule/StarRate';
 import Button from '../../atoms/Button';
 import { Text } from '../../atoms/Text';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProduct } from '../../redux/action';
 
 
 
@@ -42,18 +44,19 @@ const productstyle = {
 }
 
 
-const Detail = ( { list, setList }) => {
+const Detail = () => {
 
     const { title } = useParams();
-    const [product, setProduct] = useState('');
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [clicked, setClicked] = useState([false, false, false, false, false]);
+    const { data, loading, error } = useSelector(state => state.wuxia.wuxia);
+    const dispatch = useDispatch();
 
-    useEffect( () => {
-        setProduct(() => list.find(item => item.title === title));
-        handleView();
-    },[]);
+
+    useEffect(() => {
+        dispatch(getProduct(title));
+      }, [title, dispatch]);
 
 
     const handleStar = (index) => {
@@ -69,41 +72,35 @@ const Detail = ( { list, setList }) => {
     }
 
     const handleSubmit = () => {
-        let lists = list.map(item => (
-            item.title === title ? {...item, rate : clicked.filter(Boolean).length} : item
-        ));
-        setList(lists)
         setToggle(prev => !prev);
     }
 
-    const handleView = () => {
-        let lists = list.map(item => (
-            item.title === title ? {...item, view : item.view + 1} : item
-        ));
-        setList(lists);
-    };
 
     const init = () => {
         let clickStates = [...clicked];
         for (let i = 0; i < 5; i++) {
-          clickStates[i] = i < product.rate ? true : false;
+          clickStates[i] = i < data.rate ? true : false;
         }
          setClicked(clickStates);
-    }
+    };
+
+    if (loading) return <div>로딩중...</div>;
+    if (error) return <div>에러 발생!</div>;
+    if (!data) return null;
 
 
     return(
         <React.Fragment>
-            { product && 
+            { data && 
             <React.Fragment>
                 <MainFrame>
                     <Details>
-                        <Product product={product} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)} setToggle={()=>setToggle(prev => !prev)} clicked={clicked} setClicked={setClicked} init={init} />
+                        <Product product={data} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)} setToggle={()=>setToggle(prev => !prev)} clicked={clicked} setClicked={setClicked} init={init} />
                     </Details>
                 </MainFrame>
                     <Modal toggle={toggle}>
                         <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%'}}>별점 주기</Text>
-                        <StarRate rate={product.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} setClicked={setClicked} />
+                        <StarRate rate={data.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} setClicked={setClicked} />
                         <Button onClicks={handleSubmit} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block', marginBottom : '2%', marginTop : '2%'}}>적용하기</Button>
                         <Button onClicks={handleClose} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
                     </Modal>

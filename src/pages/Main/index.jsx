@@ -3,6 +3,8 @@ import MainFrame from '../MainFrame';
 import MainCarousel from '../../organism/MainCarousel';
 import MainList from '../../organism/MainList';
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { init } from '../../redux/action';
 
 
 const liststyle = {
@@ -12,7 +14,10 @@ const liststyle = {
     gap : '20px 40px'
 };
 
-const Main = ( { list }) => {
+const Main = () => {
+
+  const { data, loading, error } = useSelector(state => state.wuxia.wuxias);
+    const dispatch = useDispatch();
 
     const handleScroll = () => {
         if (!window.scrollY) return;
@@ -29,12 +34,20 @@ const Main = ( { list }) => {
         handleScroll();
       },[]);
 
+      useEffect(() => {
+        dispatch(init());
+      }, [dispatch]);
+
+    if (loading) return <div>로딩중...</div>;
+    if (error) return <div>에러 발생!</div>;
+    if (!data) return null;
+
     return(
         <MainFrame>
-            <MainCarousel list = {list} />
-            <MainList list={list} title='조회수 TOP 12' styled={liststyle}/>
-            <MainList list={list} title='좋아요 TOP 12' styled={liststyle}/>
-            <MainList list={list} title='별점 TOP 12' styled={liststyle}/>
+            <MainCarousel list = {data} />
+            <MainList list={data} title='조회수 TOP 12' styled={liststyle}/>
+            <MainList list={data} title='좋아요 TOP 12' styled={liststyle}/>
+            <MainList list={data} title='별점 TOP 12' styled={liststyle}/>
         </MainFrame>
     )
 

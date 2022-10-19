@@ -9,6 +9,7 @@ import Button from '../../atoms/Button';
 import { Text } from '../../atoms/Text';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
+import { StarSubmit } from '../../redux/action';
 
 
 
@@ -72,6 +73,8 @@ const Detail = () => {
     }
 
     const handleSubmit = () => {
+        const star = clicked.filter(item => item === true).length;
+        dispatch(StarSubmit(title,star));
         setToggle(prev => !prev);
     }
 

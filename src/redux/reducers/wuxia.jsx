@@ -1,6 +1,6 @@
 import { actions } from '@storybook/addon-actions';
-import { INIT, INIT_SUCCESS, INIT_ERROR, PRODUCT, PRODUCT_SUCCESS, PRODUCT_ERROR } from '../action';
-import { STAR_SUBMIT, STAR_SUBMIT_SUCCESS, STAR_SUBMIT_ERROR } from '../action';
+import { MAIN, MAIN_SUCCESS, MAIN_ERROR, PRODUCT, PRODUCT_SUCCESS, PRODUCT_ERROR } from '../action';
+import { STAR_SUBMIT, STAR_SUBMIT_SUCCESS, STAR_SUBMIT_ERROR , LIST, LIST_SUCCESS, LIST_ERROR } from '../action';
 
 export const handleAsyncActions = (type, key, keepdata = false) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
@@ -114,10 +114,14 @@ const initialState = {
 
 export default function wuxia(state = initialState, action) {
     switch (action.type) {
-      case INIT:
-      case INIT_SUCCESS :
-      case INIT_ERROR :
-        return handleAsyncActionsbyTitle(INIT,'wuxias')(state, action);
+      case MAIN:
+      case MAIN_SUCCESS :
+      case MAIN_ERROR :
+        return handleAsyncActions(MAIN,'wuxias')(state, action);
+      case LIST:
+      case LIST_SUCCESS:
+      case LIST_ERROR :
+        return handleAsyncActionsbyTitle(LIST,'wuxias')(state, action);
       case PRODUCT:
       case PRODUCT_SUCCESS:
       case PRODUCT_ERROR:

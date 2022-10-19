@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, forwardRef } from 'react';
+import React, { useEffect } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Card from '../../molecule/Card';
 import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
-import { init } from '../../redux/action';
+import { getList } from '../../redux/action';
 
 const Lists = styled.div`
     display : grid;
@@ -95,7 +95,7 @@ const List = ( ) => {
 
     useEffect(() => {
         if(data) return;
-        dispatch(init(title));
+        dispatch(getList(title));
       }, [dispatch,title,data]);
 
       if (loading) return <div>로딩중...</div>;

@@ -4,7 +4,7 @@ import MainCarousel from '../../organism/MainCarousel';
 import MainList from '../../organism/MainList';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { init } from '../../redux/action';
+import { getMain } from '../../redux/action';
 
 
 const liststyle = {
@@ -35,8 +35,9 @@ const Main = () => {
       },[]);
 
       useEffect(() => {
-        dispatch(init());
-      }, [dispatch]);
+        if(data) return; //불필요한 요청을 방지하기 위해 이미 data를 받아왔으면 return
+        dispatch(getMain());
+      }, [dispatch, data]);
 
     if (loading) return <div>로딩중...</div>;
     if (error) return <div>에러 발생!</div>;

@@ -57,6 +57,10 @@ const Detail = () => {
 
     useEffect(() => {
         dispatch(getProduct(title));
+
+        return () => {
+            dispatch({ type : 'CLEAR'})
+        }
       }, [title, dispatch]);
 
 

@@ -38,7 +38,7 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
 
 export const getList = (title) => async (dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : LIST}); //데이터 초기 요청 시작
+    dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
 
 
     try {

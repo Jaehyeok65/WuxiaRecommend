@@ -70,7 +70,7 @@ const cardinfostyle = {
 const List = ( ) => {
 
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
-    const { data, loading, error } = useSelector(state => state.wuxia.wuxias[title]) || {
+    const { data, loading, error } = useSelector(state => state.wuxia.list[title]) || {
         loading: false,
         data: null,
         error: null
@@ -97,6 +97,7 @@ const List = ( ) => {
         if(data) return;
         dispatch(getList(title));
       }, [dispatch,title,data]);
+
 
       if (loading) return <div>로딩중...</div>;
       if (error) return <div>에러 발생!</div>;

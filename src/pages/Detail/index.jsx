@@ -51,16 +51,12 @@ const Detail = () => {
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [clicked, setClicked] = useState([false, false, false, false, false]);
-    const { data, loading, error } = useSelector(state => state.wuxia.wuxia);
+    const { data, loading, error } = useSelector(state => state.wuxia.product);
     const dispatch = useDispatch();
 
 
     useEffect(() => {
         dispatch(getProduct(title));
-
-        return () => {
-            dispatch({ type : 'CLEAR'})
-        }
       }, [title, dispatch]);
 
 

@@ -1,4 +1,3 @@
-import { actions } from '@storybook/addon-actions';
 import { MAIN, MAIN_SUCCESS, MAIN_ERROR, PRODUCT, PRODUCT_SUCCESS, PRODUCT_ERROR } from '../action';
 import { STAR_SUBMIT, STAR_SUBMIT_SUCCESS, STAR_SUBMIT_ERROR , LIST, LIST_SUCCESS, LIST_ERROR } from '../action';
 
@@ -44,6 +43,7 @@ export const handleAsyncActionsbyTitle = (type, key, keepdata = false) => {
   return (state, action) => {
 
     const title = action.title; //액션에서 넘어온 데이터
+    
     switch (action.type) {
       case type:
         return {
@@ -87,7 +87,12 @@ export const handleAsyncActionsbyTitle = (type, key, keepdata = false) => {
   };
 };
 const initialState = {
-    wuxias: {
+    main : {
+      loading : false,
+      data : null,
+      error : null
+    },
+    list: {
       '조회순' : {
         loading : false,
         data : null,
@@ -104,7 +109,7 @@ const initialState = {
         error : null
       }
     },
-    wuxia: {
+    product: {
       loading: false,
       data: null,
       error: null
@@ -117,19 +122,19 @@ export default function wuxia(state = initialState, action) {
       case MAIN:
       case MAIN_SUCCESS :
       case MAIN_ERROR :
-        return handleAsyncActions(MAIN,'wuxias')(state, action);
+        return handleAsyncActions(MAIN,'main')(state, action);
       case LIST:
       case LIST_SUCCESS:
       case LIST_ERROR :
-        return handleAsyncActionsbyTitle(LIST,'wuxias')(state, action);
+        return handleAsyncActionsbyTitle(LIST,'list')(state, action);
       case PRODUCT:
       case PRODUCT_SUCCESS:
       case PRODUCT_ERROR:
-        return handleAsyncActions(PRODUCT,'wuxia')(state, action);
+        return handleAsyncActions(PRODUCT,'product')(state, action);
       case STAR_SUBMIT:
       case STAR_SUBMIT_SUCCESS:
       case STAR_SUBMIT_ERROR:
-        return handleAsyncActions(STAR_SUBMIT,'wuxia',true)(state, action);
+        return handleAsyncActions(STAR_SUBMIT,'product',true)(state, action);
       default:
         return state;
     }

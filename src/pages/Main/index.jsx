@@ -16,7 +16,7 @@ const liststyle = {
 
 const Main = () => {
 
-  const { data, loading, error } = useSelector(state => state.wuxia.wuxias);
+  const { data, loading, error } = useSelector(state => state.wuxia.main);
     const dispatch = useDispatch();
 
     const handleScroll = () => {

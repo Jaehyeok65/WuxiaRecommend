@@ -67,10 +67,14 @@ const cardinfostyle = {
 
 
 
-const List = ( { list=[] }, ref ) => {
+const List = ( ) => {
 
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
-    const { data, loading, error } = useSelector(state => state.wuxia.wuxias);
+    const { data, loading, error } = useSelector(state => state.wuxia.wuxias[title]) || {
+        loading: false,
+        data: null,
+        error: null
+      }; 
     const dispatch = useDispatch();
 
 
@@ -90,8 +94,9 @@ const List = ( { list=[] }, ref ) => {
     },[title]);
 
     useEffect(() => {
-        dispatch(init());
-      }, [dispatch]);
+        if(data) return;
+        dispatch(init(title));
+      }, [dispatch,title,data]);
 
       if (loading) return <div>로딩중...</div>;
       if (error) return <div>에러 발생!</div>;
@@ -114,6 +119,5 @@ const List = ( { list=[] }, ref ) => {
 }
 
 
-const ForwardList = React.forwardRef(List);
 
-export default React.memo(ForwardList);
+export default React.memo(List);

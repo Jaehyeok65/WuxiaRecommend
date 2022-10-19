@@ -17,16 +17,17 @@ export const PRODUCT_ERROR = 'PRODUCT_ERROR';
 const VIEW = 'VIEW'; //조회
 
 
-export const init = () => async (dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+export const init = (title) => async (dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
     dispatch({type : INIT}); //데이터 초기 요청 시작
 
+
     try {
-        const data = await getLists();
-        dispatch({ type : INIT_SUCCESS, data : data });
+        const data = await getLists(title); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        dispatch({ type : INIT_SUCCESS, data : data, title : title });
     }
     catch(e) {
-        dispatch({type : INIT_ERROR, error : e });
+        dispatch({type : INIT_ERROR, error : e, title : title });
     }
 }
 

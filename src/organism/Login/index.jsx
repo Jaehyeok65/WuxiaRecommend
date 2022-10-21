@@ -28,7 +28,7 @@ const LoginFormstyle = {
     }
 }
 
-const Login= ( { onClose, isLogin, setIsLogin }) => {
+const Login= ( { onClose, isLogin, setIsLogin, setLoginstate }) => {
 
     const [input, setInput] = useState({
         userEmail : '',
@@ -58,7 +58,7 @@ const Login= ( { onClose, isLogin, setIsLogin }) => {
                 { isLogin ? 'Login' : 'Sign Up' }
             </Title>
             { isLogin ? 
-                <LoginForm styled={LoginFormstyle} input={input} onChange={onChange} username="userEmail" userpassword="userPassword" init={init} onClose={onClose} /> :
+                <LoginForm styled={LoginFormstyle} input={input} onChange={onChange} username="userEmail" userpassword="userPassword" init={init} onClose={onClose} setLoginstate={setLoginstate} /> :
                     <SignUpForm styled={LoginFormstyle} input={input} onChange={onChange} username="userEmail" userpassword="userPassword" init={init} onClose={onClose} />
             }
             <Button onClicks={onClose} styled={LoginFormstyle.button}>닫기</Button>

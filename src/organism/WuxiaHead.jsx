@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import HeadText from '../molecule/HeadText';
 import SearchInput from '../molecule/SearchInput';
 import Button from '../atoms/Button';
+import { getLogout } from '../api/Server';
 
 
 const Head = styled.div`
@@ -59,7 +60,7 @@ const HeadTextstyle = {
 
 
 
-const WuxiaHead = ( { onClicks, onClickss }, ref) => {
+const WuxiaHead = ( { onClicks, onClickss, loginstate, setLoginstate }, ref) => {
 
     const [input, setInput] = useState("");
 
@@ -70,9 +71,10 @@ const WuxiaHead = ( { onClicks, onClickss }, ref) => {
         setInput(value);
     };
 
-    const onSearch = () => { //서버에 데이터 검색 요청
-        return;
+    const onClear = () => {
+        setInput("");
     }
+
 
 
    
@@ -80,8 +82,10 @@ const WuxiaHead = ( { onClicks, onClickss }, ref) => {
     return(
         <Head>
             <HeadText styled={HeadTextstyle} onClicks={onClicks} ref={ref} />
-            <SearchInput styled={SearchInputstyle} values={input} name='search' onChange={onChange} onClicks={onSearch} />
-            <Button onClicks={onClickss} styled={loginbtnstyle}>로그인</Button>
+            <SearchInput styled={SearchInputstyle} values={input} name='search' onChange={onChange} onClear={onClear} />
+            { loginstate ? 
+                 <Button onClicks={onClickss} styled={loginbtnstyle}>로그인</Button> :
+                        <Button onClicks={() => getLogout(setLoginstate)} styled={loginbtnstyle}>로그아웃</Button> }
         </Head>
     )
 

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Sidebar from './organism/Sidebar';
 import WuxiaHead from './organism/WuxiaHead';
@@ -7,6 +7,7 @@ import Login from './organism/Login';
 import Main from './pages/Main';
 import Detail from './pages/Detail';
 import List from './pages/List';
+import { getSessionCheck } from './api/LoginAPI';
 
 
 function App() {
@@ -18,8 +19,9 @@ function App() {
   const [isLogin, setIsLogin] = useState(true); //로그인창인지 회원가입창인지 구분
   const [loginstate, setLoginstate] = useState(() => document.cookie.split("=")[1] || false); //true라면 login이 필요한 상태
   
-  console.log(loginstate);
- 
+ useEffect( () => {
+  getSessionCheck(() => setLoginstate(prev => !prev)); //상태 변경
+ },[]);
 
   
   return (

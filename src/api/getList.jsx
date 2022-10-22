@@ -141,6 +141,7 @@ const lists = {
 
   export const SubmitList = async() => {
     const data = await axios.get(`${API}/list`);
+    await sleep(500); //부드러운 화면 전환을 위해 0.5초 쉬었다가 데이터 반환
     return data.data;
   }
 

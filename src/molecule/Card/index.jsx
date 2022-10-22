@@ -47,7 +47,7 @@ const Cards = styled.div`
 
 
 
-const Card = ( { url, styled, title, subtitle , link }) => {
+const Card = ( { url, styled, title, writer , link }) => {
 
 
     return(
@@ -55,7 +55,7 @@ const Card = ( { url, styled, title, subtitle , link }) => {
         <Cards styled={styled}>
             <img src={url} alt="이미지" />
             <Title styled={{fontSize : '12px', color : 'inherit'}}>{title}</Title>
-            <Text styled={{fontSize : '12px', color : 'gray'}}>{subtitle}</Text>
+            <Text styled={{fontSize : '12px', color : 'gray'}}>{writer}</Text>
         </Cards>
         </StyledLink>
     )

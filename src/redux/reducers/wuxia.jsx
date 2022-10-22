@@ -110,11 +110,15 @@ const initialState = {
       }
     },
     product: {
-      loading: false,
-      data: null,
-      error: null
+      '검술명가 막내아들' : {
+        loading : false,
+        data : null,
+        error : null
+      }
     }
   };
+
+  
 
 
 export default function wuxia(state = initialState, action) {
@@ -130,7 +134,7 @@ export default function wuxia(state = initialState, action) {
       case PRODUCT:
       case PRODUCT_SUCCESS:
       case PRODUCT_ERROR:
-        return handleAsyncActions(PRODUCT,'product')(state, action);
+        return handleAsyncActionsbyTitle(PRODUCT,'product')(state, action);
       case STAR_SUBMIT:
       case STAR_SUBMIT_SUCCESS:
       case STAR_SUBMIT_ERROR:

@@ -37,7 +37,6 @@ const Login= ( { onClose, isLogin, setIsLogin, setLoginstate }) => {
 
     const onChange = (e) => {
         const { name, value } = e.target;
-        console.log(name);
         setInput({
             ...input,
             [name] : value

@@ -38,7 +38,7 @@ const MainList = ( { list, title, styled }) => {
             <Title styled={{marginBottom : '20px'}}>{ title }</Title>
             <Grid styled={styled}>
             { list && list.slice(0,12).map((item,index) => (
-                <Card key={index} url={item.url} title={item.title} subtitle={item.subtitle} styled={cardstyle} />
+                <Card key={index} url={item.url} title={item.title} writer={item.writer} styled={cardstyle} />
             ))}
             </Grid>
         </Main>

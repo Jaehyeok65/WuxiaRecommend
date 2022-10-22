@@ -10,6 +10,7 @@ import { Text } from '../../atoms/Text';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
 import { StarSubmit } from '../../redux/action';
+import { SubmitProduct } from '../../api/getList';
 
 
 
@@ -51,11 +52,16 @@ const Detail = () => {
     const [iconState, setIconState] = useState(false);
     const [toggle, setToggle] = useState(false);
     const [clicked, setClicked] = useState([false, false, false, false, false]);
-    const { data, loading, error } = useSelector(state => state.wuxia.product);
+    const { data, loading, error } = useSelector(state => state.wuxia.product[title]) || {
+        data : null,
+        loading : false,
+        error : null
+    };
     const dispatch = useDispatch();
 
 
     useEffect(() => {
+        if(data) return;
         dispatch(getProduct(title));
       }, [title, dispatch]);
 

@@ -24,9 +24,9 @@ const CardInfo = ( { product, styled }) => {
     return(
         <div>
             <Title styled={styled.title}>{product.title}</Title>
-            <Text styled={styled.subtext}>{product.subtitle}</Text>
+            <Text styled={styled.subtext}>{product.writer}</Text>
             <Icon styled={styled.icon} icon={true}><FaHeart /></Icon>
-            <span style={styled.span}>{product.like}</span>
+            <span style={styled.span}>{product.likes}</span>
             <StarRate rate={product.rate} styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} />
             <Text styled={styled.text}>view:{product.view}</Text>
         </div>

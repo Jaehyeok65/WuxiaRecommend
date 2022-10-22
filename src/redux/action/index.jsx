@@ -1,4 +1,4 @@
-import { getLists, getListByTitle, getListss } from "../../api/getList";
+import { getListByTitle, SubmitList, SubmitProduct } from "../../api/getList";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -28,7 +28,7 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
 
 
     try {
-        const data = await getListss(); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data = await SubmitList();; //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : MAIN_SUCCESS, data : data });
     }
     catch(e) {
@@ -36,13 +36,13 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
     }
 }
 
-export const getList = (title) => async (dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+export const getList = (title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
     dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
 
 
     try {
-        const data = await getLists(title); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data = await SubmitList(); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : LIST_SUCCESS, data : data, title : title });
     }
     catch(e) {
@@ -55,8 +55,8 @@ export const getProduct = (title) => async (dispatch) => {
     dispatch({type : PRODUCT}); //데이터 초기 요청 시작
 
     try {
-        const data = await getListByTitle(title);
-        dispatch({ type : PRODUCT_SUCCESS, data : data});
+        const data = await SubmitProduct(title);
+        dispatch({ type : PRODUCT_SUCCESS, data : data, title : title});
     }
     catch(e) {
         dispatch({ type : PRODUCT_ERROR, error : e});

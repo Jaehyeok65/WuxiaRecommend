@@ -5,8 +5,17 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
 
 
 
-  export const SubmitList = async() => {
-    const data = await axios.get(`${API}/list`);
+  export const SubmitList = async(title) => {
+    let data;
+    if(title === '조회순') {
+      data = await axios.get(`${API}/listbyview`);
+    }
+    else if(title === '별점순') {
+      data = await axios.get(`${API}/listbyrate`);
+    }
+    else {
+      data = await axios.get(`${API}/list`);
+    }
     await sleep(500); //부드러운 화면 전환을 위해 0.5초 쉬었다가 데이터 반환
     return data.data;
   }
@@ -32,4 +41,18 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       title : title
     });
     return data.data;
+  }
+
+  export const SubmitView = async(wuxia) => { //조회수 1 증가
+    await axios.post(`${API}/view`, {
+      id : wuxia.id,
+      title : wuxia.title,
+      writer : wuxia.writer,
+      url : wuxia.url,
+      content : wuxia.content,
+      likes : wuxia.likes,
+      view : wuxia.view + 1,
+      rate : wuxia.rate,
+      people : wuxia.people
+    });
   }

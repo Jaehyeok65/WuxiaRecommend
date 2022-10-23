@@ -10,7 +10,6 @@ import { Text } from '../../atoms/Text';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
 import { StarSubmit } from '../../redux/action';
-import { SubmitProduct } from '../../api/getList';
 
 
 
@@ -32,6 +31,7 @@ const Details = styled.div`
     @media screen and (max-width: 1000px) {
         width : 80%;
         margin-bottom : 50%;
+        margin-top : 20%;
     }
 `;
 
@@ -50,8 +50,10 @@ const Detail = () => {
 
     const { title } = useParams();
     const [iconState, setIconState] = useState(false);
-    const [toggle, setToggle] = useState(false);
-    const [clicked, setClicked] = useState([false, false, false, false, false]);
+    const [ratetoggle, setRateToggle] = useState(false); //별점용 토글
+    const [texttoggle, setTextToggle] = useState(false); //본문용 토글
+    const [clicked, setClicked] = useState([false, false, false, false, false]); //Product용 별점
+    const [handleclicked, setHandleClicked] = useState([false, false, false, false, false]);
     const { data, loading, error } = useSelector(state => state.wuxia.product[title]) || {
         data : null,
         loading : false,
@@ -63,25 +65,41 @@ const Detail = () => {
     useEffect(() => {
         if(data) return;
         dispatch(getProduct(title));
-      }, [title, dispatch]);
+      }, [title, dispatch,data]);
 
 
     const handleStar = (index) => {
-        let clickStates = [...clicked];
+        let clickStates = [...handleclicked];
         for (let i = 0; i < 5; i++) {
           clickStates[i] = i <= index ? true : false;
         }
-         setClicked(clickStates);
+         setHandleClicked(clickStates);
     };
        
     const handleClose = () => {
-        setToggle(prev => !prev);
+        setRateToggle(prev => !prev);
     }
 
     const handleSubmit = () => {
-        const star = clicked.filter(item => item === true).length;
-        dispatch(StarSubmit(title,star));
-        setToggle(prev => !prev);
+        const star = handleclicked.filter(item => item === true).length;
+        const rate = StarRateUpdate(star);
+        dispatch(StarSubmit(title,rate,data));
+        handleRate(rate);
+        setRateToggle(prev => !prev);
+    }
+
+    const StarRateUpdate = (star) => {
+        const ratesum = (Number)(data.rate * data.people);
+        const rate = (Number)((Number)(ratesum + star) / Number(data.people + 1)).toFixed(1);
+        return rate;
+    }
+
+    const handleRate = (rate) => {
+        let clickStates = [false,false,false,false,false];
+        for (let i = 0; i < 5; i++) {
+            clickStates[i] = i <= rate ? true : false;
+        }
+        setClicked(clickStates);
     }
 
 
@@ -104,14 +122,20 @@ const Detail = () => {
             <React.Fragment>
                 <MainFrame>
                     <Details>
-                        <Product product={data} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)} setToggle={()=>setToggle(prev => !prev)} clicked={clicked} setClicked={setClicked} init={init} />
+                        <Product product={data} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)}
+                        setRateToggle={()=>setRateToggle(prev => !prev)} setTextToggle={()=>setTextToggle(prev => !prev)}
+                        clicked={clicked} init={init} />
                     </Details>
                 </MainFrame>
-                    <Modal toggle={toggle}>
+                    <Modal toggle={ratetoggle}>
                         <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%'}}>별점 주기</Text>
-                        <StarRate rate={data.rate} clicked={clicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} setClicked={setClicked} />
+                        <StarRate clicked={handleclicked} handleStar={handleStar} styled={{fontSize : '30px', textAlign : 'center', color : '#FFCF36'}} />
                         <Button onClicks={handleSubmit} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block', marginBottom : '2%', marginTop : '2%'}}>적용하기</Button>
                         <Button onClicks={handleClose} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
+                    </Modal>
+                    <Modal toggle={texttoggle}>
+                        <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%', marginLeft : '5%', marginRight : '5%'}}>{data.content}</Text>
+                        <Button onClicks={() => setTextToggle(prev => !prev)} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
                     </Modal>
             </React.Fragment>}
         </React.Fragment>

@@ -47,7 +47,7 @@ const productstyle = {
 }
 
 
-const Detail = ( { loginstate }) => {
+const Detail = ( { loginstate, setLoginToggle }) => {
 
     const { title } = useParams();
     const [ratetoggle, setRateToggle] = useState(false); //별점용 토글
@@ -116,6 +116,7 @@ const Detail = ( { loginstate }) => {
     const onLikeClick = async() => {
         if(!loginstate) {
             window.alert("로그인이 필요한 기능입니다.");
+            setLoginToggle();
             return;
         }
         dispatch(LikeSubmit(title,data));
@@ -124,6 +125,7 @@ const Detail = ( { loginstate }) => {
     const onRateToggle = () => {
         if(!loginstate) {
             window.alert("로그인이 필요한 기능입니다.");
+            setLoginToggle();
             return;
         }
         setRateToggle(prev => !prev);

@@ -103,8 +103,8 @@ export const LikeSubmit = (title, data) => async (dispatch) => {
             result = {...data, likes : data.likes + 1}; //웹에 표시될 좋아요를 1증가 시켜준 후 dispatch로 적용
         }
         else { //false라면 좋아요 등록에 실패한것이므로
-            window.alert("이미 좋아요를 등록하셨습니다.");
-            return; //dispatch를 실행하지 않고 리턴시켜줌
+            window.alert("좋아요 취소에 성공하셨습니다.");
+            result = {...data, likes : data.likes - 1};
         }
         dispatch({ type : LIKE_SUBMIT_SUCCESS, data : result, title : title });
     }

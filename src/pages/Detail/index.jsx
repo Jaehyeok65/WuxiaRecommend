@@ -9,7 +9,7 @@ import Button from '../../atoms/Button';
 import { Text } from '../../atoms/Text';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
-import { StarSubmit } from '../../redux/action';
+import { StarSubmit, LikeSubmit } from '../../redux/action';
 import { SubmitView } from '../../api/WuxiaAPI';
 
 
@@ -47,10 +47,9 @@ const productstyle = {
 }
 
 
-const Detail = () => {
+const Detail = ( { loginstate }) => {
 
     const { title } = useParams();
-    const [iconState, setIconState] = useState(false);
     const [ratetoggle, setRateToggle] = useState(false); //별점용 토글
     const [texttoggle, setTextToggle] = useState(false); //본문용 토글
     const [clicked, setClicked] = useState([false, false, false, false, false]); //Product용 별점
@@ -70,7 +69,7 @@ const Detail = () => {
       }, [title, dispatch, data]);
 
       
-      useEffect(() => {
+    useEffect(() => {
         if(!view && data) {
             SubmitView(data);
             setView(true);
@@ -96,9 +95,8 @@ const Detail = () => {
     const handleSubmit = () => {
         const star = handleclicked.filter(item => item === true).length;
         const rate = StarRateUpdate(star);
-        dispatch(StarSubmit(title,rate,data));
+        dispatch(StarSubmit(title,rate,data, () => setRateToggle(prev => !prev))); //콜백함수로 SetToggle 전달
         handleRate(rate);
-        setRateToggle(prev => !prev);
     }
 
     const StarRateUpdate = (star) => {
@@ -113,6 +111,22 @@ const Detail = () => {
             clickStates[i] = i < rate ? true : false;
         }
         setClicked(clickStates);
+    }
+
+    const onLikeClick = async() => {
+        if(!loginstate) {
+            window.alert("로그인이 필요한 기능입니다.");
+            return;
+        }
+        dispatch(LikeSubmit(title,data));
+    }
+
+    const onRateToggle = () => {
+        if(!loginstate) {
+            window.alert("로그인이 필요한 기능입니다.");
+            return;
+        }
+        setRateToggle(prev => !prev);
     }
 
 
@@ -135,8 +149,8 @@ const Detail = () => {
             <React.Fragment>
                 <MainFrame>
                     <Details>
-                        <Product product={data} styled={productstyle} icon={iconState} setIcon={()=>setIconState(prev=>!prev)}
-                        setRateToggle={()=>setRateToggle(prev => !prev)} setTextToggle={()=>setTextToggle(prev => !prev)}
+                        <Product product={data} styled={productstyle} icon={true} setIcon={onLikeClick}
+                        setRateToggle={onRateToggle} setTextToggle={()=>setTextToggle(prev => !prev)}
                         clicked={clicked} init={init} />
                     </Details>
                 </MainFrame>

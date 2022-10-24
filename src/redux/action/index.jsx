@@ -1,4 +1,4 @@
-import { getListByTitle, SubmitList, SubmitProduct } from "../../api/getList";
+import { SubmitLike, SubmitList, SubmitProduct, SubmitRate } from "../../api/WuxiaAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -16,6 +16,10 @@ export const STAR_SUBMIT_ERROR = 'STAR_SUBMIT_ERROR';
 export const PRODUCT ='PRODUCT' //item 하나 가져옴
 export const PRODUCT_SUCCESS = 'PRODUCT_SUCCESS';
 export const PRODUCT_ERROR = 'PRODUCT_ERROR';
+
+export const LIKE_SUBMIT = 'LIKE_SUBMIT'; //좋아요 적용
+export const LIKE_SUBMIT_SUCCESS = 'LIKE_SUBMIT_SUCCESS';
+export const LIKE_SUBMIT_ERROR = 'LIKE_SUBMIT_ERROR';
 
 
 
@@ -42,7 +46,7 @@ export const getList = (title) => async(dispatch) => { //redux-thunk로 함수 �
 
 
     try {
-        const data = await SubmitList(); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data = await SubmitList(title); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : LIST_SUCCESS, data : data, title : title });
     }
     catch(e) {
@@ -52,28 +56,60 @@ export const getList = (title) => async(dispatch) => { //redux-thunk로 함수 �
 
 export const getProduct = (title) => async (dispatch) => {
 
-    dispatch({type : PRODUCT}); //데이터 초기 요청 시작
+    dispatch({type : PRODUCT, title : title }); //데이터 초기 요청 시작
 
     try {
         const data = await SubmitProduct(title);
-        dispatch({ type : PRODUCT_SUCCESS, data : data, title : title});
+        dispatch({ type : PRODUCT_SUCCESS, data : data, title : title });
     }
     catch(e) {
-        dispatch({ type : PRODUCT_ERROR, error : e});
+        dispatch({ type : PRODUCT_ERROR, error : e, title : title });
     }
 };
 
 
-export const StarSubmit = (title, star) => async (dispatch) => {
-    dispatch({ type : STAR_SUBMIT }); //데이터 초기 요청 시작
+export const StarSubmit = (title, rate, data, setRateToggle) => async (dispatch) => {
+    dispatch({ type : STAR_SUBMIT, title : title }); //데이터 초기 요청 시작
     
     try {
-        const data = await getListByTitle(title);
-        const newdata = {...data, rate : star};
-        dispatch({ type : STAR_SUBMIT_SUCCESS, data : newdata });
+        const people = (Number)(data.people+1);
+        const newdata = {...data, rate : rate, people : people};
+        const datas = await SubmitRate(newdata);
+        if(datas) { //false라면 이미 별점을 등록한 것
+            window.alert("별점 등록에 성공하셨습니다");
+            setRateToggle();
+        }
+        else {
+            window.alert("이미 별점을 등록하셨습니다.");
+            setRateToggle();
+            return;
+        }
+        dispatch({ type : STAR_SUBMIT_SUCCESS, data : newdata, title : title });
     }
     catch(e) {
-        dispatch({ type : STAR_SUBMIT_ERROR, error : e });
+        dispatch({ type : STAR_SUBMIT_ERROR, error : e, title : title });
+    }
+}
+
+export const LikeSubmit = (title, data) => async (dispatch) => {
+    dispatch({ type : LIKE_SUBMIT, title : title }); //데이터 초기 요청 시작
+    
+    try {
+        
+        const datas = await SubmitLike(data);
+        let result;
+        if(datas) { //true라면 좋아요 등록에 성공하였으므로
+            window.alert("좋아요 등록에 성공하셨습니다");
+            result = {...data, likes : data.likes + 1}; //웹에 표시될 좋아요를 1증가 시켜준 후 dispatch로 적용
+        }
+        else { //false라면 좋아요 등록에 실패한것이므로
+            window.alert("이미 좋아요를 등록하셨습니다.");
+            return; //dispatch를 실행하지 않고 리턴시켜줌
+        }
+        dispatch({ type : LIKE_SUBMIT_SUCCESS, data : result, title : title });
+    }
+    catch(e) {
+        dispatch({ type : LIKE_SUBMIT_ERROR, error : e, title : title });
     }
 
 }

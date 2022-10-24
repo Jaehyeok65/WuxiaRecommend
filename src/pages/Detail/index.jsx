@@ -10,6 +10,7 @@ import { Text } from '../../atoms/Text';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
 import { StarSubmit } from '../../redux/action';
+import { SubmitView } from '../../api/WuxiaAPI';
 
 
 
@@ -53,7 +54,8 @@ const Detail = () => {
     const [ratetoggle, setRateToggle] = useState(false); //별점용 토글
     const [texttoggle, setTextToggle] = useState(false); //본문용 토글
     const [clicked, setClicked] = useState([false, false, false, false, false]); //Product용 별점
-    const [handleclicked, setHandleClicked] = useState([false, false, false, false, false]);
+    const [handleclicked, setHandleClicked] = useState([false, false, false, false, false]); //별점부여용 별점
+    const [view, setView] = useState(false);
     const { data, loading, error } = useSelector(state => state.wuxia.product[title]) || {
         data : null,
         loading : false,
@@ -65,7 +67,18 @@ const Detail = () => {
     useEffect(() => {
         if(data) return;
         dispatch(getProduct(title));
-      }, [title, dispatch,data]);
+      }, [title, dispatch, data]);
+
+      
+      useEffect(() => {
+        if(!view && data) {
+            SubmitView(data);
+            setView(true);
+        }
+      },[data,view])
+
+    
+   
 
 
     const handleStar = (index) => {
@@ -97,7 +110,7 @@ const Detail = () => {
     const handleRate = (rate) => {
         let clickStates = [false,false,false,false,false];
         for (let i = 0; i < 5; i++) {
-            clickStates[i] = i <= rate ? true : false;
+            clickStates[i] = i < rate ? true : false;
         }
         setClicked(clickStates);
     }

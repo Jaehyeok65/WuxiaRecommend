@@ -1,4 +1,4 @@
-import { SubmitLike, SubmitList, SubmitProduct, SubmitRate } from "../../api/WuxiaAPI";
+import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain } from "../../api/WuxiaAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -32,7 +32,7 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
 
 
     try {
-        const data = await SubmitList();; //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data = await SubmitMain(); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : MAIN_SUCCESS, data : data });
     }
     catch(e) {

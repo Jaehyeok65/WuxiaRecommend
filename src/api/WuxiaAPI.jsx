@@ -14,7 +14,7 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       data = await axios.get(`${API}/listbyrate`);
     }
     else {
-      data = await axios.get(`${API}/list`);
+      data = await axios.get(`${API}/listbylikes`);
     }
     await sleep(500); //부드러운 화면 전환을 위해 0.5초 쉬었다가 데이터 반환
     return data.data;
@@ -43,6 +43,11 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
     return data.data;
   }
 
+  export const SubmitMain = async() => {
+    const data = await axios.get(`${API}/main`);
+    return data.data;
+  }
+
   export const SubmitView = async(wuxia) => { //조회수 1 증가
     await axios.post(`${API}/view`, {
       id : wuxia.id,
@@ -55,4 +60,19 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       rate : wuxia.rate,
       people : wuxia.people
     });
+  }
+
+  export const SubmitLike = async(wuxia) => { //조회수 1 증가
+    const data = await axios.post(`${API}/likes`, {
+      id : wuxia.id,
+      title : wuxia.title,
+      writer : wuxia.writer,
+      url : wuxia.url,
+      content : wuxia.content,
+      likes : wuxia.likes + 1,
+      view : wuxia.view,
+      rate : wuxia.rate,
+      people : wuxia.people
+    });
+    return data.data;
   }

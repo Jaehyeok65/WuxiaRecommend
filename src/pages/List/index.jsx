@@ -7,12 +7,16 @@ import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import { getList } from '../../redux/action';
 
+
+
 const Lists = styled.div`
     display : grid;
     grid-template-columns: repeat(4,1fr);
     gap : 40px 40px;
     margin-top : 5%;
     margin-bottom : 10%;
+
+
 
     @media screen and (max-width : 1200px) {
         grid-template-columns: repeat(3,1fr);

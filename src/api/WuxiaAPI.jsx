@@ -5,7 +5,7 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
 
 
 
-  export const SubmitList = async(title) => {
+  export const SubmitList = async(title, input) => {
     let data;
     if(title === '조회순') {
       data = await axios.get(`${API}/listbyview`);
@@ -13,8 +13,13 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
     else if(title === '별점순') {
       data = await axios.get(`${API}/listbyrate`);
     }
-    else {
+    else if(title === '좋아요순'){
       data = await axios.get(`${API}/listbylikes`);
+    }
+    else {
+      data = await axios.post(`${API}/search`, {
+        title : input
+      });
     }
     await sleep(500); //부드러운 화면 전환을 위해 0.5초 쉬었다가 데이터 반환
     return data.data;
@@ -69,7 +74,7 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       writer : wuxia.writer,
       url : wuxia.url,
       content : wuxia.content,
-      likes : wuxia.likes + 1,
+      likes : wuxia.likes,
       view : wuxia.view,
       rate : wuxia.rate,
       people : wuxia.people

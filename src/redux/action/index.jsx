@@ -40,13 +40,13 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
     }
 }
 
-export const getList = (title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+export const getList = (title, input) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
     dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
 
 
     try {
-        const data = await SubmitList(title); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data = await SubmitList(title, input); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : LIST_SUCCESS, data : data, title : title });
     }
     catch(e) {

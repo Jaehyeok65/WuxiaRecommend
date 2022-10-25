@@ -73,15 +73,13 @@ const cardinfostyle = {
 
 const List = ( ) => {
 
-    const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
+    const { title, input } = useParams(); //title에 맞게 서버에 데이터 요청할 것
     const { data, loading, error } = useSelector(state => state.wuxia.list[title]) || {
         loading: false,
         data: null,
         error: null
       }; 
     const dispatch = useDispatch();
-
-
 
     const handleScroll = () => {
         if (!window.scrollY) return;
@@ -97,19 +95,29 @@ const List = ( ) => {
         handleScroll();
     },[title]);
 
-    useEffect(() => {
+    //console.log(input);
+    
+
+    useEffect(() => { //메뉴 전용
         if(data) return;
-        dispatch(getList(title));
-      }, [dispatch,title,data]);
+        if(!input) dispatch(getList(title)); //검색결과랑 겹치는 경우를 방지해서 input이 undefined 일때만 dispatch하도록 변경
+      }, [dispatch, title, data]); //input이 변경될 때는 실행할 필요없으므로 의존성 추가 x
 
+    useEffect(() => { //검색 전용
+       dispatch(getList(title, input));
+    }, [input]); //input이 변경될 때만 dispatch하도록 input만 의존성 추가
 
+    
+    console.log(data);
       if (loading) return <div>로딩중...</div>;
       if (error) return <div>에러 발생!</div>;
       if (!data) return null;
 
+      if(data && data.length === 0) return <MainFrame><h2 style={{fontSize: '20px', marginTop : '2%', marginBottom : '30%'}}>{`"${input}" `}검색 결과가 없습니다.</h2></MainFrame>
+
     return(
         <MainFrame>
-            <h2 style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
+            <h2 style={{fontSize: '20px', marginTop : '2%'}}>{input ? `"${input}" ` : null}{title}</h2>
             <Lists>
                 { data && data.map( (item, index) => (
                     <Grids key={index}>

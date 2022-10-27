@@ -1,4 +1,5 @@
 import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain } from "../../api/WuxiaAPI";
+import { CommentList, CommentSubmit, Comment } from "../../api/CommentAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -21,9 +22,13 @@ export const LIKE_SUBMIT = 'LIKE_SUBMIT'; //좋아요 적용
 export const LIKE_SUBMIT_SUCCESS = 'LIKE_SUBMIT_SUCCESS';
 export const LIKE_SUBMIT_ERROR = 'LIKE_SUBMIT_ERROR';
 
+export const COMMENT = 'COMMENT'; //데이터 초기 정보를 받아오는 요청
+export const COMMENT_SUCCESS = 'COMMENT_SUCCESS'; //데이터 받아오는데 성공
+export const COMMENT_ERROR = 'COMMENT_ERROR'; //데이터 받아오는데 오류
 
-
-const VIEW = 'VIEW'; //조회
+export const COMMENTLIST = 'COMMENTLIST'; //데이터 초기 정보를 받아오는 요청
+export const COMMENTLIST_SUCCESS = 'COMMENTLIST_SUCCESS'; //데이터 받아오는데 성공
+export const COMMENTLIST_ERROR = 'COMMENTLIST_ERROR'; //데이터 받아오는데 오류
 
 
 export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
@@ -88,8 +93,8 @@ export const StarSubmit = (title, rate, data, setRateToggle) => async (dispatch)
     }
     catch(e) {
         dispatch({ type : STAR_SUBMIT_ERROR, error : e, title : title });
-    }
-}
+    };
+};
 
 export const LikeSubmit = (title, data) => async (dispatch) => {
     dispatch({ type : LIKE_SUBMIT, title : title }); //데이터 초기 요청 시작
@@ -110,11 +115,38 @@ export const LikeSubmit = (title, data) => async (dispatch) => {
     }
     catch(e) {
         dispatch({ type : LIKE_SUBMIT_ERROR, error : e, title : title });
+    };
+
+};
+
+export const getCommentList = (title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+
+
+    try {
+        const data = await CommentList(title); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
     }
+    catch(e) {
+        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+    }
+};
 
-}
 
-export const handleView = () => ( { type : VIEW });
+export const getComment = (id) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : COMMENT, id : id}); //데이터 초기 요청 시작
+
+
+    try {
+        const data = await Comment(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        dispatch({ type : COMMENT_SUCCESS, data : data, id : id });
+    }
+    catch(e) {
+        dispatch({type : COMMENT_ERROR, error : e, id : id });
+    }
+};
 
 
 

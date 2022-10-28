@@ -7,13 +7,22 @@ import { FaPen } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { getCommentList } from '../../redux/action';
 import { useSelector, useDispatch } from 'react-redux';
+import Pagination from '../../molecule/Pagination';
+import { handleScroll } from '../List';
 
 const Navi = styled.div`
     display : flex;
     justify-content : space-between;
     margin-bottom : 2%;
     margin-top : 5%;
-`
+`;
+
+const Page = styled.div`
+    display : flex;
+    justify-content : center;
+    margin-top : 5%;
+    margin-bottom : 5%;
+`;
 
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -35,6 +44,9 @@ const Community = ( { loginstate, setLoginToggle }) => {
         data: null,
         error: null
       }; 
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const offset = (page - 1) * limit;
 
     const dispatch = useDispatch();
     const selectList = ["최신순", "추천순", "조회순"];
@@ -44,8 +56,13 @@ const Community = ( { loginstate, setLoginToggle }) => {
         dispatch(getCommentList(Selected));
       }, [dispatch, Selected, data]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
 
+    useEffect(() => {
+        handleScroll();
+    },[page])
+
     const handleSelect = (e) => {
         setSelected(e.target.value);
+        setPage(1); //페이지를 1페이지로 바꿈
     };
 
     const isLoginToggle = () => {
@@ -74,11 +91,14 @@ const Community = ( { loginstate, setLoginToggle }) => {
                     <Icon styled={{fontSize : '18px'}} setIcon={isLoginToggle}><FaPen /></Icon>
                     }
             </Navi>
-            { data && data.map(item => (
+            { data && data.slice(offset,offset + limit).map(item => (
                 <StyledLink to={`/comment/${item.id}`} key={item.id}>
                     <CommentLists title={item.title} id={item.id} writer={item.writer} date={item.date} recommend={item.recommend} />
                 </StyledLink>
             ))}
+            <Page>
+                <Pagination total={data.length} limit={limit} page={page} setPage={setPage} />
+            </Page>
         </MainFrame>
     )
 }

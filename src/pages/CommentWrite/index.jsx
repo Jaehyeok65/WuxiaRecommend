@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Formatting } from '../../api/CommentAPI';
 import { CommentSubmit } from '../../api/CommentAPI';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getCommentSubmit } from '../../redux/action';
 
 const WriteArea = styled.div`
     display : flex;
@@ -30,7 +32,7 @@ const CommentWrite = ( { loginstate }) => {
         recommend : 0
     });
 
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect( () => {
@@ -45,7 +47,7 @@ const CommentWrite = ( { loginstate }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        CommentSubmit(comment);
+        dispatch(getCommentSubmit(comment,"최신순"));
         navigate(`/community`);
     };
 

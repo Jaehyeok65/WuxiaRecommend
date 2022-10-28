@@ -148,6 +148,23 @@ export const getComment = (id) => async(dispatch) => { //redux-thunk로 함수 �
     }
 };
 
+export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+
+    try {
+        const data = await CommentSubmit(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data1 = await CommentList('조회순');
+        const data2 = await CommentList('추천순');
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '조회순' });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+    }
+    catch(e) {
+        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+    }
+};
+
 
 
 

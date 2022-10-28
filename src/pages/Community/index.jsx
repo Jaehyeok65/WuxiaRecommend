@@ -35,13 +35,14 @@ const Community = ( { loginstate, setLoginToggle }) => {
         data: null,
         error: null
       }; 
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
     const selectList = ["최신순", "추천순", "조회순"];
 
-    useEffect(() => { //메뉴 전용
-        dispatch(getCommentList(Selected)); //검색결과랑 겹치는 경우를 방지해서 input이 undefined 일때만 dispatch하도록 변경
-      }, [dispatch, Selected]); //input이 변경될 때는 실행할 필요없으므로 의존성 추가 x
+    useEffect(() => {
+        if(data) return;
+        dispatch(getCommentList(Selected));
+      }, [dispatch, Selected, data]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
 
     const handleSelect = (e) => {
         setSelected(e.target.value);

@@ -1,5 +1,5 @@
 import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain } from "../../api/WuxiaAPI";
-import { CommentList, CommentSubmit, Comment } from "../../api/CommentAPI";
+import { CommentList, CommentSubmit, Comment, CommentRecommend } from "../../api/CommentAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -29,6 +29,10 @@ export const COMMENT_ERROR = 'COMMENT_ERROR'; //데이터 받아오는데 오류
 export const COMMENTLIST = 'COMMENTLIST'; //데이터 초기 정보를 받아오는 요청
 export const COMMENTLIST_SUCCESS = 'COMMENTLIST_SUCCESS'; //데이터 받아오는데 성공
 export const COMMENTLIST_ERROR = 'COMMENTLIST_ERROR'; //데이터 받아오는데 오류
+
+export const COMMENTRECOMMEND = 'COMMENTRECOMMEND'; //데이터 초기 정보를 받아오는 요청
+export const COMMENTRECOMMEND_SUCCESS = 'COMMENTRECOMMEND_SUCCESS'; //데이터 받아오는데 성공
+export const COMMENTRECOMMEND_ERROR = 'COMMENTRECOMMEND_ERROR'; //데이터 받아오는데 오류
 
 
 export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
@@ -162,6 +166,35 @@ export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux
     }
     catch(e) {
         dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+    }
+};
+
+export const getCommentRecommend = (comment) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : COMMENT, id : comment.id}); //데이터 초기 요청 시작
+
+
+    try {
+        let newdata;
+        const data = await CommentRecommend(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        if(data) {
+            window.alert("댓글 추천 등록에 성공하셨습니다.");
+            newdata = {...comment, recommend : comment.recommend + 1};
+        }
+        else {
+            window.alert("댓글 추천 취소에 성공하셨습니다.");
+            newdata = {...comment, recommend : comment.recommend - 1};
+        }
+        dispatch({ type : COMMENT_SUCCESS, data : newdata, id : comment.id });
+        const data1 = await CommentList('조회순');
+        const data2 = await CommentList('추천순');
+        const data3 = await CommentList('최신순');
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data3, title : '최신순' });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '조회순' });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+    }
+    catch(e) {
+        dispatch({type : COMMENT_ERROR, error : e, id : comment.id });
     }
 };
 

@@ -7,6 +7,7 @@ import Title from '../../atoms/Title';
 import styled from 'styled-components';
 import Button from '../../atoms/Button';
 import { FaThumbsUp } from "react-icons/fa";
+import { getCommentRecommend } from '../../redux/action';
 
 
 const Content = styled.div`
@@ -20,7 +21,7 @@ const Flex = styled.div`
 
 
 
-const Comment = () => {
+const Comment = ( { loginstate, setLoginToggle }) => {
 
     const { id } = useParams();
     const { data, loading, error } = useSelector(state => state.comment.comment[id]) || {
@@ -30,7 +31,14 @@ const Comment = () => {
       }; 
     const dispatch = useDispatch();
 
-    console.log(data);
+    const onRecommendClick = () => {
+        if(!loginstate) {
+            window.alert("로그인이 필요한 기능입니다.");
+            setLoginToggle();
+            return;
+        }
+        dispatch(getCommentRecommend(data));
+    }
 
     useEffect(() => { //메뉴 전용
         if(data) return;
@@ -49,7 +57,7 @@ const Comment = () => {
                     <Title styled={{marginBottom : '7%', marginTop : '5%', fontSize : '24px'}}>{data.title}</Title>
                     <pre style={{marginBottom : '10%', fontSize : '14px'}}>{data.content}</pre>
                     <Flex>
-                        <Button styled={{width : '100px', padding : '12px', border : '1px solid gray', borderRadius : '3px'}}>
+                        <Button styled={{width : '100px', padding : '12px', border : '1px solid gray', borderRadius : '3px'}} onClicks={onRecommendClick}> 
                             <FaThumbsUp /> {data.recommend}
                         </Button>
                     </Flex>

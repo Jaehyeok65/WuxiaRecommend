@@ -27,6 +27,19 @@ export const Comment = async(id) => {
     return data.data;
 };
 
+export const CommentRecommend = async(comment) => {
+    const data = await axios.post(`${API}/commentrecommend`,{
+        id : comment.id,
+        title : comment.title,
+        content : comment.content,
+        writer : comment.writer,
+        date : comment.date,
+        view : comment.view,
+        recommend : comment.recommend
+    });
+    return data.data;
+};
+
 export const Formatting = (source, delimiter = '-') => {
     const year = source.getFullYear();
     let month = (source.getMonth() + 1);
@@ -37,5 +50,17 @@ export const Formatting = (source, delimiter = '-') => {
     if(parseInt(day) < 10 && parseInt(day) > 0) {
         day = '0' + day;
     }
-    return [year, month, day].join(delimiter);
+    let hour = source.getHours();
+    if(parseInt(hour) < 10 && parseInt(hour) > 0) {
+        hour = '0' + hour;
+    }
+    let minutes = source.getMinutes();
+    if(parseInt(minutes) < 10 && parseInt(minutes) > 0) {
+        minutes = '0' + minutes;
+    }
+    let second = source.getSeconds();
+    if(parseInt(second) < 10 && parseInt(second) > 0) {
+        second = '0' + second;
+    }
+    return [year, month, day, hour, minutes, second].join(delimiter);
 }

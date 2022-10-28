@@ -1,6 +1,6 @@
 import { handleAsyncActionsbyTitle, handleAsyncActions } from "./wuxia";
 import { COMMENT, COMMENT_SUCCESS, COMMENT_ERROR, COMMENTLIST, COMMENTLIST_SUCCESS, COMMENTLIST_ERROR } from '../action';
-import { COMMENTSUBMIT, COMMENTSUBMIT_SUCCESS, COMMENTSUBMIT_ERROR} from '../action';
+import { COMMENTRECOMMEND, COMMENTRECOMMEND_SUCCESS, COMMENTRECOMMEND_ERROR} from '../action';
 
 
 export const handleAsyncActionsbyId = (type, key, keepdata = false) => {
@@ -8,6 +8,7 @@ export const handleAsyncActionsbyId = (type, key, keepdata = false) => {
     return (state, action) => {
   
       const id = action.id; //액션에서 넘어온 데이터
+      console.log(keepdata);
       
       switch (action.type) {
         case type:
@@ -78,7 +79,11 @@ export default function comment(state = initialState, action) {
       case COMMENT:
       case COMMENT_SUCCESS :
       case COMMENT_ERROR :
-        return handleAsyncActionsbyId(COMMENT,'comment')(state, action);
+        return handleAsyncActionsbyId(COMMENT,'comment', true)(state, action);
+      case COMMENTRECOMMEND:
+      case COMMENTRECOMMEND_SUCCESS :
+      case COMMENTRECOMMEND_ERROR :
+        return handleAsyncActionsbyId(COMMENTRECOMMEND,'comment',true)(state, action);
       default:
         return state;
     }

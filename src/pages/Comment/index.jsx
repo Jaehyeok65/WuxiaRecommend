@@ -3,6 +3,20 @@ import MainFrame from '../MainFrame';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getComment } from '../../redux/action';
+import Title from '../../atoms/Title';
+import styled from 'styled-components';
+import Button from '../../atoms/Button';
+import { FaThumbsUp } from "react-icons/fa";
+
+
+const Content = styled.div`
+    margin-bottom : 10%;
+`;
+
+const Flex = styled.div`
+    display : flex;
+    justify-content : center;
+`;
 
 
 
@@ -20,8 +34,8 @@ const Comment = () => {
 
     useEffect(() => { //메뉴 전용
         if(data) return;
-        dispatch(getComment(id)); //검색결과랑 겹치는 경우를 방지해서 input이 undefined 일때만 dispatch하도록 변경
-      }, [dispatch, id, data]); //input이 변경될 때는 실행할 필요없으므로 의존성 추가 x
+        dispatch(getComment(id));
+      }, [dispatch, id, data]); 
 
     
     if (loading) return <div>로딩중...</div>;
@@ -31,10 +45,15 @@ const Comment = () => {
     return(
         <MainFrame>
             { data && 
-                <div>
-                <p>{data.title}</p>
-                <p>{data.content}</p>
-                </div>
+                <Content>
+                    <Title styled={{marginBottom : '7%', marginTop : '5%', fontSize : '24px'}}>{data.title}</Title>
+                    <pre style={{marginBottom : '10%', fontSize : '14px'}}>{data.content}</pre>
+                    <Flex>
+                        <Button styled={{width : '100px', padding : '12px', border : '1px solid gray', borderRadius : '3px'}}>
+                            <FaThumbsUp /> {data.recommend}
+                        </Button>
+                    </Flex>
+                </Content>
             }
         </MainFrame>
     )

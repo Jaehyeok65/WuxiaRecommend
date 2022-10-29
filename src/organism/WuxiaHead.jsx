@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import HeadText from '../molecule/HeadText';
 import SearchInput from '../molecule/SearchInput';
 import Button from '../atoms/Button';
-import { getLogout } from '../api/Server';
+import { getLogout } from '../api/LoginAPI';
 
 
 const Head = styled.div`
@@ -60,7 +60,7 @@ const HeadTextstyle = {
 
 
 
-const WuxiaHead = ( { onClicks, onClickss, loginstate, setLoginstate }, ref) => {
+const WuxiaHead = ( { onClicks, onClickss, loginstate, setLoginstate, setNickname }, ref) => {
 
     const [input, setInput] = useState("");
 
@@ -73,7 +73,12 @@ const WuxiaHead = ( { onClicks, onClickss, loginstate, setLoginstate }, ref) => 
 
     const onClear = () => {
         setInput("");
-    }
+    };
+
+    const onLogoutClick = () => {
+        setLoginstate();
+        setNickname();
+    };
 
 
 
@@ -85,7 +90,7 @@ const WuxiaHead = ( { onClicks, onClickss, loginstate, setLoginstate }, ref) => 
             <SearchInput styled={SearchInputstyle} values={input} name='search' onChange={onChange} onClear={onClear} />
             { loginstate ? 
                  <Button onClicks={onClickss} styled={loginbtnstyle}>로그인</Button> :
-                        <Button onClicks={() => getLogout(setLoginstate)} styled={loginbtnstyle}>로그아웃</Button> }
+                        <Button onClicks={() => getLogout(onLogoutClick)} styled={loginbtnstyle}>로그아웃</Button> }
         </Head>
     )
 

@@ -21,7 +21,7 @@ const Flex = styled.div`
 
 
 
-const Comment = ( { loginstate, setLoginToggle }) => {
+const Comment = ( { loginstate, setLoginToggle, nickname }) => {
 
     const { id } = useParams();
     const { data, loading, error } = useSelector(state => state.comment.comment[id]) || {

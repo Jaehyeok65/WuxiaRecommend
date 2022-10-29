@@ -2,13 +2,13 @@ import axios from "axios"
 
 
 
-const API = 'http://localhost:8088';
+export const API = 'http://localhost:8088';
 
 
 axios.defaults.withCredentials = true;
 
 
-export const getLogin = async(logininfo, onClose, setLoginstate) => {
+export const getLogin = async(logininfo, onClose, setLoginstate, setNickname) => {
 
     const data = await axios.post(`${API}/login`, {
         userEmail : logininfo.userEmail,
@@ -17,49 +17,57 @@ export const getLogin = async(logininfo, onClose, setLoginstate) => {
     if(data.data === "overlap") { //중복 로그인인지 확인
         const confirm = window.confirm("다른 PC에서 로그인 중입니다. 연결을 끊고 로그인 하시겠습니까?");
         if(confirm) {
-            getOverlapLogin(logininfo, onClose, setLoginstate)
+            await getOverlapLogin(logininfo, onClose, setLoginstate, setNickname);
         }
         else {
         window.alert("취소하셨습니다.");
         }
     }
-    else if(data.data === true) { //최초 로그인 성공
-        window.alert("로그인 성공");
-        setLoginstate();
-        onClose();
+    else if(data.data === false) { //최초 로그인 성공
+        window.alert("로그인 실패");
     }
     else {
-        window.alert("로그인 실패");
+        window.alert("로그인 성공");
+        setLoginstate();
+        setNickname(data.data);
+        onClose();
     }
 };
 
-export const getOverlapLogin = async(logininfo, onClose, setLoginstate) => {
-    await axios.post(`${API}/overlap`, {
+export const getOverlapLogin = async(logininfo, onClose, setLoginstate, setNickname) => {
+    const data = await axios.post(`${API}/overlap`, {
         userEmail : logininfo.userEmail,
         userPassword : logininfo.userPassword
     });
-    window.alert("로그인 되었습니다.");
+    window.alert("로그인 성공");
     setLoginstate();
+    setNickname(data.data);
     onClose();
 }
 
-export const getSessionCheck = async(setLoginstate) => {
+export const getSessionCheck = async(setLoginstate, setNickname) => {
     const data = await axios.get(`${API}/sessioncheck`);
-    if(data.data) { //세션이 만료되었으면
+    if(data.data === true) { //세션이 만료되었으면
         setLoginstate(); //로그인 상태 변경
     }
-    
-}
+    else {
+        if(data.data !== false) {
+        setNickname(data.data);
+        }
+    }
+};
 
 export const getSignUp = async(logininfo, onClose) => {
 
     const data = await axios.post(`${API}/signup`, {
         userEmail : logininfo.userEmail,
-        userPassword : logininfo.userPassword
+        userPassword : logininfo.userPassword,
+        userNickname : logininfo.userNickname
     });
     window.alert(data.data);
-    onClose();
-    
+    if(data.data === "회원가입 완료") { //회원가입이 성공했을때만 닫기
+        onClose();
+    }
 };
 
 export const getLogout = async(setLoginstate) => {

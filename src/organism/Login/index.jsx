@@ -28,25 +28,47 @@ const LoginFormstyle = {
     }
 }
 
-const Login= ( { onClose, isLogin, setIsLogin, setLoginstate }) => {
+const Login= ( { onClose, isLogin, setIsLogin, setLoginstate, setNickname }) => {
 
-    const [input, setInput] = useState({
+    const [loginInput, setLoginInput] = useState({
         userEmail : '',
-        userPassword : ''
+        userPassword : '',
     });
 
-    const onChange = (e) => {
+    const [signUpInput, setSignUpInput] = useState({
+        userEmail : '',
+        userPassword : '',
+        userNickname : ''
+    });
+
+    const onLoginChange = (e) => {
         const { name, value } = e.target;
-        setInput({
-            ...input,
+        setLoginInput({
+            ...loginInput,
             [name] : value
         })
     };
 
-    const init = () => { //상태 초기화
-        setInput({
+    const onSignUpChange = (e) => {
+        const { name, value } = e.target;
+        setSignUpInput({
+            ...signUpInput,
+            [name] : value
+        })
+    };
+
+    const Logininit = () => { //상태 초기화
+        setLoginInput({
             userEmail : '',
-            userPassword : ''
+            userPassword : '',
+        });
+    };
+
+    const SignUpinit = () => { //상태 초기화
+        setSignUpInput({
+            userEmail : '',
+            userPassword : '',
+            userNickname : ''
         });
     };
 
@@ -57,8 +79,8 @@ const Login= ( { onClose, isLogin, setIsLogin, setLoginstate }) => {
                 { isLogin ? 'Login' : 'Sign Up' }
             </Title>
             { isLogin ? 
-                <LoginForm styled={LoginFormstyle} input={input} onChange={onChange} username="userEmail" userpassword="userPassword" init={init} onClose={onClose} setLoginstate={setLoginstate} /> :
-                    <SignUpForm styled={LoginFormstyle} input={input} onChange={onChange} username="userEmail" userpassword="userPassword" init={init} onClose={onClose} />
+                <LoginForm styled={LoginFormstyle} input={loginInput} onChange={onLoginChange} username="userEmail" userpassword="userPassword" init={Logininit} onClose={onClose} setLoginstate={setLoginstate} setNickname={setNickname} /> :
+                    <SignUpForm styled={LoginFormstyle} input={signUpInput} onChange={onSignUpChange} username="userEmail" userpassword="userPassword" usernickname="userNickname" init={SignUpinit} onClose={onClose} setIsLogin={setIsLogin} />
             }
             <Button onClicks={onClose} styled={LoginFormstyle.button}>닫기</Button>
         </Logins>

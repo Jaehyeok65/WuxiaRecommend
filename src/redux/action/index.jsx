@@ -1,5 +1,5 @@
 import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain } from "../../api/WuxiaAPI";
-import { CommentList, CommentSubmit, Comment, CommentRecommend } from "../../api/CommentAPI";
+import { CommentList, CommentSubmit, Comment, CommentRecommend, CommentUpdate, CommentDelete } from "../../api/CommentAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -158,6 +158,41 @@ export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux
 
     try {
         const data = await CommentSubmit(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data1 = await CommentList('조회순');
+        const data2 = await CommentList('추천순');
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '조회순' });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+    }
+    catch(e) {
+        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+    }
+};
+
+export const getCommentUpdate = (comment, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+
+    try {
+        const data = await CommentUpdate(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data1 = await CommentList('조회순');
+        const data2 = await CommentList('추천순');
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '조회순' });
+        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+        dispatch({ type : COMMENT_SUCCESS, data : comment, id : comment.id });
+    }
+    catch(e) {
+        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+    }
+};
+
+export const getCommentDelete = (id, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+
+    try {
+        const data = await CommentDelete(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         const data1 = await CommentList('조회순');
         const data2 = await CommentList('추천순');
         dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });

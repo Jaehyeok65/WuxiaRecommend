@@ -13,6 +13,7 @@ import Submit from './Submit';
 import Community from './pages/Community';
 import CommentWrite from './pages/CommentWrite';
 import Comment from './pages/Comment';
+import CommentUpdate from './pages/CommentUpdate';
 
 
 function App() {
@@ -27,13 +28,12 @@ function App() {
 
   useEffect( () => {
     getSessionCheck(() => setLoginstate(prev => !prev), setNickname); //상태 변경
-  },[]);
+  },[]); 
+
+  console.log(nickname);
 
 
 
- 
-
-  
   return (
     <Router>
       <WuxiaHead onClicks={() => setSideToggle(prev => !prev)} onClickss={() => setLoginToggle(prev => !prev)}
@@ -50,7 +50,8 @@ function App() {
         <Route exact path='/search/:title/:input' element={<SearchList />} />
         <Route exact path='/community' element={<Community loginstate={loginstate} setLoginToggle={() => setLoginToggle(true)}/>} />
         <Route exact path='/commentwrite' element={<CommentWrite loginstate={loginstate} nickname={nickname}/>} />
-        <Route exact path='/comment/:id' element={<Comment  loginstate={loginstate} setLoginToggle={() => setLoginToggle(true)} />} nickname={nickname}/>
+        <Route exact path='/comment/:id' element={<Comment loginstate={loginstate} setLoginToggle={() => setLoginToggle(true)} nickname={nickname}/>}/>
+        <Route exact path='/commentupdate/:id' element={<CommentUpdate loginstate={loginstate} />} />
         <Route exact path='/save' element={<Submit />} />
       </Routes>
     </Router>

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Input } from '../../atoms/Input';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
-import { Formatting } from '../../api/CommentAPI';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { getCommentSubmit } from '../../redux/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCommentUpdate, getComment } from '../../redux/action';
+import { useParams } from 'react-router-dom';
 
 const WriteArea = styled.div`
     display : flex;
@@ -19,34 +19,38 @@ const TextArea = styled.textarea`
     margin-top : 1%;
 `
 
-const CommentWrite = ( { loginstate, nickname }) => {
+const CommentUpdate = ( { loginstate }) => {
 
 
-    const [comment, setComment] = useState({
-        wuxia : '',
-        title : '',
-        content : '',
-        writer : nickname,
-        date : Formatting(new Date()),
-        view : 0,
-        recommend : 0
-    });
+    const { id } = useParams();
+    const { data, loading, error } = useSelector(state => state.comment.comment[id]) || {
+        loading: false,
+        data: null,
+        error: null
+      };
 
+    const [comment, setComment] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
 
     useEffect( () => {
         if(!loginstate) {
             window.alert("로그인이 필요합니다.");
             navigate('/community');
         }
-        
-    }, [])
+    }, []);
 
-    useEffect(() => {
-        setComment({...comment, writer : nickname});
-    },[nickname]);
 
+    useEffect(() => { //메뉴 전용
+        if(data) {
+            setComment(data);
+            return;
+        }
+        dispatch(getComment(id));
+      }, [dispatch, id, data]); 
+
+    
 
 
     
@@ -61,7 +65,7 @@ const CommentWrite = ( { loginstate, nickname }) => {
             window.alert("내용을 입력하세요");
             return;
         }
-        dispatch(getCommentSubmit(comment,"최신순"));
+        dispatch(getCommentUpdate(comment,"최신순"));
         navigate(`/community`);
     };
 
@@ -72,8 +76,13 @@ const CommentWrite = ( { loginstate, nickname }) => {
         });
     }
 
+    
+    if (!data) return null;
+
 
     return(
+        <React.Fragment>
+        { comment && 
         <MainFrame>
             <form onSubmit={onSubmit}>
                 <WriteArea>
@@ -83,8 +92,10 @@ const CommentWrite = ( { loginstate, nickname }) => {
                 </WriteArea>
             </form>
         </MainFrame>
+         }
+        </React.Fragment>
     )
 }
 
 
-export default React.memo(CommentWrite);
+export default React.memo(CommentUpdate);

@@ -20,6 +20,26 @@ export const CommentSubmit = async(comment) => {
     return data.data;
 };
 
+export const CommentDelete = async(id) => {
+    const data = await axios.post(`${API}/commentdelete`, {
+        id : id
+    });
+    return data.data;
+};
+
+export const CommentUpdate = async(comment) => {
+    const data = await axios.post(`${API}/commentsave`, {
+        id : comment.id,
+        title : comment.title,
+        content : comment.content,
+        writer : comment.writer,
+        date : comment.date,
+        view : comment.view,
+        recommend : comment.recommend
+    });
+    return data.data;
+};
+
 export const Comment = async(id) => {
     const data = await axios.post(`${API}/comment`, {
         id : id

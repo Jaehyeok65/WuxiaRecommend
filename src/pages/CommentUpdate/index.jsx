@@ -66,7 +66,7 @@ const CommentUpdate = ( { loginstate }) => {
             return;
         }
         dispatch(getCommentUpdate(comment,"최신순"));
-        navigate(`/community`);
+        navigate(`/comment/${comment.id}`);
     };
 
     const onChange = (e) => {

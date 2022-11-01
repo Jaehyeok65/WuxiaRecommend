@@ -81,3 +81,37 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
     });
     return data.data;
   }
+
+  export const SubmitPage = async(title, page) => {
+
+    let data;
+    if(title === '조회순') {
+      data = await axios.post(`${API}/pagebyview`, {
+        pg : page.조회순,
+        sz : 12
+      });
+    }
+    else if(title === '별점순') {
+      data = await axios.post(`${API}/pagebyrate`, {
+        pg : page.별점순,
+        sz : 12
+      });
+    }
+    else if(title === '좋아요순'){
+      data = await axios.post(`${API}/pagebylikes`, {
+        pg : page.좋아요순,
+        sz : 12
+      });
+    }
+    await sleep(500); //부드러운 화면 전환을 위해 0.5초 쉬었다가 데이터 반환
+    return data.data.list;
+    
+  }
+
+  export const getTotal = async() => {
+    const data = await axios.post(`${API}/total`, {
+      pg : 1,
+      sz : 12
+    });
+    return data.data;
+  }

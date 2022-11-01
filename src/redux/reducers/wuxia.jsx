@@ -131,7 +131,7 @@ export default function wuxia(state = initialState, action) {
       case LIST:
       case LIST_SUCCESS:
       case LIST_ERROR :
-        return handleAsyncActionsbyTitle(LIST,'list')(state, action);
+        return handleAsyncActionsbyTitle(LIST,'list',true)(state, action);
       case PRODUCT:
       case PRODUCT_SUCCESS:
       case PRODUCT_ERROR:

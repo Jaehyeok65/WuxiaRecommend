@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 import Card from '../../molecule/Card';
 import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
-import { getList, getPage } from '../../redux/action';
+import { getPage } from '../../redux/action';
+import { getTotal } from '../../api/WuxiaAPI';
 
 
 
@@ -89,7 +90,12 @@ const List = ( ) => {
         data: null,
         error: null
       }; 
-    const [page, setPage] = useState({ pg : 1, sz : 12}); 
+    const [page, setPage] = useState({
+        '조회순' : 1,
+        '좋아요순' : 1,
+        '별점순' : 1
+    });
+    const [total, setTotal] = useState();
     const [bottom, setBottom] = useState(null);
 	const bottomObserver = useRef(null);
     const dispatch = useDispatch();
@@ -98,20 +104,22 @@ const List = ( ) => {
 		const observer = new IntersectionObserver(
 			entries => {
 				if (entries[0].isIntersecting) {
-                    console.log("확인");
                     setPage(prev => {
-                        return { ...prev, pg : prev.pg + 1}
+                        return {...prev, [title] : prev[title] + 1};
                     });
 				}
 			},
 			{ threshold: 0.1, rootMargin: '80px' },
 		);
 		bottomObserver.current = observer;
-	}, []);
+	}, [title, total]);
 
     useEffect(() => {
-        dispatch(getPage(title,page));
-    },[page])
+        if(data && total) {
+            if(data.length >= total) return;
+            dispatch(getPage(title,page,data));
+        }
+    },[page]);
 
 	useEffect(() => {
 		const observer = bottomObserver.current;
@@ -125,18 +133,23 @@ const List = ( ) => {
 		};
 	}, [bottom]);
 
+    const getTotals = async() => {
+        const data = await getTotal();
+        setTotal(data);
+    }
+
    
 
     useEffect( () => {
         handleScroll();
+        getTotals();
     },[title]);
 
-    //console.log(input);
     
 
     useEffect(() => { //메뉴 전용
         if(data) return;
-        dispatch(getList(title)); //검색결과랑 겹치는 경우를 방지해서 input이 undefined 일때만 dispatch하도록 변경
+        dispatch(getPage(title,page)); //검색결과랑 겹치는 경우를 방지해서 input이 undefined 일때만 dispatch하도록 변경
       }, [dispatch, title, data]); //input이 변경될 때는 실행할 필요없으므로 의존성 추가 x
 
 
@@ -149,12 +162,12 @@ const List = ( ) => {
         <MainFrame>
             <h2 style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
             <Lists>
-                { data && data.map( (item, index) => (
+                { data ? data.map( (item, index) => (
                     <Grids key={index}>
                         <Card url={item.url} title={item.title} styled={cardstyle}/>
                         <CardInfo product={item} styled={cardinfostyle} />
                     </Grids>
-                ))}
+                )) : <div style={{height : '100vh'}}/>}
             </Lists>
             <div ref={setBottom} />
         </MainFrame>

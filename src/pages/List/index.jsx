@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Card from '../../molecule/Card';
 import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
-import { getList } from '../../redux/action';
+import { getList, getPage } from '../../redux/action';
 
 
 
@@ -70,6 +70,16 @@ const cardinfostyle = {
 }
 
 
+export const handleScroll = () => {
+    if (!window.scrollY) return;
+    // 현재 위치가 이미 최상단일 경우 return
+  
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
 
 const List = ( ) => {
 
@@ -79,17 +89,43 @@ const List = ( ) => {
         data: null,
         error: null
       }; 
+    const [page, setPage] = useState({ pg : 1, sz : 12}); 
+    const [bottom, setBottom] = useState(null);
+	const bottomObserver = useRef(null);
     const dispatch = useDispatch();
 
-    const handleScroll = () => {
-        if (!window.scrollY) return;
-        // 현재 위치가 이미 최상단일 경우 return
-      
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      };
+    useEffect(() => {
+		const observer = new IntersectionObserver(
+			entries => {
+				if (entries[0].isIntersecting) {
+                    console.log("확인");
+                    setPage(prev => {
+                        return { ...prev, pg : prev.pg + 1}
+                    });
+				}
+			},
+			{ threshold: 0.1, rootMargin: '80px' },
+		);
+		bottomObserver.current = observer;
+	}, []);
+
+    useEffect(() => {
+        dispatch(getPage(title,page));
+    },[page])
+
+	useEffect(() => {
+		const observer = bottomObserver.current;
+		if (bottom) {
+			observer.observe(bottom);
+		}
+		return () => {
+			if (bottom) {
+				observer.unobserve(bottom);
+			}
+		};
+	}, [bottom]);
+
+   
 
     useEffect( () => {
         handleScroll();
@@ -120,6 +156,7 @@ const List = ( ) => {
                     </Grids>
                 ))}
             </Lists>
+            <div ref={setBottom} />
         </MainFrame>
     )
 

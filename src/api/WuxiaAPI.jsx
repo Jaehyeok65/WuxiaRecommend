@@ -36,7 +36,8 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       likes : wuxia.likes,
       view : wuxia.view,
       rate : wuxia.rate,
-      people : wuxia.people
+      people : wuxia.people,
+      link : wuxia.link
     });
     return data.data;
   }
@@ -63,7 +64,8 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       likes : wuxia.likes,
       view : wuxia.view + 1,
       rate : wuxia.rate,
-      people : wuxia.people
+      people : wuxia.people,
+      link : wuxia.link
     });
   }
 
@@ -77,7 +79,8 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       likes : wuxia.likes,
       view : wuxia.view,
       rate : wuxia.rate,
-      people : wuxia.people
+      people : wuxia.people,
+      link : wuxia.link
     });
     return data.data;
   }
@@ -104,7 +107,7 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
       });
     }
     await sleep(500); //부드러운 화면 전환을 위해 0.5초 쉬었다가 데이터 반환
-    return data.data.list;
+    return data.data;
     
   }
 

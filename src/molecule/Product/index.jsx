@@ -23,6 +23,8 @@ const Content = styled.p`
 
 
 const Product = ( { product, styled, icon, setIcon, setRateToggle, setTextToggle, clicked, init }) => {
+    console.log(product);
+    //console.log(product.link);
 
 
     
@@ -39,7 +41,7 @@ const Product = ( { product, styled, icon, setIcon, setRateToggle, setTextToggle
             <Text styled={{...styled.text, marginTop : '5%'}}>조회수 : {product.view}</Text>
             <StarRate rate={product.rate} styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} />
             <Button onClicks={setRateToggle} styled={{width:'100px', marginBottom : '5%', borderRadius : '4px'}}>별점주기</Button><br/>
-            <a href='/' style={{display : 'block', marginTop : '5%'}}>바로가기 링크</a>
+            <a href={`${product.link}`} style={{display : 'block', marginTop : '5%'}}>바로가기 링크</a>
         </div>
         </>
     )

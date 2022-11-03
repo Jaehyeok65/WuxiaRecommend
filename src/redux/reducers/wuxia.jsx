@@ -147,7 +147,7 @@ export default function wuxia(state = initialState, action) {
       case SEARCH:
       case SEARCH_SUCCESS:
       case SEARCH_ERROR :
-        return handleAsyncActionsbyTitle(SEARCH,'list')(state, action);
+        return handleAsyncActionsbyTitle(SEARCH,'list',true)(state, action);
       default:
         return state;
     }

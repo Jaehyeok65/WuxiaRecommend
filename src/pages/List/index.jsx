@@ -90,39 +90,29 @@ const List = ( ) => {
         data: null,
         error: null
       }; 
-    const [page, setPage] = useState({
+    const page = useRef({
         '조회순' : 1,
         '좋아요순' : 1,
         '별점순' : 1
     });
+    const limit = 12;
+
     const [total, setTotal] = useState();
     const [bottom, setBottom] = useState(null);
-	const bottomObserver = useRef(null);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-		const observer = new IntersectionObserver(
-			entries => {
-				if (entries[0].isIntersecting) {
-                    setPage(prev => {
-                        return {...prev, [title] : prev[title] + 1};
-                    });
-				}
-			},
-			{ threshold: 0.1, rootMargin: '80px' },
-		);
-		bottomObserver.current = observer;
-	}, [title, total]);
+    const observerCallback = ([entries]) => {
+        if(entries.isIntersecting && page.current[title] * limit  <= total) {
+            page.current[title] += 1;
+            dispatch(getPage(title,page.current,data));
+        };
+    };
 
-    useEffect(() => {
-        if(data && total) {
-            if(data.length >= total) return;
-            dispatch(getPage(title,page,data));
-        }
-    },[page]);
+    const option = { threshold : 0.25, rootMargin : '100px'};
+
 
 	useEffect(() => {
-		const observer = bottomObserver.current;
+		const observer = new IntersectionObserver(observerCallback, option);
 		if (bottom) {
 			observer.observe(bottom);
 		}
@@ -133,12 +123,11 @@ const List = ( ) => {
 		};
 	}, [bottom]);
 
+
     const getTotals = async() => {
         const data = await getTotal();
         setTotal(data);
     }
-
-   
 
     useEffect( () => {
         handleScroll();
@@ -146,11 +135,10 @@ const List = ( ) => {
     },[title]);
 
     
-
     useEffect(() => { //메뉴 전용
         if(data) return;
-        dispatch(getPage(title,page)); //검색결과랑 겹치는 경우를 방지해서 input이 undefined 일때만 dispatch하도록 변경
-      }, [dispatch, title, data]); //input이 변경될 때는 실행할 필요없으므로 의존성 추가 x
+        dispatch(getPage(title,page.current)); //초기에 데이터를 가져오기 위함
+      }, [dispatch, title, data]);
 
 
     

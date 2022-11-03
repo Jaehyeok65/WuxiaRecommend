@@ -1,6 +1,7 @@
 import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain, SubmitPage } from "../../api/WuxiaAPI";
 import { CommentList, CommentSubmit, Comment, CommentRecommend, CommentUpdate, CommentDelete } from "../../api/CommentAPI";
 
+
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
 export const MAIN_ERROR = 'MAIN_ERROR'; //데이터 받아오는데 오류
@@ -72,7 +73,7 @@ export const getSearch = (title, input) => async(dispatch) => { //redux-thunk로
 
 
     try {
-        const data = await SubmitList(title, input); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const data = await SubmitList(input); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : SEARCH_SUCCESS, data : data, title : title });
     }
     catch(e) {
@@ -250,20 +251,21 @@ export const getCommentRecommend = (comment) => async(dispatch) => { //redux-thu
     }
 };
 
-export const getPage = (title, page, list) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+export const getPage = (title, page) => async(dispatch, getState) => { //redux-thunk로 함수 내에서 비동기 처리
 
     dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
 
 
     try {
-        let newdata;
-        const data = await SubmitPage(title, page); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        if(list) {
-            newdata = list.concat(data);
+        const datas = await SubmitPage(title, page); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        const { data } = getState().wuxia.list[title];
+        
+        if(data) {
+            const newdata = data.concat(datas);
             dispatch({ type : LIST_SUCCESS, data : newdata, title : title });
         }
         else {
-            dispatch({ type : LIST_SUCCESS, data : data, title : title });
+            dispatch({ type : LIST_SUCCESS, data : datas, title : title });
         }
     }
     catch(e) {

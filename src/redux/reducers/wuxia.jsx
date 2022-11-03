@@ -1,6 +1,6 @@
 import { MAIN, MAIN_SUCCESS, MAIN_ERROR, PRODUCT, PRODUCT_SUCCESS, PRODUCT_ERROR } from '../action';
 import { STAR_SUBMIT, STAR_SUBMIT_SUCCESS, STAR_SUBMIT_ERROR , LIST, LIST_SUCCESS, LIST_ERROR } from '../action';
-import { LIKE_SUBMIT, LIKE_SUBMIT_SUCCESS, LIKE_SUBMIT_ERROR } from '../action';
+import { LIKE_SUBMIT, LIKE_SUBMIT_SUCCESS, LIKE_SUBMIT_ERROR, SEARCH, SEARCH_SUCCESS, SEARCH_ERROR } from '../action';
 
 export const handleAsyncActions = (type, key, keepdata = false) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
@@ -144,6 +144,10 @@ export default function wuxia(state = initialState, action) {
       case LIKE_SUBMIT_SUCCESS:
       case LIKE_SUBMIT_ERROR:
         return handleAsyncActionsbyTitle(LIKE_SUBMIT,'product', true)(state, action);
+      case SEARCH:
+      case SEARCH_SUCCESS:
+      case SEARCH_ERROR :
+        return handleAsyncActionsbyTitle(SEARCH,'list')(state, action);
       default:
         return state;
     }

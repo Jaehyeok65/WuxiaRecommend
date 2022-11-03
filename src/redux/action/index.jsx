@@ -1,4 +1,4 @@
-import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain } from "../../api/WuxiaAPI";
+import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain, SubmitPage } from "../../api/WuxiaAPI";
 import { CommentList, CommentSubmit, Comment, CommentRecommend, CommentUpdate, CommentDelete } from "../../api/CommentAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
@@ -9,6 +9,9 @@ export const LIST = 'LIST'; //데이터 초기 정보를 받아오는 요청
 export const LIST_SUCCESS = 'LIST_SUCCESS'; //데이터 받아오는데 성공
 export const LIST_ERROR = 'LIST_ERROR'; //데이터 받아오는데 오류
 
+export const SEARCH = 'SEARCH'; //데이터 초기 정보를 받아오는 요청
+export const SEARCH_SUCCESS = 'SEARCH_SUCCESS'; //데이터 받아오는데 성공
+export const SEARCH_ERROR = 'SEARCH_ERROR'; //데이터 받아오는데 오류
 
 export const STAR_SUBMIT = 'STAR_SUBMIT'; //별점 적용
 export const STAR_SUBMIT_SUCCESS = 'STAR_SUBMIT_SUCCESS';
@@ -60,6 +63,20 @@ export const getList = (title, input) => async(dispatch) => { //redux-thunk로 �
     }
     catch(e) {
         dispatch({type : LIST_ERROR, error : e });
+    }
+}
+
+export const getSearch = (title, input) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : SEARCH, title : title}); //데이터 초기 요청 시작
+
+
+    try {
+        const data = await SubmitList(title, input); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        dispatch({ type : SEARCH_SUCCESS, data : data, title : title });
+    }
+    catch(e) {
+        dispatch({type : SEARCH_ERROR, error : e });
     }
 }
 
@@ -232,6 +249,27 @@ export const getCommentRecommend = (comment) => async(dispatch) => { //redux-thu
         dispatch({type : COMMENT_ERROR, error : e, id : comment.id });
     }
 };
+
+export const getPage = (title, page, list) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
+
+    dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
+
+
+    try {
+        let newdata;
+        const data = await SubmitPage(title, page); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        if(list) {
+            newdata = list.concat(data);
+            dispatch({ type : LIST_SUCCESS, data : newdata, title : title });
+        }
+        else {
+            dispatch({ type : LIST_SUCCESS, data : data, title : title });
+        }
+    }
+    catch(e) {
+        dispatch({type : LIST_ERROR, error : e , title : title});
+    }
+}
 
 
 

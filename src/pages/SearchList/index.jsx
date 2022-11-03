@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Card from '../../molecule/Card';
 import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
-import { getList } from '../../redux/action';
+import { getSearch } from '../../redux/action';
 
 
 
@@ -100,7 +100,7 @@ const SearchList = ( ) => {
 
 
     useEffect(() => { //검색 전용
-       dispatch(getList(title, input));
+       dispatch(getSearch(title, input));
     }, [input]); //input이 변경될 때만 dispatch하도록 input만 의존성 추가
 
     

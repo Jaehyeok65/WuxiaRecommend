@@ -7,6 +7,7 @@ import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPage } from '../../redux/action';
 import { getTotal } from '../../api/WuxiaAPI';
+import ReactLoading from 'react-loading';
 
 
 
@@ -27,6 +28,12 @@ const Lists = styled.div`
         grid-template-columns: repeat(2,1fr);
     }
 
+`
+
+const Spinner = styled.div`
+    display : flex;
+    justify-content : center;
+    margin-bottom : 5%;
 `
 
 const Grids = styled.div`
@@ -108,7 +115,7 @@ const List = ( ) => {
         };
     };
 
-    const option = { threshold : 0.25, rootMargin : '100px'};
+    const option = { threshold : 0.25, rootMargin : '80px'};
 
 
 	useEffect(() => {
@@ -140,9 +147,11 @@ const List = ( ) => {
         dispatch(getPage(title,page.current)); //초기에 데이터를 가져오기 위함
       }, [dispatch, title, data]);
 
+      console.log(loading);
+
 
     
-      if (loading) return <div>로딩중...</div>;
+      //if (loading) return <div>로딩중...</div>;
       if (error) return <div>에러 발생!</div>;
       if (!data) return null;
 
@@ -158,6 +167,10 @@ const List = ( ) => {
                 )) : <div style={{height : '100vh'}}/>}
             </Lists>
             <div ref={setBottom} />
+            { loading &&
+                <Spinner style={{textAling : 'center'}}>
+                    <ReactLoading type='spin' color='black' height={'10%'} width={'3%'} />
+                </Spinner> }
         </MainFrame>
     )
 

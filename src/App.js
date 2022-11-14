@@ -14,13 +14,14 @@ import Community from './pages/Community';
 import CommentWrite from './pages/CommentWrite';
 import Comment from './pages/Comment';
 import CommentUpdate from './pages/CommentUpdate';
+import Navigate from './pages/Navigate';
 
 
 function App() {
 
 
   
-  const [sidetoggle, setSideToggle] = useState(false); //사이드바 관련 토글
+  //const [sidetoggle, setSideToggle] = useState(false); //사이드바 관련 토글
   const [logintoggle, setLoginToggle] = useState(false); //로그인 모달 관련 토글
   const [isLogin, setIsLogin] = useState(true); //로그인창인지 회원가입창인지 구분
   const [loginstate, setLoginstate] = useState(() => document.cookie.split("=")[1] || false); //false라면 login이 필요한 상태 true라면 유저 닉네임
@@ -30,15 +31,12 @@ function App() {
     getSessionCheck(() => setLoginstate(prev => !prev), setNickname); //상태 변경
   },[]); 
 
-  console.log(nickname);
 
 
 
   return (
     <Router>
-      <WuxiaHead onClicks={() => setSideToggle(prev => !prev)} onClickss={() => setLoginToggle(prev => !prev)}
-        loginstate={!loginstate} setLoginstate={() => setLoginstate(prev => !prev)} setNickname={() => setNickname(null)}/>
-      <Sidebar onClicks={() => setSideToggle(prev => !prev)} toggle={sidetoggle} />
+      <Navigate loginstate={loginstate} setLoginToggle={setLoginToggle} setNickname={setNickname} />
       <Modal toggle={logintoggle}>
         <Login onClose={() => setLoginToggle(prev => !prev)} isLogin={isLogin} setIsLogin = {() => setIsLogin(prev => !prev)}
          setLoginstate={() => setLoginstate(prev => !prev)} setNickname={setNickname}/>

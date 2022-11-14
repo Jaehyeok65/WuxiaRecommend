@@ -11,7 +11,7 @@ export const handleAsyncActions = (type, key, keepdata = false) => {
           ...state,
           [key]: {
             loading : keepdata ? false : true,
-            data : keepdata ? state[key].data : false,
+            data : keepdata ? state[key].data : null,
             error : null
           }
         };
@@ -52,7 +52,7 @@ export const handleAsyncActionsbyTitle = (type, key, keepdata = false) => {
           [key]: {
             ...state[key],
             [title] : {
-              loading : keepdata ? false : true,
+              loading : keepdata ? true : true,
               data : keepdata ? state[key][title] && state[key][title].data : null,
               error : null
             }

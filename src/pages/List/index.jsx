@@ -109,9 +109,10 @@ const List = ( ) => {
     const dispatch = useDispatch();
 
     const observerCallback = ([entries]) => {
-        if(entries.isIntersecting && page.current[title] * limit  <= total) {
+        
+        if(entries.isIntersecting && page.current[title] * limit  < total) {
             page.current[title] += 1;
-            dispatch(getPage(title,page.current,data));
+            dispatch(getPage(title,page.current));
         };
     };
 
@@ -129,6 +130,8 @@ const List = ( ) => {
 			}
 		};
 	}, [bottom]);
+    
+    
 
 
     const getTotals = async() => {
@@ -147,8 +150,7 @@ const List = ( ) => {
         dispatch(getPage(title,page.current)); //초기에 데이터를 가져오기 위함
       }, [dispatch, title, data]);
 
-      console.log(loading);
-
+      console.log(data);
 
     
       //if (loading) return <div>로딩중...</div>;
@@ -159,8 +161,8 @@ const List = ( ) => {
         <MainFrame>
             <h2 style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
             <Lists>
-                { data ? data.map( (item, index) => (
-                    <Grids key={index}>
+                { data ? data.map( (item) => (
+                    <Grids key={item.id}>
                         <Card url={item.url} title={item.title} styled={cardstyle}/>
                         <CardInfo product={item} styled={cardinfostyle} />
                     </Grids>
@@ -169,7 +171,7 @@ const List = ( ) => {
             <div ref={setBottom} />
             { loading &&
                 <Spinner style={{textAling : 'center'}}>
-                    <ReactLoading type='spin' color='black' height={'10%'} width={'3%'} />
+                    <ReactLoading type='spin' color='black' height={'5%'} width={'3%'} />
                 </Spinner> }
         </MainFrame>
     )

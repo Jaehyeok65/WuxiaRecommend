@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
 import { StarSubmit, LikeSubmit } from '../../redux/action';
 import { SubmitView } from '../../api/WuxiaAPI';
+import { LoginModal } from '../../redux/reducers/modal';
 
 
 
@@ -47,7 +48,7 @@ const productstyle = {
 }
 
 
-const Detail = ( { loginstate, setLoginToggle }) => {
+const Detail = ( { loginstate }) => {
 
     const { title } = useParams();
     const [ratetoggle, setRateToggle] = useState(false); //별점용 토글
@@ -76,9 +77,7 @@ const Detail = ( { loginstate, setLoginToggle }) => {
         }
       },[data,view])
 
-    
-   
-
+    const LoginToggle = (data) => dispatch(LoginModal(data));
 
     const handleStar = (index) => {
         let clickStates = [...handleclicked];
@@ -116,7 +115,7 @@ const Detail = ( { loginstate, setLoginToggle }) => {
     const onLikeClick = async() => {
         if(!loginstate) {
             window.alert("로그인이 필요한 기능입니다.");
-            setLoginToggle();
+            LoginToggle(true);
             return;
         }
         dispatch(LikeSubmit(title,data));
@@ -125,13 +124,12 @@ const Detail = ( { loginstate, setLoginToggle }) => {
     const onRateToggle = () => {
         if(!loginstate) {
             window.alert("로그인이 필요한 기능입니다.");
-            setLoginToggle();
+            LoginToggle(true);
             return;
         }
         setRateToggle(prev => !prev);
     }
-
-
+    
     const init = () => {
         let clickStates = [...clicked];
         for (let i = 0; i < 5; i++) {
@@ -163,7 +161,7 @@ const Detail = ( { loginstate, setLoginToggle }) => {
                         <Button onClicks={handleClose} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
                     </Modal>
                     <Modal toggle={texttoggle}>
-                        <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '20%', marginLeft : '5%', marginRight : '5%'}}>{data.content}</Text>
+                        <Text styled={{textAlign : 'center', marginBottom : '5%', marginTop : '10%', marginLeft : '5%', marginRight : '5%'}}>{data.content}</Text>
                         <Button onClicks={() => setTextToggle(prev => !prev)} styled={{width : '100px', borderRadius : '4px', margin : '0 auto', display : 'block'}}>닫기</Button>
                     </Modal>
             </React.Fragment>}

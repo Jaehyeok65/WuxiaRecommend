@@ -12,6 +12,7 @@ import { getCommentRecommend } from '../../redux/action';
 import { Link } from 'react-router-dom';
 import Icon from '../../atoms/Icon';
 import { FaPen } from "react-icons/fa";
+import { LoginModal } from '../../redux/reducers/modal';
 
 
 const Content = styled.div`
@@ -39,8 +40,18 @@ const StyledLink = styled(Link)`
     }
 `;
 
+const Pre = styled.pre`
+    margin-bottom : 10%;
+    font-size : 14px;
 
-const Comment = ( { loginstate, setLoginToggle, nickname }) => {
+    @media screen and (max-width : 800px) {
+        margin-bottom : 40%;
+        margin-top : 10%;
+    }
+`
+
+
+const Comment = ( { loginstate,  nickname }) => {
 
 
     const { id } = useParams();
@@ -53,10 +64,12 @@ const Comment = ( { loginstate, setLoginToggle, nickname }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const LoginToggle = (data) => dispatch(LoginModal(data));
+
     const onRecommendClick = () => {
         if(!loginstate) {
             window.alert("로그인이 필요한 기능입니다.");
-            setLoginToggle();
+            LoginToggle(true);
             return;
         }
         dispatch(getCommentRecommend(data));
@@ -88,7 +101,7 @@ const Comment = ( { loginstate, setLoginToggle, nickname }) => {
                 <Content>
                     <Flex2>
                         <Title styled={{fontSize : '24px'}}>{data.title}</Title>
-                        <div style={{width : '10%'}}>
+                        <div style={{width : '30%', textAlign : 'right'}}>
                             <span style={{fontSize : '15px', color : 'gray'}}>{data.writer}</span> &nbsp;
                             { nickname === data.writer ? 
                             <span>
@@ -99,7 +112,7 @@ const Comment = ( { loginstate, setLoginToggle, nickname }) => {
                             </span> : null}
                         </div>
                     </Flex2>
-                    <pre style={{marginBottom : '10%', fontSize : '14px'}}>{data.content}</pre>
+                    <Pre>{data.content}</Pre>
                     <Flex>
                         <Button styled={{width : '100px', padding : '12px', border : '1px solid gray', borderRadius : '3px'}} onClicks={onRecommendClick}> 
                             <FaThumbsUp /> {data.recommend}

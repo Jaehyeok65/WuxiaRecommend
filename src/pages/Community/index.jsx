@@ -9,6 +9,7 @@ import { getCommentList } from '../../redux/action';
 import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '../../molecule/Pagination';
 import { handleScroll } from '../List';
+import { LoginModal } from '../../redux/reducers/modal';
 
 const Navi = styled.div`
     display : flex;
@@ -35,7 +36,7 @@ const StyledLink = styled(Link)`
 
 
 
-const Community = ( { loginstate, setLoginToggle }) => {
+const Community = ( { loginstate }) => {
 
     const [Selected, setSelected] = useState("최신순");
 
@@ -49,7 +50,7 @@ const Community = ( { loginstate, setLoginToggle }) => {
     const offset = (page - 1) * limit;
 
     const dispatch = useDispatch();
-    const selectList = ["최신순", "추천순", "조회순"];
+    const selectList = ["최신순", "추천순"];
 
     useEffect(() => {
         if(data) return;
@@ -60,6 +61,8 @@ const Community = ( { loginstate, setLoginToggle }) => {
         handleScroll();
     },[page])
 
+    const LoginToggle = (data) => dispatch(LoginModal(data));
+
     const handleSelect = (e) => {
         setSelected(e.target.value);
         setPage(1); //페이지를 1페이지로 바꿈
@@ -67,7 +70,7 @@ const Community = ( { loginstate, setLoginToggle }) => {
 
     const isLoginToggle = () => {
         window.alert("로그인이 필요한 기능입니다.");
-        setLoginToggle();
+        LoginToggle(true);
     }
 
     if (loading) return <div>로딩중...</div>;

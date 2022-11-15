@@ -28,7 +28,7 @@ const LoginFormstyle = {
     }
 }
 
-const Login= ( { onClose, isLogin, setIsLogin, setLoginstate, setNickname }) => {
+const Login= ( { onClose, setLoginstate, setNickname }) => {
 
     const [loginInput, setLoginInput] = useState({
         userEmail : '',
@@ -40,6 +40,8 @@ const Login= ( { onClose, isLogin, setIsLogin, setLoginstate, setNickname }) => 
         userPassword : '',
         userNickname : ''
     });
+
+    const [isLogin, setIsLogin] = useState(true);
 
     const onLoginChange = (e) => {
         const { name, value } = e.target;
@@ -75,7 +77,7 @@ const Login= ( { onClose, isLogin, setIsLogin, setLoginstate, setNickname }) => 
 
     return(
         <Logins>
-            <Title styled={{textAlign : 'center', fontSize : '25px', marginTop : '5%'}} onClicks={setIsLogin}>
+            <Title styled={{textAlign : 'center', fontSize : '25px', marginTop : '5%'}} onClicks={() => setIsLogin(prev => !prev)}>
                 { isLogin ? 'Login' : 'Sign Up' }
             </Title>
             { isLogin ? 

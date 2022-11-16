@@ -92,6 +92,7 @@ export const handleScroll = () => {
 const List = ( ) => {
 
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
+    const callbacktitle = useRef(title); //ObserverAPI title 참조용 ref
     const { data, loading, error } = useSelector(state => state.wuxia.list[title]) || {
         loading: false,
         data: null,
@@ -108,18 +109,26 @@ const List = ( ) => {
     const [bottom, setBottom] = useState(null);
     const dispatch = useDispatch();
 
+   
+
     const observerCallback = ([entries]) => {
+        console.log(callbacktitle.current + " 콜백");
         
-        if(entries.isIntersecting && page.current[title] * limit  < total.current) {
-            page.current[title] += 1;
-            dispatch(getPage(title,page.current));
+        if(entries.isIntersecting && page.current[callbacktitle.current] * limit  < total.current) {
+            page.current[callbacktitle.current] += 1;
+            dispatch(getPage(callbacktitle.current,page.current));
         };
     };
+
+    //console.log(title);
+
 
     const option = { threshold : 0.25, rootMargin : '80px'};
 
 
 	useEffect(() => {
+
+        
 		const observer = new IntersectionObserver(observerCallback, option);
 		if (bottom) {
 			observer.observe(bottom);
@@ -130,9 +139,8 @@ const List = ( ) => {
 			}
 		};
 	}, [bottom]);
-    
-    
 
+    
 
     const getTotals = async() => {
         const data = await getTotal();
@@ -140,6 +148,7 @@ const List = ( ) => {
     };
 
     useEffect( () => {
+        callbacktitle.current = title; // ObserverAPI가 title 참조 최신화를 못하므로 ref로 title값 관리
         handleScroll();
         getTotals();
     },[title]);
@@ -150,7 +159,7 @@ const List = ( ) => {
         dispatch(getPage(title,page.current)); //초기에 데이터를 가져오기 위함
       }, [dispatch, title, data]);
 
-      console.log(total.current);
+      //console.log(page.current);
 
     
       if (error) return <div>에러 발생!</div>;

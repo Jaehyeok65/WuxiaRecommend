@@ -104,13 +104,13 @@ const List = ( ) => {
     });
     const limit = 12;
 
-    const [total, setTotal] = useState();
+    const total = useRef(0);
     const [bottom, setBottom] = useState(null);
     const dispatch = useDispatch();
 
     const observerCallback = ([entries]) => {
         
-        if(entries.isIntersecting && page.current[title] * limit  < total) {
+        if(entries.isIntersecting && page.current[title] * limit  < total.current) {
             page.current[title] += 1;
             dispatch(getPage(title,page.current));
         };
@@ -136,8 +136,8 @@ const List = ( ) => {
 
     const getTotals = async() => {
         const data = await getTotal();
-        setTotal(data);
-    }
+        total.current = data;
+    };
 
     useEffect( () => {
         handleScroll();
@@ -150,10 +150,9 @@ const List = ( ) => {
         dispatch(getPage(title,page.current)); //초기에 데이터를 가져오기 위함
       }, [dispatch, title, data]);
 
-      console.log(data);
+      console.log(total.current);
 
     
-      //if (loading) return <div>로딩중...</div>;
       if (error) return <div>에러 발생!</div>;
       if (!data) return null;
 

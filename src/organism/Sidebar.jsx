@@ -47,11 +47,11 @@ const Sidebackground = styled.div`
     top : 0;
     width : 100vw;
     height : 100vh;
-    color : gray;
-    background : rgba(0,0,0,0.8);
+    background : rgba(0,0,0,0.6);
+    z-index : 29999;
 
-    animation-duration : 0.5s;
-    animation-timing-function : ease-out;
+    animation-duration : 0.7s;
+    animation-timing-function : linear;
     animation-name : ${fadein};
 
     ${props => 
@@ -71,9 +71,10 @@ const Sidebars = styled.div`
     left : 0;
     margin : 0;
     padding : 0;
-    width : 33%;
+    width : 30%;
     height : 100vh;
     background-color : white;
+    z-index : 29999;
     
     animation-duration : 0.5s;
     animation-timing-function : ease-out;
@@ -82,10 +83,14 @@ const Sidebars = styled.div`
     ${props => 
         props.disappear && 
         css`
-            animation-duration : 0.5s;
+            animation-duration : 0.8s;
             animation-name : ${slidedown};
             animation-timing-function : ease-out;
         `}
+
+    @media screen and (max-width: 600px) {
+        width : 40%;
+    }
 `;
 
 const Container = styled.div` //버튼 우측 정렬을 위한 컨테이너
@@ -111,16 +116,20 @@ const styleds={
 
 const list = [
     {
-        name : '리스트1',
-        path : '123'
+        name : '조회순',
+        path : '/menu/조회순'
     },
     {
-        name : '리스트2',
-        path : '1234'
+        name : '좋아요순',
+        path : '/menu/좋아요순'
     },
     {
-        name : '리스트3',
-        path : '12345'
+        name : '별점순',
+        path : '/menu/별점순'
+    },
+    {
+        name : '커뮤니티',
+        path : '/community'
     }
 ]
 
@@ -137,7 +146,7 @@ const Sidebar = ({ onClicks, toggle }) => {
             setTimeout(() => setAnimate(false),400);
         }
         setLocalvisible(toggle);
-    },[localvisible, toggle])
+    },[localvisible, toggle]);
     
 
 
@@ -153,7 +162,7 @@ const Sidebar = ({ onClicks, toggle }) => {
                 <Container>
                     <Button onClicks={onClicks} styled={togglebtn}><FaTimes /></Button>
                 </Container>
-                <Navlist list={list} styled={styleds} />
+                <Navlist list={list} styled={styleds} onClicks={onClicks} />
             </Sidebars>
         </Sidebackground>
     )

@@ -116,6 +116,11 @@ const initialState = {
         data : null,
         error : null
       }
+    },
+    page : {
+      '조회순' : 1,
+      '별점순' : 1,
+      '좋아요순' : 1
     }
   };
 
@@ -131,7 +136,7 @@ export default function wuxia(state = initialState, action) {
       case LIST:
       case LIST_SUCCESS:
       case LIST_ERROR :
-        return handleAsyncActionsbyTitle(LIST,'list',true)(state, action);
+        return handleAsyncActionsbyTitle(LIST,'list', true)(state, action);
       case PRODUCT:
       case PRODUCT_SUCCESS:
       case PRODUCT_ERROR:
@@ -148,6 +153,14 @@ export default function wuxia(state = initialState, action) {
       case SEARCH_SUCCESS:
       case SEARCH_ERROR :
         return handleAsyncActionsbyTitle(SEARCH,'list',true)(state, action);
+      case 'PAGE' : 
+        return {
+          ...state,
+          page : {
+            ...state.page,
+            [action.title] : action.data
+          }
+        }
       default:
         return state;
     }

@@ -98,11 +98,12 @@ const List = ( ) => {
         data: null,
         error: null
       }; 
-    const page = useRef({
+    const page = useRef(useSelector(state => state.wuxia.page) || {
         '조회순' : 1,
-        '좋아요순' : 1,
-        '별점순' : 1
+        '별점순' : 1,
+        '좋아요순' : 1
     });
+
     const limit = 12;
 
     const total = useRef(0);
@@ -112,15 +113,18 @@ const List = ( ) => {
    
 
     const observerCallback = ([entries]) => {
-        console.log(callbacktitle.current + " 콜백");
+        //console.log(page.current);
         
         if(entries.isIntersecting && page.current[callbacktitle.current] * limit  < total.current) {
             page.current[callbacktitle.current] += 1;
             dispatch(getPage(callbacktitle.current,page.current));
+            dispatch({ type : 'PAGE', data : page.current[callbacktitle.current], title : callbacktitle.current});
         };
     };
 
     //console.log(title);
+
+    console.log(page.current);
 
 
     const option = { threshold : 0.25, rootMargin : '80px'};

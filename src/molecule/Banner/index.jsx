@@ -1,6 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color : inherit;
+
+    &:focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
 
 const Banners = styled.div`
     width : 100%;
@@ -17,14 +27,16 @@ const Banners = styled.div`
 
 
 
-const Banner = ( { url, name }) => {
+const Banner = ( { product }) => {
 
     
 
     return(
-        <Banners>
-            <img src={url} alt={name} />
-        </Banners>
+        <StyledLink to={`/detail/${product.title}`}>
+            <Banners>
+                <img src={product.url} alt={product.title} />
+            </Banners>
+        </StyledLink>
     )
 
 

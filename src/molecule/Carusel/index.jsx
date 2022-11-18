@@ -49,7 +49,7 @@ function SampleNextArrow(props) {
 
 
   return (
-    <BsCaretRight style={{position : 'absolute', width : '30px', height : '30px', right : '1%',  top : '50%', zIndex : '2000'}}
+    <BsCaretRight style={{position : 'absolute', width : '30px', height : '30px', right : '1px',  top : '50%', zIndex : '2000'}}
       onClick={onClick}
     />
   );
@@ -62,7 +62,7 @@ function SamplePrevArrow(props) {
 
   
   return (
-    <BsCaretLeft style={{position : 'absolute', width : '30px', height : '30px', left : '1%', top : '50%', zIndex : '2000'}}
+    <BsCaretLeft style={{position : 'absolute', width : '30px', height : '30px', left : '1px', top : '50%', zIndex : '2000'}}
       onClick={onClick}
     />
   );
@@ -122,8 +122,8 @@ const Carusel = ( { list }) => {
 
     return (
         <StyledSlider {...settings}>
-         { list && list.map((item, index) => (
-            <Banner key={index} url={item.url} name="이미지" />
+         { list && list.map((item) => (
+            <Banner key={item.id} product={item} />
          ))}
         </StyledSlider>
     )

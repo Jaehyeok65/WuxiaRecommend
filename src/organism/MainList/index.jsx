@@ -28,15 +28,14 @@ const cardstyle = {
 }
 
 const MainList = ( { list, title, styled }) => {
-    const lists = [];
-    lists.slice()
+    
 
 
 
     return(
         <Main>
             <Title styled={{marginBottom : '20px'}}>{ title }</Title>
-            <Grid styled={styled}>
+            <Grid styled={styled} data-testid="list">
             { list && list.slice(0,12).map((item,index) => (
                 <Card key={index} url={item.url} title={item.title} writer={item.writer} styled={cardstyle} />
             ))}

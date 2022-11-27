@@ -29,7 +29,7 @@ const Cards = styled.div`
     }
     > img {
         width : 100%;
-        height : ${props => props.styled.height ? props.styled.height : '100%'}
+        height : ${props => props.styled ? props.styled.height : '100%'}
     }
     &:hover {
         transform : translateY(-4px);
@@ -39,7 +39,7 @@ const Cards = styled.div`
     @media screen and (max-width: 600px) {
         > img {
             width : 100%;
-            height : ${props => props.styled.mobileheight ? props.styled.mobileheight : '100%'}
+            height : ${props => props.styled ? props.styled.mobileheight : '100%'}
         }
     }
 `
@@ -47,13 +47,13 @@ const Cards = styled.div`
 
 
 
-const Card = ( { url, styled, title, writer , link }) => {
+const Card = ( { url, styled, title, writer }) => {
 
 
     return(
         <StyledLink to={`/detail/${title}`}>
-        <Cards styled={styled}>
-            <img src={url} alt="이미지" />
+        <Cards styled={styled} data-testid='card'>
+            { url ? <img src={url} alt={title} /> : <div style={{height : '300px'}}/>}
             <Title styled={{fontSize : '12px', color : 'inherit'}}>{title}</Title>
             <Text styled={{fontSize : '12px', color : 'gray'}}>{writer}</Text>
         </Cards>

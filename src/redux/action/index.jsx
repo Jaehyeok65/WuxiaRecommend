@@ -204,6 +204,7 @@ export const getCommentDelete = (id, title) => async(dispatch) => { //redux-thun
     dispatch({type : COMMENTLIST, title}); //데이터 초기 요청 시작
 
     try {
+        dispatch({ type : 'COMMENT_DELETE', id});
         const data = await CommentDelete(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         const data1 = await CommentList('추천순');
         dispatch({ type : COMMENTLIST_SUCCESS, data , title });

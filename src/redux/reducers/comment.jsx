@@ -8,7 +8,6 @@ export const handleAsyncActionsbyId = (type, key, keepdata = false) => {
     return (state, action) => {
   
       const id = action.id; //액션에서 넘어온 데이터
-      console.log(keepdata);
       
       switch (action.type) {
         case type:
@@ -84,6 +83,9 @@ export default function comment(state = initialState, action) {
       case COMMENTRECOMMEND_SUCCESS :
       case COMMENTRECOMMEND_ERROR :
         return handleAsyncActionsbyId(COMMENTRECOMMEND,'comment',true)(state, action);
+      case 'COMMENT_DELETE' :
+        delete state.comment[action.id] //객체에 id로 넘어온 키를 삭제함;
+          return state;
       default:
         return state;
     }

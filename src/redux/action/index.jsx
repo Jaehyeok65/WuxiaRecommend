@@ -45,7 +45,7 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
 
     try {
         const data = await SubmitMain(); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        dispatch({ type : MAIN_SUCCESS, data : data });
+        dispatch({ type : MAIN_SUCCESS, data });
     }
     catch(e) {
         dispatch({type : MAIN_ERROR, error : e });
@@ -54,12 +54,12 @@ export const getMain = () => async (dispatch) => { //redux-thunk로 함수 내�
 
 export const getList = (title, input) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
+    dispatch({type : LIST, title }); //데이터 초기 요청 시작
 
 
     try {
         const data = await SubmitList(title, input); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        dispatch({ type : LIST_SUCCESS, data : data, title : title });
+        dispatch({ type : LIST_SUCCESS, data , title });
     }
     catch(e) {
         dispatch({type : LIST_ERROR, error : e });
@@ -68,12 +68,12 @@ export const getList = (title, input) => async(dispatch) => { //redux-thunk로 �
 
 export const getSearch = (title, input) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : SEARCH, title : title}); //데이터 초기 요청 시작
+    dispatch({type : SEARCH, title }); //데이터 초기 요청 시작
 
 
     try {
         const data = await SubmitList(input); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        dispatch({ type : SEARCH_SUCCESS, data : data, title : title });
+        dispatch({ type : SEARCH_SUCCESS, data , title  });
     }
     catch(e) {
         dispatch({type : SEARCH_ERROR, error : e });
@@ -82,20 +82,20 @@ export const getSearch = (title, input) => async(dispatch) => { //redux-thunk로
 
 export const getProduct = (title) => async (dispatch) => {
 
-    dispatch({type : PRODUCT, title : title }); //데이터 초기 요청 시작
+    dispatch({type : PRODUCT, title }); //데이터 초기 요청 시작
 
     try {
         const data = await SubmitProduct(title);
-        dispatch({ type : PRODUCT_SUCCESS, data : data, title : title });
+        dispatch({ type : PRODUCT_SUCCESS, data , title });
     }
     catch(e) {
-        dispatch({ type : PRODUCT_ERROR, error : e, title : title });
+        dispatch({ type : PRODUCT_ERROR, error : e, title });
     }
 };
 
 
 export const StarSubmit = (title, rate, data, setRateToggle) => async (dispatch) => {
-    dispatch({ type : STAR_SUBMIT, title : title }); //데이터 초기 요청 시작
+    dispatch({ type : STAR_SUBMIT, title }); //데이터 초기 요청 시작
     
     try {
         const people = (Number)(data.people+1);
@@ -110,15 +110,15 @@ export const StarSubmit = (title, rate, data, setRateToggle) => async (dispatch)
             setRateToggle();
             return;
         }
-        dispatch({ type : STAR_SUBMIT_SUCCESS, data : newdata, title : title });
+        dispatch({ type : STAR_SUBMIT_SUCCESS, data : newdata, title });
     }
     catch(e) {
-        dispatch({ type : STAR_SUBMIT_ERROR, error : e, title : title });
+        dispatch({ type : STAR_SUBMIT_ERROR, error : e, title });
     };
 };
 
 export const LikeSubmit = (title, data) => async (dispatch) => {
-    dispatch({ type : LIKE_SUBMIT, title : title }); //데이터 초기 요청 시작
+    dispatch({ type : LIKE_SUBMIT, title }); //데이터 초기 요청 시작
     
     try {
         const datas = await SubmitLike(data);
@@ -131,51 +131,51 @@ export const LikeSubmit = (title, data) => async (dispatch) => {
             window.alert("좋아요 취소에 성공하셨습니다.");
             result = {...data, likes : data.likes - 1};
         }
-        dispatch({ type : LIKE_SUBMIT_SUCCESS, data : result, title : title });
+        dispatch({ type : LIKE_SUBMIT_SUCCESS, data : result, title});
     }
     catch(e) {
-        dispatch({ type : LIKE_SUBMIT_ERROR, error : e, title : title });
+        dispatch({ type : LIKE_SUBMIT_ERROR, error : e, title });
     };
 
 };
 
 export const getCommentList = (title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+    dispatch({type : COMMENTLIST, title }); //데이터 초기 요청 시작
 
 
     try {
         const data = await CommentList(title); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data , title });
     }
     catch(e) {
-        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+        dispatch({type : COMMENTLIST_ERROR, error : e, title });
     }
 };
 
 
 export const getComment = (id) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : COMMENT, id : id}); //데이터 초기 요청 시작
+    dispatch({type : COMMENT, id}); //데이터 초기 요청 시작
 
 
     try {
         const data = await Comment(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        dispatch({ type : COMMENT_SUCCESS, data : data, id : id });
+        dispatch({ type : COMMENT_SUCCESS, data, id });
     }
     catch(e) {
-        dispatch({type : COMMENT_ERROR, error : e, id : id });
+        dispatch({type : COMMENT_ERROR, error : e,  });
     }
 };
 
 export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+    dispatch({type : COMMENTLIST, title}); //데이터 초기 요청 시작
 
     try {
         const data = await CommentSubmit(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         const data2 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data, title });
         dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
     }
     catch(e) {
@@ -185,32 +185,32 @@ export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux
 
 export const getCommentUpdate = (comment, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+    dispatch({type : COMMENTLIST, title }); //데이터 초기 요청 시작
 
     try {
         const data = await CommentUpdate(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         const data1 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data , title });
         dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '추천순' });
         dispatch({ type : COMMENT_SUCCESS, data : comment, id : comment.id });
     }
     catch(e) {
-        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+        dispatch({type : COMMENTLIST_ERROR, error : e, title});
     }
 };
 
 export const getCommentDelete = (id, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : COMMENTLIST, title : title}); //데이터 초기 요청 시작
+    dispatch({type : COMMENTLIST, title}); //데이터 초기 요청 시작
 
     try {
         const data = await CommentDelete(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         const data1 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data, title : title });
+        dispatch({ type : COMMENTLIST_SUCCESS, data , title });
         dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '추천순' });
     }
     catch(e) {
-        dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
+        dispatch({type : COMMENTLIST_ERROR, error : e, title});
     }
 };
 
@@ -243,7 +243,7 @@ export const getCommentRecommend = (comment) => async(dispatch) => { //redux-thu
 
 export const getPage = (title, page) => async(dispatch, getState) => { //redux-thunk로 함수 내에서 비동기 처리
 
-    dispatch({type : LIST, title : title}); //데이터 초기 요청 시작
+    dispatch({type : LIST, title }); //데이터 초기 요청 시작
 
 
     try {
@@ -252,14 +252,14 @@ export const getPage = (title, page) => async(dispatch, getState) => { //redux-t
         
             if(data) {
                 const newdata = data.concat(datas);
-                dispatch({ type : LIST_SUCCESS, data : newdata, title : title });
+                dispatch({ type : LIST_SUCCESS, data : newdata, title });
             }
             else {
-                dispatch({ type : LIST_SUCCESS, data : datas, title : title });
+                dispatch({ type : LIST_SUCCESS, data : datas, title });
             }
         }
     catch(e) {
-        dispatch({type : LIST_ERROR, error : e , title : title});
+        dispatch({type : LIST_ERROR, error : e , title });
     }
 }
 

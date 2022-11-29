@@ -78,7 +78,7 @@ describe('Container Test', () => {
       );
       await waitFor(() => store.dispatch(getCommentDelete(2,'최신순')));
       const { comment } = store.getState().comment;
-      expect(comment[2]).toBeUndefined(); //값이 없음을 예상함
+      expect(comment[2]).not.toEqual(data);
       
 
       

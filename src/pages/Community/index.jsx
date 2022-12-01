@@ -44,7 +44,7 @@ const Community = ( { data, loading, error, loginstate, selectList, Selected, ha
         <MainFrame>
             <Navi>
                 <select onChange={handleSelect} value={Selected}>
-                    {selectList.map((item) => (
+                    {selectList && selectList.map((item) => (
                         <option value={item} key={item}>
                             {item}
                         </option>
@@ -54,7 +54,7 @@ const Community = ( { data, loading, error, loginstate, selectList, Selected, ha
                     <StyledLink to='/commentwrite'>
                         <Icon styled={{fontSize : '18px'}}><FaPen /></Icon>
                     </StyledLink> : 
-                    <Icon styled={{fontSize : '18px'}} setIcon={isLoginToggle}><FaPen /></Icon>
+                    <Icon styled={{fontSize : '18px'}} setIcon={isLoginToggle} ><FaPen data-testid='write' /></Icon>
                     }
             </Navi>
             { data && data.slice(offset,offset + limit).map(item => (
@@ -63,7 +63,9 @@ const Community = ( { data, loading, error, loginstate, selectList, Selected, ha
                 </StyledLink>
             ))}
             <Page>
+                { page && 
                 <Pagination total={data.length} limit={limit} page={page} setPage={setPage} />
+                }
             </Page>
         </MainFrame>
     )

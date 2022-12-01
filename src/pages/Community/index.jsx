@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MainFrame from '../MainFrame';
 import CommentLists from '../../molecule/CommentLists';
 import styled from 'styled-components';
 import Icon from '../../atoms/Icon';
 import { FaPen } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import { getCommentList } from '../../redux/action';
-import { useSelector, useDispatch } from 'react-redux';
 import Pagination from '../../molecule/Pagination';
-import { handleScroll } from '../List';
-import { LoginModal } from '../../redux/reducers/modal';
+
 
 const Navi = styled.div`
     display : flex;
@@ -36,42 +33,8 @@ const StyledLink = styled(Link)`
 
 
 
-const Community = ( { loginstate }) => {
+const Community = ( { data, loading, error, loginstate, selectList, Selected, handleSelect, isLoginToggle, offset, limit, page, setPage }) => {
 
-    const [Selected, setSelected] = useState("최신순");
-
-    const { data, loading, error } = useSelector(state => state.comment.commentlist[Selected]) || {
-        loading: false,
-        data: null,
-        error: null
-      }; 
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
-    const offset = (page - 1) * limit;
-
-    const dispatch = useDispatch();
-    const selectList = ["최신순", "추천순"];
-
-    useEffect(() => {
-        if(data) return;
-        dispatch(getCommentList(Selected));
-      }, [dispatch, Selected, data]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
-
-    useEffect(() => {
-        handleScroll();
-    },[page])
-
-    const LoginToggle = (data) => dispatch(LoginModal(data));
-
-    const handleSelect = (e) => {
-        setSelected(e.target.value);
-        setPage(1); //페이지를 1페이지로 바꿈
-    };
-
-    const isLoginToggle = () => {
-        window.alert("로그인이 필요한 기능입니다.");
-        LoginToggle(true);
-    }
 
     if (loading) return <div>로딩중...</div>;
     if (error) return <div>에러 발생!</div>;

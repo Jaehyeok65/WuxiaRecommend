@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import Product from '../../molecule/Product';
@@ -42,8 +42,12 @@ const productstyle = {
 }
 
 
-const Detail = ( { data, error, onLikeClick, onRateToggle, clicked, init, setTextToggle, ratetoggle,
-                   handleclicked, handleStar, handleSubmit, handleClose, texttoggle }) => {
+const Detail = ( { data, error, onLikeClick, onRateToggle, clicked, init, ratetoggle,
+                   handleclicked, handleStar, handleSubmit, handleClose }) => {
+    
+    const [texttoggle, setTextToggle] = useState(false); //본문용 토글 UI와 관련된 기능이기 때문에 프리젠테이셔널 컴포넌트에 둠
+
+                    
 
     
     if (error) return <div>에러 발생!</div>;

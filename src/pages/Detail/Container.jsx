@@ -12,9 +12,8 @@ const Container = ( { loginstate }) => {
 
     const { title } = useParams();
     const [ratetoggle, setRateToggle] = useState(false); //별점용 토글
-    const [texttoggle, setTextToggle] = useState(false); //본문용 토글
-    const [clicked, setClicked] = useState([false, false, false, false, false]); //Product용 별점
-    const [handleclicked, setHandleClicked] = useState([false, false, false, false, false]); //별점부여용 별점
+    const [handleclicked, setHandleClicked] = useState([false, false, false, false, false]); //별점부여용 State
+    const [clicked, setClicked] = useState([false, false, false, false, false]); //상품 별점 State
     const [view, setView] = useState(false);
     const { data, loading, error } = useSelector(state => state.wuxia.product[title]) || {
         data : null,
@@ -102,7 +101,7 @@ const Container = ( { loginstate }) => {
 
     return(
         <React.Fragment>
-            <Detail data={data} error={error} ratetoggle={ratetoggle} texttoggle={texttoggle} setTextToggle={setTextToggle}
+            <Detail data={data} error={error} ratetoggle={ratetoggle}
                 handleStar={handleStar} handleSubmit={handleSubmit} handleClose={handleClose} handleRate={handleRate} 
                 onLikeClick={onLikeClick} onRateToggle={onRateToggle} init={init}
             />

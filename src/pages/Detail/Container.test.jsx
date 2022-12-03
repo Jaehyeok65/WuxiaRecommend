@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import ReduxThunk from 'redux-thunk';
 import Container from "./Container";
+import { StarSubmit, LikeSubmit } from '../../redux/action';
 
 
 
@@ -88,6 +89,50 @@ describe('Detail Container Test' , () => {
         await waitFor(() => expect(store.getActions().map(action => action.type)).toEqual(expectedActions));
         
       });
+
+      it('StarSubmit을 Dispatch 했을 때, 성공적으로 Dispatch가 이루어짐', async() => {
+
+        const expectedActions = [ 
+          'STAR_SUBMIT',
+          'STAR_SUBMIT_SUCCESS'
+      ];
+
+        mock.onPost(`${API}/rate`).reply(200, true);
+
+        window.alert = jest.fn();
+       
+        const store = mockstore(initialState); //initialState = none;
+
+        const setRateToggle = jest.fn();
+
+        store.dispatch(StarSubmit('최신순',5 ,data, () => setRateToggle(prev => !prev))); //콜백함수로 SetToggle 전달
+
+        await waitFor(() => expect(store.getActions().map(action => action.type)).toEqual(expectedActions)); //
+
+        expect(setRateToggle).toBeCalled();
+        
+      })
+
+      it('LikeSubmit을 Dispatch 했을 때, 성공적으로 Dispatch가 이루어짐', async() => {
+
+        const expectedActions = [ 
+          'LIKE_SUBMIT',
+          'LIKE_SUBMIT_SUCCESS'
+      ];
+
+        mock.onPost(`${API}/likes`).reply(200, true);
+
+        window.alert = jest.fn();
+       
+        const store = mockstore(initialState); //initialState = none;
+
+
+        store.dispatch(LikeSubmit('최신순',data));
+
+        await waitFor(() => expect(store.getActions().map(action => action.type)).toEqual(expectedActions)); //
+
+        
+      })
 
 
 })

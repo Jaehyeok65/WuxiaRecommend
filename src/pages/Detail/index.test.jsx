@@ -42,7 +42,17 @@ describe('Presentational Component Test' , () => {
         fireEvent.click(btn);
         const text = screen.getAllByText(data.content);
         expect(text[1]).toBeInTheDocument();
-    })
+    });
+
+    it('별점 등록 창에서 적용하기 버튼을 클릭하면 handleSubmit 함수가 호출된다..', () => {
+
+        const handleSubmit = jest.fn();
+        render(<Detail data={data} handleclicked={clicked} ratetoggle={true} handleSubmit={handleSubmit} />);
+        const btn = screen.getByText('적용하기');
+        fireEvent.click(btn);
+        expect(handleSubmit).toBeCalledTimes(1);
+        
+    });
 
 
 

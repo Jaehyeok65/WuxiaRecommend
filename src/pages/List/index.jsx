@@ -106,7 +106,7 @@ const List = ( ) => {
 
     const limit = 12;
 
-    const total = useRef(0);
+    const total = useRef(13);
     const [bottom, setBottom] = useState(null);
     const dispatch = useDispatch();
 
@@ -114,6 +114,7 @@ const List = ( ) => {
 
     const observerCallback = ([entries]) => {
         //console.log(page.current);
+
         
         if(entries.isIntersecting && page.current[callbacktitle.current] * limit  < total.current) {
             page.current[callbacktitle.current] += 1;
@@ -122,13 +123,11 @@ const List = ( ) => {
         };
     };
 
-    //console.log(title);
-
-    console.log(page.current);
 
 
-    const option = { threshold : 0.25, rootMargin : '80px'};
+    const option = { threshold : 0.25, rootMargin : '80px', root : document.querySelector('#viewPort')};
 
+    
 
 	useEffect(() => {
 
@@ -171,7 +170,7 @@ const List = ( ) => {
 
     return(
         <MainFrame>
-            <h2 style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
+            <h2 id = {'viewPort'} style={{fontSize: '20px', marginTop : '2%'}}>{title}</h2>
             <Lists>
                 { data ? data.map( (item) => (
                     <Grids key={item.id}>

@@ -104,7 +104,7 @@ const SearchList = ( ) => {
     }, [input]); //input이 변경될 때만 dispatch하도록 input만 의존성 추가
 
     
-      if (loading) return <div>로딩중...</div>;
+      //if (loading) return <div>로딩중...</div>;
       if (error) return <div>에러 발생!</div>;
       if (!data) return null;
 

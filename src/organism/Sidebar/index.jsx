@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import Button from '../atoms/Button';
+import Button from '../../atoms/Button';
 import { FaTimes } from 'react-icons/fa';
-import Navlist from '../molecule/Navlist';
+import Navlist from '../../molecule/Navlist';
 
 
 
@@ -171,4 +171,4 @@ const Sidebar = ({ onClicks, toggle }) => {
 
 
 
-export default Sidebar;
+export default React.memo(Sidebar);

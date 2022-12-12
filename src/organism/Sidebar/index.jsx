@@ -160,7 +160,7 @@ const Sidebar = ({ onClicks, toggle }) => {
         <Sidebackground disappear={!toggle}>
             <Sidebars disappear={!toggle}>
                 <Container>
-                    <Button onClicks={onClicks} styled={togglebtn}><FaTimes /></Button>
+                    <Button onClicks={onClicks} styled={togglebtn}><FaTimes data-testid='close'/></Button>
                 </Container>
                 <Navlist list={list} styled={styleds} onClicks={onClicks} />
             </Sidebars>

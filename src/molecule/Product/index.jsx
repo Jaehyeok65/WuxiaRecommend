@@ -23,27 +23,26 @@ const Content = styled.p`
 
 
 const Product = ( { product, styled, icon, setIcon, setRateToggle, setTextToggle, clicked, init }) => {
-    console.log(product);
     //console.log(product.link);
 
 
     
     return(
-        <>
-        <img src={product.url} alt={product.title} />
-        <div>
-            <Title styled={styled.title}>{product.title}</Title>
-            <Text styled={styled.text}>{product.subtitle}</Text>
-            <Content>{product.content}</Content>
-            <Button onClicks={setTextToggle} styled={{width:'100px', marginBottom : '5%', borderRadius : '4px'}}>설명 더보기</Button><br/>
-            <Icon styled={{fontSize : '15px', color : 'red'}} icon={icon} setIcon={setIcon}><FaHeart /></Icon>
-            <span style={{fontSize : '14px', verticalAlign : 'top', marginLeft : '8px'}}>{product.likes}</span>
-            <Text styled={{...styled.text, marginTop : '5%'}}>조회수 : {product.view}</Text>
-            <StarRate rate={product.rate} styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} />
-            <Button onClicks={setRateToggle} styled={{width:'100px', marginBottom : '5%', borderRadius : '4px'}}>별점주기</Button><br/>
-            <a href={`${product.link}`} style={{display : 'block', marginTop : '5%'}}>바로가기 링크</a>
-        </div>
-        </>
+        <React.Fragment>
+                <img src={product.url} alt={product.title} />
+                <div>
+                    <Title styled={styled.title}>{product.title}</Title>
+                    <Text styled={styled.text}>{product.subtitle}</Text>
+                    <Content>{product.content}</Content>
+                    <Button onClicks={setTextToggle} styled={{width:'100px', marginBottom : '5%', borderRadius : '4px'}}>설명 더보기</Button><br/>
+                    <Icon styled={{fontSize : '15px', color : 'red'}} icon={icon} setIcon={setIcon}><FaHeart /></Icon>
+                    <span style={{fontSize : '14px', verticalAlign : 'top', marginLeft : '8px'}}>{product.likes}</span>
+                    <Text styled={{...styled.text, marginTop : '5%'}}>조회수 : {product.view}</Text>
+                    { clicked && <StarRate rate={product.rate} styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} /> }
+                    <Button onClicks={setRateToggle} styled={{width:'100px', marginBottom : '5%', borderRadius : '4px'}}>별점주기</Button><br/>
+                    <a href={`${product.link}`} style={{display : 'block', marginTop : '5%'}}>바로가기 링크</a>
+                </div>
+        </React.Fragment>
     )
 }
 

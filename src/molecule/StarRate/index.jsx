@@ -8,7 +8,7 @@ const Star = styled.div`
     text-align : ${props => props.styled ? props.styled.textAlign : 'left'};
 `;
 
-const StarRate = ( { styled, handleStar, clicked, init }) => { //rate는 별점의 수
+const StarRate = ( { styled, handleStar, clicked, init, rate }) => { //rate는 별점의 수
 
     
 
@@ -18,21 +18,26 @@ const StarRate = ( { styled, handleStar, clicked, init }) => { //rate는 별점�
         if(init) {
             init();
         }
-    },[])
+    },[]);
+
+    
   
 
   
     //let score = clicked.filter(Boolean).length;
 
     return(
-        <Star styled={styled}>
+        <Star data-testid="star" styled={styled}>
             { array.map((item) => (
-                <Icon styled={styled} icon={clicked[item]}
-                    key={item} setIcon={() => handleStar(item)}
-                ><FaStar /></Icon>
+                <Icon styled={styled} icon={clicked[item]} 
+                    key={item} setIcon={handleStar ? () => handleStar(item) : null}
+                ><FaStar data-testid="stars"/></Icon>
+
             ))}
+            { rate ? <span style={{fontSize : '14px'}}>&nbsp;{rate} / 5.0</span> : null }
         </Star>
     );
+
 
 
 }

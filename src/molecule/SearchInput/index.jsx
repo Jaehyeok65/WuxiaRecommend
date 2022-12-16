@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Input } from '../atoms/Input';
+import { Input } from '../../atoms/Input';
 import { FaSearch } from 'react-icons/fa';
-import Icon from '../atoms/Icon';
+import Icon from '../../atoms/Icon';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -68,7 +68,7 @@ const SearchInput = ({ styled, name, values, onChange, onClear }) => {
         <Form onSubmit={onSubmit} styled={styled}>
             { toggle ? 
                 <Icon styled={{fontSize : '20px'}} setIcon={onBtnSearch}>
-                    <FaSearch />
+                    <FaSearch data-testid="searchinput" />
                 </Icon>
              :
             <Input values={values} name={name} onChange={onChange} ref={searchref} styled={inputstyles} auto="off" />
@@ -78,4 +78,4 @@ const SearchInput = ({ styled, name, values, onChange, onClear }) => {
     
 }
 
-export default SearchInput;
+export default React.memo(SearchInput);

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getPage } from '../../redux/action';
 import { getTotal } from '../../api/WuxiaAPI';
 import ReactLoading from 'react-loading';
+import { FaArrowUp } from "react-icons/fa";
 
 
 
@@ -34,7 +35,32 @@ const Spinner = styled.div`
     display : flex;
     justify-content : center;
     margin-bottom : 5%;
-`
+`;
+
+const Btn = styled.button`
+    position : fixed;
+    border : none;
+    text-align : center;
+    z-index : 9999999;
+    background-color : white;
+    &:hover {
+        transform : translateY(-4px);
+        cursor : pointer;
+    };
+
+    @media screen and (max-width : 2000px) {
+        right : 20px;
+        bottom : 50%;
+        font-size : 22px;
+    }
+
+    @media screen and (max-width : 800px) {
+        bottom : 20px;
+        right : 50%;
+        font-size : 16px;
+    }
+    
+`;
 
 const Grids = styled.div`
     display : grid;
@@ -106,16 +132,14 @@ const List = ( ) => {
 
     const limit = 12;
 
-    const total = useRef(13);
+    const total = useRef(0);
     const [bottom, setBottom] = useState(null);
     const dispatch = useDispatch();
 
    
 
     const observerCallback = ([entries]) => {
-        //console.log(page.current);
 
-        
         if(entries.isIntersecting && page.current[callbacktitle.current] * limit  < total.current) {
             page.current[callbacktitle.current] += 1;
             dispatch(getPage(callbacktitle.current,page.current));
@@ -125,7 +149,7 @@ const List = ( ) => {
 
 
 
-    const option = { threshold : 0.25, rootMargin : '80px', root : document.querySelector('#viewPort')};
+    const option = { threshold : 0.25, rootMargin : '80px'};
 
     
 
@@ -162,7 +186,6 @@ const List = ( ) => {
         dispatch(getPage(title,page.current)); //초기에 데이터를 가져오기 위함
       }, [dispatch, title, data]);
 
-      //console.log(page.current);
 
     
       if (error) return <div>에러 발생!</div>;
@@ -184,6 +207,7 @@ const List = ( ) => {
                 <Spinner style={{textAling : 'center'}}>
                     <ReactLoading type='spin' color='black' height={'5%'} width={'3%'} />
                 </Spinner> }
+            <Btn onClick={handleScroll}><FaArrowUp /></Btn>
         </MainFrame>
     )
 

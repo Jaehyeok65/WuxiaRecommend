@@ -119,6 +119,8 @@ const Carusel = ( { list }) => {
         ]
       };
 
+    if(!list) return <div>에러 발생</div>;
+
 
     return (
         <StyledSlider {...settings}>

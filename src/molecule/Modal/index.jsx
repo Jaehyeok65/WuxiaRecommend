@@ -45,7 +45,6 @@ const BackgroundModal = styled.div`
     top : 0;
     width : 100vw;
     height : 100vh;
-    color : gray;
     background : rgba(0,0,0,0.8);
     z-index : 29999;
 
@@ -65,13 +64,14 @@ const BackgroundModal = styled.div`
 const Modals = styled.div`
     position : absolute;
     top : 20%;
-    left : 34%;
+    left : 33%;
     margin : 0;
     padding : 0;
     width : 33%;
     height : 60vh;
     background-color : white;
     z-index : 29999;
+    border-radius : 8px;
 
     animation-duration : 0.5s;
     animation-timing-function : ease-out;
@@ -84,6 +84,11 @@ const Modals = styled.div`
             animation-name : ${slidedown};
             animation-timing-function : ease-out;
     `}
+
+    @media screen and (max-width: 600px) {
+        width : 80%;
+        left : 10%;
+    }
 `;
 
 
@@ -102,6 +107,9 @@ const Modal = ( { toggle, children }) => {
         }
         setLocalvisible(toggle);
     },[localvisible, toggle]);
+
+   
+
 
     if(!animate && !localvisible) {
         return null;

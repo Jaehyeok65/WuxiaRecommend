@@ -29,6 +29,9 @@ const Banners = styled.div`
 
 const Banner = ( { product }) => {
 
+
+    if(!product) return <div>에러 발생</div>;
+
     
 
     return(

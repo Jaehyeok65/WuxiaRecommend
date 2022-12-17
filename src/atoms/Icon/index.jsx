@@ -7,7 +7,7 @@ const Icons = styled.span`
     color : ${props => props.icon ? props.styled.color : 'black'};
 `;
 
-const Icon = ( { styled, children, icon, setIcon, color }) => {
+const Icon = ( { styled, children, icon, setIcon }) => {
 
     
     return(
@@ -17,4 +17,4 @@ const Icon = ( { styled, children, icon, setIcon, color }) => {
     )
 }
 
-export default Icon;
+export default React.memo(Icon);

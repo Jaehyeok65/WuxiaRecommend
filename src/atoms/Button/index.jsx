@@ -7,14 +7,17 @@ const Buttons = styled.button`
   border-radius: ${props => props.styled ? props.styled.borderRadius : '3px'};
   border: ${props => props.styled ? props.styled.border : '1px solid gray'};
   color: black;
-  padding : ${props => props.styled ? props.styled.padding : '0px'};
+  padding : ${props => props.styled ? props.styled.padding : '12px'};
   margin : ${props => props.styled ? props.styled.margin : '0px'};
+  margin-bottom : ${props => props.styled ? props.styled.marginBottom : '0px'};
+  margin-top : ${props => props.styled ? props.styled.marginTop : '0px'};
   font-size : ${props => props.styled ? props.styled.fontSize : '12px'};
-  text-align : ${props => props.styled ? props.styled.textAlign : 'left'};
+  text-align : ${props => props.styled ? props.styled.textAlign : 'center'};
   width : ${props => props.styled ? props.styled.width : '12px'};
   &:hover {
     cursor : pointer;
   }
+  display : ${props => props.styled ? props.styled.display : null};
   background-color: transparent;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -35,7 +38,6 @@ const Button = ({ children, onClicks, styled }) => { //외부에 동작을 위�
 }
 
 export default React.memo(Button);
-
 
 
 

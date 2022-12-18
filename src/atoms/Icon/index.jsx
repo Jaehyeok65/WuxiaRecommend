@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 const Icons = styled.span`
-    font-size : ${props => props.styled.fontSize};
+    font-size : ${props => props.stlyed ? props.styled.fontSize : '12px'};
     color : ${props => props.icon ? props.styled.color : 'black'};
 `;
 

@@ -19,7 +19,10 @@ const CardInfo = ( { product, styled }) => {
           clickStates[i] = i < product.rate ? true : false;
         }
          setClicked(clickStates);
-    }
+    };
+
+
+    if(!product || !styled) return <div>에러 발생</div>;
 
     return(
         <div>
@@ -27,7 +30,7 @@ const CardInfo = ( { product, styled }) => {
             <Text styled={styled.subtext}>{product.writer}</Text>
             <Icon styled={styled.icon} icon={true}><FaHeart /></Icon>
             <span style={styled.span}>{product.likes}</span>
-            <StarRate rate={product.rate} styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} />
+            <StarRate styled={{fontSize : '12px', color : '#FFCF36'}} clicked={clicked} init={init} />
             <Text styled={styled.text}>view:{product.view}</Text>
         </div>
     )

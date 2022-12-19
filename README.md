@@ -42,7 +42,7 @@ useRef 훅을 통해 반환된 객체는 컴포넌트 전 생애주기를 통해
 
 #### 기술 스택
 
-<img src="https://img.shields.io/badge/React-BBBA33?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Redux-RGBA27?style=flat-square&logo=Redux&logoColor=white"/> <img src="https://img.shields.io/badge/HTML5-BBBA27?style=flat-square&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-TTAA28?style=flat-square&logo=CSS3&logoColor=white"/> <img src="https://img.shields.io/badge/Styled Components-FF4785?style=flat-square&logo=Storybook&logoColor=white"/>
+<img src="https://img.shields.io/badge/React-BBBA33?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Redux-RGBA27?style=flat-square&logo=Redux&logoColor=white"/> <img src="https://img.shields.io/badge/HTML5-BBBA27?style=flat-square&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-TTAA28?style=flat-square&logo=CSS3&logoColor=white"/> <img src="https://img.shields.io/badge/Styled Components-AA4785?style=flat-square&logo=styled-components&logoColor=white"/> <img src="https://img.shields.io/badge/React Testing library-20C997?style=flat-square&logo=React&logoColor=white"/>
 
 
 

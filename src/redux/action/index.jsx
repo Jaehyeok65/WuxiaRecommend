@@ -161,6 +161,7 @@ export const getComment = (id) => async(dispatch) => { //redux-thunk로 함수 �
 
     try {
         const data = await Comment(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        
         dispatch({ type : COMMENT_SUCCESS, data, id });
     }
     catch(e) {
@@ -173,10 +174,7 @@ export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux
     dispatch({type : COMMENTLIST, title}); //데이터 초기 요청 시작
 
     try {
-        const data = await CommentSubmit(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        const data2 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data, title });
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+        await CommentSubmit(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
     }
     catch(e) {
         dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
@@ -256,6 +254,7 @@ export const getPage = (title, page) => async(dispatch, getState) => { //redux-t
                 dispatch({ type : LIST_SUCCESS, data : newdata, title });
             }
             else {
+                //console.log(datas);
                 dispatch({ type : LIST_SUCCESS, data : datas, title });
             }
         }

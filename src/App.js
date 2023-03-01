@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Main from './pages/Main';
-import Detail from './pages/Detail';
+import Detail from './pages/Detail/Container';
 import List from './pages/List';
 import SearchList from './pages/SearchList';
 import { getSessionCheck } from './api/LoginAPI';
 import Submit from './Submit';
-import Community from './pages/Community';
-import CommentWrite from './pages/CommentWrite';
-import Comment from './pages/Comment';
+import Community from './pages/Community/Container';
+import CommentWrite from './pages/CommentWrite/WriteContainer';
+import Comment from './pages/Comment/CommentContainer';
 import CommentUpdate from './pages/CommentUpdate';
 import Navigate from './pages/Navigate';
 

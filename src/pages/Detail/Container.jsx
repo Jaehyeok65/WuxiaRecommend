@@ -103,7 +103,7 @@ const Container = ( { loginstate }) => {
         <React.Fragment>
             <Detail data={data} error={error} ratetoggle={ratetoggle}
                 handleStar={handleStar} handleSubmit={handleSubmit} handleClose={handleClose} handleRate={handleRate} 
-                onLikeClick={onLikeClick} onRateToggle={onRateToggle} init={init} clicked={clicked}
+                onLikeClick={onLikeClick} onRateToggle={onRateToggle} init={init} clicked={clicked} handleclicked={handleclicked}
             />
         </React.Fragment>
     )

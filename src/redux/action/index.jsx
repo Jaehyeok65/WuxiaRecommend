@@ -169,15 +169,25 @@ export const getComment = (id) => async(dispatch) => { //redux-thunk로 함수 �
     }
 };
 
+export const getCommentUptoDateByTitle = (title) => async(dispatch) => { //데이터 수정, 삭제 이후 변경된 데이터를 목록 리스트에 최신화해줌
+
+    dispatch({type : COMMENTLIST, title}); //데이터 초기 요청 시작
+
+    try {
+        const data = await CommentList(title);
+        dispatch({ type : COMMENTLIST_SUCCESS, data, title})
+    }
+    catch(e) {
+        dispatch({type : COMMENTLIST_ERROR, error : e, title });
+    }
+};
+
 export const getCommentSubmit = (comment, title) => async(dispatch) => { //redux-thunk로 함수 내에서 비동기 처리
 
     dispatch({type : COMMENTLIST, title}); //데이터 초기 요청 시작
 
     try {
-        const data = await CommentSubmit(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        const data2 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data, title });
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+        await CommentSubmit(comment); // 데이터 최신화는 UptoDateByTitle 함수를 통해 진행함
     }
     catch(e) {
         dispatch({type : COMMENTLIST_ERROR, error : e, title : title});
@@ -189,11 +199,9 @@ export const getCommentUpdate = (comment, title) => async(dispatch) => { //redux
     dispatch({type : COMMENTLIST, title }); //데이터 초기 요청 시작
 
     try {
-        const data = await CommentUpdate(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        const data1 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data , title });
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '추천순' });
+        await CommentUpdate(comment); //data를 요청할 때 추후 title을 이용해서 데이터 요청
         dispatch({ type : COMMENT_SUCCESS, data : comment, id : comment.id });
+        // 마찬가지로 데이터 최신화는 UptoDateByTitle 함수로 진행함
     }
     catch(e) {
         dispatch({type : COMMENTLIST_ERROR, error : e, title});
@@ -206,10 +214,8 @@ export const getCommentDelete = (id, title) => async(dispatch) => { //redux-thun
 
     try {
         dispatch({ type : 'COMMENT_DELETE', id});
-        const data = await CommentDelete(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
-        const data1 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data , title });
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '추천순' });
+        await CommentDelete(id); //data를 요청할 때 추후 title을 이용해서 데이터 요청
+        //데이터 최신화는 UptoDateByTitle 함수로 진행함
     }
     catch(e) {
         dispatch({type : COMMENTLIST_ERROR, error : e, title});
@@ -233,10 +239,7 @@ export const getCommentRecommend = (comment) => async(dispatch) => { //redux-thu
             newdata = {...comment, recommend : comment.recommend - 1};
         }
         dispatch({ type : COMMENT_SUCCESS, data : newdata, id : comment.id });
-        const data1 = await CommentList('최신순');
-        const data2 = await CommentList('추천순');
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data1, title : '최신순' });
-        dispatch({ type : COMMENTLIST_SUCCESS, data : data2, title : '추천순' });
+        //데이터 최신화는 UptoDateByTitle 함수로 진행함
     }
     catch(e) {
         dispatch({type : COMMENT_ERROR, error : e, id : comment.id });

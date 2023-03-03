@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Formatting } from '../../api/CommentAPI';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getCommentSubmit } from '../../redux/action';
+import { getCommentSubmit, getCommentUptoDateByTitle } from '../../redux/action';
 import CommentWrite from '.';
 
 
@@ -33,11 +33,13 @@ const WriteContainer = ( { loginstate, nickname}) => {
         setComment({...comment, writer : nickname});
     },[nickname]);
 
+    const CommentUptoDate = () => {
+        dispatch(getCommentUptoDateByTitle('최신순'));
+        dispatch(getCommentUptoDateByTitle('추천순'));
+    };
 
 
-    
-
-    const onSubmit = (e) => {
+    const onSubmit = async(e) => {
         e.preventDefault();
         if(comment.title.trim() === '') {
             window.alert("제목을 입력하세요");
@@ -48,6 +50,7 @@ const WriteContainer = ( { loginstate, nickname}) => {
             return;
         }
         dispatch(getCommentSubmit(comment,"최신순"));
+        await CommentUptoDate(); //최신화가 안된 상태로 이동하는 것을 방지하기 위해 await 걸음
         navigate(`/community`);
     };
 

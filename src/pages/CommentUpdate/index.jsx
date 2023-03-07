@@ -4,7 +4,7 @@ import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCommentUpdate, getComment, getCommentUptoDateByTitle } from '../../redux/action';
+import { getCommentUpdate, getComment } from '../../redux/action';
 import { useParams } from 'react-router-dom';
 
 const WriteArea = styled.div`
@@ -51,11 +51,6 @@ const CommentUpdate = ( { loginstate }) => {
       }, [dispatch, id, data]); 
 
     
-    const CommentUptoDate = () => { //데이터를 최신화
-        dispatch(getCommentUptoDateByTitle('최신순'));
-        dispatch(getCommentUptoDateByTitle('추천순'));
-    };
-    
 
     const onSubmit = async(e) => {
         e.preventDefault();
@@ -67,8 +62,7 @@ const CommentUpdate = ( { loginstate }) => {
             window.alert("내용을 입력하세요");
             return;
         }
-        dispatch(getCommentUpdate(comment,"최신순"));
-        await CommentUptoDate(); //await를 이용해 데이터가 최신화될 때까지 기다림
+        await dispatch(getCommentUpdate(comment,"최신순"));
         navigate(`/comment/${comment.id}`);
     };
 

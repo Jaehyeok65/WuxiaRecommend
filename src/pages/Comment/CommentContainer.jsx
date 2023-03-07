@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { LoginModal } from '../../redux/reducers/modal';
-import { getCommentRecommend, getCommentDelete, getComment, getCommentUptoDateByTitle } from '../../redux/action';
+import { getCommentRecommend, getCommentDelete, getComment } from '../../redux/action';
 import Comment from '.';
 
 
@@ -35,16 +35,11 @@ const CommentContainer = ( { loginstate, nickname }) => {
         dispatch(getCommentRecommend(data));
     };
 
-    const CommentUptoDate = () => {
-        dispatch(getCommentUptoDateByTitle('최신순'));
-        dispatch(getCommentUptoDateByTitle('추천순'));
-    }
 
     const onRemoveClick = async() => {
         const confirm = window.confirm("글을 삭제하시겠습니까?");
         if(confirm){
-            dispatch(getCommentDelete(id,'최신순'));
-            await CommentUptoDate(); //글 삭제 후 목록을 최신화 시켜주는 역할
+            await dispatch(getCommentDelete(id,'최신순'));
             navigate(`/community`);
         };
     };

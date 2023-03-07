@@ -15,6 +15,8 @@ const Container = ( { loginstate }) => {
         data: null,
         error: null
       }; 
+
+
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const offset = (page - 1) * limit;
@@ -23,13 +25,14 @@ const Container = ( { loginstate }) => {
     const selectList = ["최신순", "추천순"];
 
     useEffect(() => {
-        if(data) return;
-        dispatch(getCommentList(Selected));
-      }, [dispatch, Selected, data]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
+        dispatch(getCommentList(Selected)); //게시글 리스트를 가져오는 redux-thunk 함수
+      }, [dispatch, Selected]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
+
 
     useEffect(() => {
         handleScroll();
-    },[page])
+    },[page]);
+
 
     const LoginToggle = (data) => dispatch(LoginModal(data));
 

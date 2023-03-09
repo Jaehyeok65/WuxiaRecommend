@@ -14,16 +14,21 @@ const LoginForm = ( { styled, input, onChange, username, userpassword, init, onC
 
     
 
-    const onSubmit = (e) => {
+    const onSubmit = async(e) => {
         e.preventDefault();
         if(input.userEmail === '' || input.userPassword === '') {
             alert('아이디와 비밀번호를 입력해주세요');
             return;
         }
-        getLogin(input, onClose, setLoginstate, setNickname);
+        const nickname = await getLogin(input);
+        if(nickname) {
+            setNickname(nickname);
+        }
+        setLoginstate();
+        onClose();
         init();
-        //onClose();
     };
+
 
     if(!styled || !input) return <div>에러 발생</div>;
 

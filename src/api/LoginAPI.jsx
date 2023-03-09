@@ -8,7 +8,7 @@ export const API = 'http://localhost:8088';
 axios.defaults.withCredentials = true;
 
 
-export const getLogin = async(logininfo, onClose, setLoginstate, setNickname) => {
+export const getLogin = async(logininfo) => {
 
     const data = await axios.post(`${API}/login`, {
         userEmail : logininfo.userEmail,
@@ -17,7 +17,8 @@ export const getLogin = async(logininfo, onClose, setLoginstate, setNickname) =>
     if(data.data === "overlap") { //중복 로그인인지 확인
         const confirm = window.confirm("다른 PC에서 로그인 중입니다. 연결을 끊고 로그인 하시겠습니까?");
         if(confirm) {
-            await getOverlapLogin(logininfo, onClose, setLoginstate, setNickname);
+            const nickname = await getOverlapLogin(logininfo);
+            return nickname;
         }
         else {
         window.alert("취소하셨습니다.");
@@ -28,21 +29,19 @@ export const getLogin = async(logininfo, onClose, setLoginstate, setNickname) =>
     }
     else {
         window.alert("로그인 성공");
-        setLoginstate();
-        setNickname(data.data);
-        onClose();
+        return data.data;
     }
 };
 
-export const getOverlapLogin = async(logininfo, onClose, setLoginstate, setNickname) => {
+export const getOverlapLogin = async(logininfo) => {
     const data = await axios.post(`${API}/overlap`, {
         userEmail : logininfo.userEmail,
         userPassword : logininfo.userPassword
     });
     window.alert("로그인 성공");
-    setLoginstate();
-    setNickname(data.data);
-    onClose();
+    if(data) {
+        return data.data;
+    }
 }
 
 export const getSessionCheck = async(setLoginstate, setNickname) => {
@@ -57,7 +56,7 @@ export const getSessionCheck = async(setLoginstate, setNickname) => {
     }
 };
 
-export const getSignUp = async(logininfo, onClose) => {
+export const getSignUp = async(logininfo) => {
 
     const data = await axios.post(`${API}/signup`, {
         userEmail : logininfo.userEmail,
@@ -66,8 +65,9 @@ export const getSignUp = async(logininfo, onClose) => {
     });
     window.alert(data.data);
     if(data.data === "회원가입 완료") { //회원가입이 성공했을때만 닫기
-        onClose();
+        return true;
     }
+    return false;
 };
 
 export const getLogout = async(setLoginstate) => {

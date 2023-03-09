@@ -14,13 +14,16 @@ const SignUpForm = ( { styled, input, onChange, username, userpassword, init, on
 
     
 
-    const onSubmit = (e) => {
+    const onSubmit = async(e) => {
         e.preventDefault();
         if(input.userEmail === '' || input.userPassword === '') {
             alert('아이디와 비밀번호를 입력해주세요');
             return;
         }
-        getSignUp(input, onClose);
+        const result = await getSignUp(input);
+        if(result) {
+            onClose();
+        }
         init();
         setIsLogin();
     };

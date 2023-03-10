@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Button from '../../atoms/Button';
 import { Input } from '../../atoms/Input';
 import { getSignUp } from '../../api/LoginAPI';
-
-const SignupForms = styled.div``;
 
 const SignUpForm = ({
     styled,
@@ -12,58 +9,42 @@ const SignUpForm = ({
     userpassword,
     onClose,
     usernickname,
-    setIsLogin,
-    isLogin
 }) => {
-
-    const [signUpInput, setSignUpInput] = useState({
+    const [input, setInput] = useState({
         userEmail: '',
         userPassword: '',
         userNickname: '',
     });
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (signUpInput.userEmail === '' || signUpInput.userPassword === '') {
-            alert('아이디와 비밀번호를 입력해주세요');
-            return;
-        }
-        const result = await getSignUp(signUpInput);
-        if (result) {
-            onClose();
-        }
-        SignUpinit();
-        setIsLogin();
-    };
-
     const onChange = (e) => {
         const { name, value } = e.target;
-        setSignUpInput({
-            ...signUpInput,
+        setInput({
+            ...input,
             [name]: value,
         });
     };
 
-    const SignUpinit = () => {
-        //상태 초기화
-        console.log(isLogin);
-        setSignUpInput({
-            userEmail: '',
-            userPassword: '',
-            userNickname: '',
-        });
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (input.userEmail === '' || input.userPassword === '') {
+            alert('아이디와 비밀번호를 입력해주세요');
+            return;
+        }
+        const result = await getSignUp(input);
+        if (result) {
+            onClose();
+        }
     };
 
-
-    if (!styled || !signUpInput) return <div>에러 발생</div>;
+    if (!styled || !input) return <div>에러 발생</div>;
 
     return (
-        <SignupForms>
+        <React.Fragment>
             <form onSubmit={onSubmit}>
                 <Input
                     type="email"
                     name={username}
-                    value={signUpInput.userEmail}
+                    value={input.userEmail}
                     placeholder="이메일을 입력하세요..."
                     onChange={onChange}
                     styled={styled.input1}
@@ -72,7 +53,7 @@ const SignUpForm = ({
                 <Input
                     type="password"
                     name={userpassword}
-                    value={signUpInput.userPassword}
+                    value={input.userPassword}
                     placeholder="비밀번호를 입력하세요..."
                     onChange={onChange}
                     styled={styled.input2}
@@ -81,7 +62,7 @@ const SignUpForm = ({
                 <Input
                     type="text"
                     name={usernickname}
-                    value={signUpInput.userNickname}
+                    value={input.userNickname}
                     placeholder="닉네임을 입력하세요..."
                     onChange={onChange}
                     styled={styled.input2}
@@ -89,7 +70,7 @@ const SignUpForm = ({
                 <br />
                 <Button styled={styled.button}>회원가입</Button>
             </form>
-        </SignupForms>
+        </React.Fragment>
     );
 };
 

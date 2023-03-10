@@ -21,11 +21,11 @@ const LoginForm = ( { styled, input, onChange, username, userpassword, init, onC
             return;
         }
         const nickname = await getLogin(input);
-        if(nickname) {
+        if(nickname) { // 로그인 성공했을 경우
             setNickname(nickname);
+            setLoginstate();
+            onClose();
         }
-        setLoginstate();
-        onClose();
         init();
     };
 

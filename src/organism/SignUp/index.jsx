@@ -43,7 +43,7 @@ const SignUp = ({ onClose }) => {
                 userNickname="userNickname"
                 onClose={onClose}
             />
-            <Button onClicks={onClose} styled={Formstyle.button}>
+            <Button onClick={onClose} styled={Formstyle.button}>
                 닫기
             </Button>
         </React.Fragment>

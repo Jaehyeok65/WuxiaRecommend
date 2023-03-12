@@ -24,7 +24,7 @@ const Navigate = ({ loginstate, setLoginstate, setNickname }) => {
     return (
         <React.Fragment>
             <Header
-                onClicks={() => setSideToggle((prev) => !prev)}
+                onClick={() => setSideToggle((prev) => !prev)}
                 onClickLoginModal={() => ShowLoginModal(true)}
                 loginstate={!loginstate}
                 setLoginstate={() => setLoginstate((prev) => !prev)}
@@ -32,7 +32,7 @@ const Navigate = ({ loginstate, setLoginstate, setNickname }) => {
                 onClickSignUpModal={() => ShowSignUpModal(true)}
             />
             <Sidebar
-                onClicks={() => setSideToggle((prev) => !prev)}
+                onClick={() => setSideToggle((prev) => !prev)}
                 toggle={sidetoggle}
             />
             <Modal toggle={logintoggle}>

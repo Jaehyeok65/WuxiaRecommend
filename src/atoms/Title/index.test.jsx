@@ -21,7 +21,7 @@ describe('Title Component Test', () => {
 
         const onClick = jest.fn();
 
-        render(<Title onClicks={onClick}>제목</Title>);
+        render(<Title onClick={onClick}>제목</Title>);
 
         const title = screen.getByText('제목');
 

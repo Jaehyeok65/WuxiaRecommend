@@ -14,13 +14,13 @@ const NavLists = styled.div`
 
 
 
-const NavList = ( { list = [], styled, onClicks }) => {
+const NavList = ( { list = [], styled, onClick }) => {
 
 
     return(
         <NavLists styled={styled}>
             {list.map((item, index) => (
-                <Link to={item.path} key={index}><Button styled={styled.btn} onClicks={onClicks}>{item.name}</Button></Link>
+                <Link to={item.path} key={index}><Button styled={styled.btn} onClick={onClick}>{item.name}</Button></Link>
             ))}
         </NavLists>
     )

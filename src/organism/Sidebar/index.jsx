@@ -128,7 +128,7 @@ const list = [
     },
 ];
 
-const Sidebar = ({ onClicks, toggle }) => {
+const Sidebar = ({ onClick, toggle }) => {
     const [animate, setAnimate] = useState(false);
     const [localvisible, setLocalvisible] = useState(toggle);
 
@@ -147,11 +147,11 @@ const Sidebar = ({ onClicks, toggle }) => {
         <Sidebackground disappear={!toggle}>
             <Sidebars disappear={!toggle}>
                 <Container>
-                    <Button onClicks={onClicks} styled={togglebtn}>
+                    <Button onClick={onClick} styled={togglebtn}>
                         <FaTimes data-testid="close" />
                     </Button>
                 </Container>
-                <Navlist list={list} styled={styleds} onClicks={onClicks} />
+                <Navlist list={list} styled={styleds} onClick={onClick} />
             </Sidebars>
         </Sidebackground>
     );

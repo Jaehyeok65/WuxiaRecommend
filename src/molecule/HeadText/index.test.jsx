@@ -34,14 +34,14 @@ describe('HeadText Component Test', () => {
 
     it('버튼을 클릭하면 onClick 이벤트 핸들러가 정상적으로 동작한다.', () => {
 
-        const onClicks = jest.fn();
+        const onClick = jest.fn();
 
-        render(<HeadText styled={HeadTextstyle} onClicks={onClicks}/>);
+        render(<HeadText styled={HeadTextstyle} onClick={onClick}/>);
 
         const btn = screen.getByTestId("side");
 
         fireEvent.click(btn);
 
-        expect(onClicks).toBeCalled();
+        expect(onClick).toBeCalled();
     });
 })

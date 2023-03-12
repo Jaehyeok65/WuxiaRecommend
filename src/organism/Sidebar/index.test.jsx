@@ -13,15 +13,15 @@ describe('Sidebar Component Test', () => {
         expect(data).toBeInTheDocument();
     });
 
-    it('Close 버튼을 누르면 onClicks Props가 호출된다.', async() => {
+    it('Close 버튼을 누르면 onClick Props가 호출된다.', async() => {
 
-        const onClicks = jest.fn();
-        render(<Sidebar toggle={true} onClicks={onClicks} />);
+        const onClick = jest.fn();
+        render(<Sidebar toggle={true} onClick={onClick} />);
 
         const close = screen.getByTestId('close');
 
         fireEvent.click(close);
 
-        expect(onClicks).toBeCalled();
+        expect(onClick).toBeCalled();
     })
 })

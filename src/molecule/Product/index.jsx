@@ -38,7 +38,7 @@ const Product = ({
                 <Text styled={styled.text}>{product.subtitle}</Text>
                 <Content>{product.content}</Content>
                 <Button
-                    onClicks={setTextToggle}
+                    onClick={setTextToggle}
                     styled={{
                         width: '100px',
                         marginBottom: '5%',
@@ -76,7 +76,7 @@ const Product = ({
                     />
                 )}
                 <Button
-                    onClicks={setRateToggle}
+                    onClick={setRateToggle}
                     styled={{
                         width: '100px',
                         marginBottom: '5%',

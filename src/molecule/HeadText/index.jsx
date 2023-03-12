@@ -35,14 +35,14 @@ const StyledLink = styled(Link)`
     }
 `;
 
-const HeadText = ({ styled, onClicks }) => {
+const HeadText = ({ styled, onClick }) => {
     const Iconstyle = { ...styled.icon };
     const Textstyle = { ...styled.text };
     const btnstyle = { ...styled.btn };
 
     return (
         <HeadTexts styled={styled}>
-            <Button onClicks={onClicks} styled={btnstyle}>
+            <Button onClick={onClick} styled={btnstyle}>
                 <Icon styled={{ fontSize: '30px' }}>
                     <FaBars data-testid="side" />
                 </Icon>

@@ -19,9 +19,9 @@ describe('Button Component Test', () => {
 
     it('버튼을 클릭하면 onClicks 이벤트 핸들러가 정상적으로 호출된다', () => {
 
-        const onClicks = jest.fn();
+        const onClick = jest.fn();
 
-        render(<Button onClicks={onClicks}>버튼</Button>);
+        render(<Button onClick={onClick}>버튼</Button>);
 
         const btn = screen.getByText('버튼');
 
@@ -29,7 +29,7 @@ describe('Button Component Test', () => {
         
         fireEvent.click(btn);
 
-        expect(onClicks).toBeCalled();
+        expect(onClick).toBeCalled();
 
     });
     

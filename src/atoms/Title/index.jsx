@@ -12,9 +12,9 @@ const Titles = styled.div`
     color: ${(props) => (props.styled ? props.styled.color : 'black')};
 `;
 
-const Title = ({ children, styled, onClicks }) => {
+const Title = ({ children, styled, onClick }) => {
     return (
-        <Titles styled={styled} onClick={onClicks}>
+        <Titles styled={styled} onClick={onClick}>
             {children}
         </Titles>
     );

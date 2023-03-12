@@ -67,7 +67,7 @@ const Login = ({ onClose, setLoginstate, setNickname }) => {
                 setLoginstate={setLoginstate}
                 setNickname={setNickname}
             />
-            <Button onClicks={onClose} styled={LoginFormstyle.button}>
+            <Button onClick={onClose} styled={LoginFormstyle.button}>
                 닫기
             </Button>
         </React.Fragment>

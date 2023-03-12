@@ -103,7 +103,7 @@ const Comment = ({
                                 border: '1px solid gray',
                                 borderRadius: '3px',
                             }}
-                            onClicks={onRecommendClick}
+                            onClick={onRecommendClick}
                         >
                             <FaThumbsUp /> {data.recommend}
                         </Button>

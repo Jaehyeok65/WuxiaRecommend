@@ -64,7 +64,7 @@ const HeadTextstyle = {
 
 const Header = (
     {
-        onClicks,
+        onClick,
         onClickLoginModal,
         onClickSignUpModal,
         loginstate,
@@ -91,7 +91,7 @@ const Header = (
 
     return (
         <Head>
-            <HeadText styled={HeadTextstyle} onClicks={onClicks} ref={ref} />
+            <HeadText styled={HeadTextstyle} onClick={onClick} ref={ref} />
             <SearchInput
                 styled={SearchInputstyle}
                 values={input}
@@ -101,18 +101,18 @@ const Header = (
             />
             <LoginHead>
                 {loginstate ? (
-                    <Button onClicks={onClickLoginModal} styled={loginbtnstyle}>
+                    <Button onClick={onClickLoginModal} styled={loginbtnstyle}>
                         로그인
                     </Button>
                 ) : (
                     <Button
-                        onClicks={() => getLogout(onLogoutClick)}
+                        onClick={() => getLogout(onLogoutClick)}
                         styled={loginbtnstyle}
                     >
                         로그아웃
                     </Button>
                 )}
-                <Button onClicks={onClickSignUpModal} styled={loginbtnstyle}>
+                <Button onClick={onClickSignUpModal} styled={loginbtnstyle}>
                     회원가입
                 </Button>
             </LoginHead>

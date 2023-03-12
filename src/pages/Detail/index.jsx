@@ -97,7 +97,7 @@ const Detail = ({
                             }}
                         />
                         <Button
-                            onClicks={handleSubmit}
+                            onClick={handleSubmit}
                             styled={{
                                 width: '100px',
                                 borderRadius: '4px',
@@ -110,7 +110,7 @@ const Detail = ({
                             적용하기
                         </Button>
                         <Button
-                            onClicks={handleClose}
+                            onClick={handleClose}
                             styled={{
                                 width: '100px',
                                 borderRadius: '4px',
@@ -134,7 +134,7 @@ const Detail = ({
                             {data.content}
                         </Text>
                         <Button
-                            onClicks={() => setTextToggle((prev) => !prev)}
+                            onClick={() => setTextToggle((prev) => !prev)}
                             styled={{
                                 width: '100px',
                                 borderRadius: '4px',

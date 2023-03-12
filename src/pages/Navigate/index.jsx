@@ -44,7 +44,6 @@ const Navigate = ({ loginstate, setLoginstate, setNickname }) => {
             </Modal>
             <Modal toggle={signuptoggle}>
                 <SignUp
-                    setNickname={setNickname}
                     onClose={() => ShowSignUpModal(false)}
                 />
             </Modal>

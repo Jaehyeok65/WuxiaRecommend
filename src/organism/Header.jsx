@@ -57,8 +57,8 @@ const HeadTextstyle = {
         padding: '12px 20px',
     },
     head: {
-        pcwidth: '60%',
-        mobilewidth: '70%',
+        pcwidth: '70%',
+        mobilewidth: '100%',
     },
 };
 

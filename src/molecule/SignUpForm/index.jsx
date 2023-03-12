@@ -5,10 +5,10 @@ import { getSignUp } from '../../api/LoginAPI';
 
 const SignUpForm = ({
     styled,
-    username,
-    userpassword,
+    userEmail,
+    userPassword,
     onClose,
-    usernickname,
+    userNickname,
 }) => {
     const [input, setInput] = useState({
         userEmail: '',
@@ -24,16 +24,25 @@ const SignUpForm = ({
         });
     };
 
+    const Init = () => {
+        setInput({
+            userEmail: '',
+            userPassword: '',
+            userNickname: '',
+        });
+    };
+
     const onSubmit = async (e) => {
         e.preventDefault();
-        if (input.userEmail === '' || input.userPassword === '') {
-            alert('아이디와 비밀번호를 입력해주세요');
+        if (input.userEmail === '' || input.userPassword === '' || input.userNickname === '') {
+            alert('아이디와 비밀번호 또는 닉네임을 입력해주세요');
             return;
         }
         const result = await getSignUp(input);
         if (result) {
             onClose();
         }
+        Init();
     };
 
     if (!styled || !input) return <div>에러 발생</div>;
@@ -43,7 +52,7 @@ const SignUpForm = ({
             <form onSubmit={onSubmit}>
                 <Input
                     type="email"
-                    name={username}
+                    name={userEmail}
                     value={input.userEmail}
                     placeholder="이메일을 입력하세요..."
                     onChange={onChange}
@@ -52,7 +61,7 @@ const SignUpForm = ({
                 <br />
                 <Input
                     type="password"
-                    name={userpassword}
+                    name={userPassword}
                     value={input.userPassword}
                     placeholder="비밀번호를 입력하세요..."
                     onChange={onChange}
@@ -61,7 +70,7 @@ const SignUpForm = ({
                 <br />
                 <Input
                     type="text"
-                    name={usernickname}
+                    name={userNickname}
                     value={input.userNickname}
                     placeholder="닉네임을 입력하세요..."
                     onChange={onChange}
@@ -74,4 +83,4 @@ const SignUpForm = ({
     );
 };
 
-export default React.memo(SignUpForm);
+export default SignUpForm;

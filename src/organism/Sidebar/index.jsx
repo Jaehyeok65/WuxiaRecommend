@@ -4,8 +4,6 @@ import Button from '../../atoms/Button';
 import { FaTimes } from 'react-icons/fa';
 import Navlist from '../../molecule/Navlist';
 
-
-
 const slidein = keyframes`
     from {
         transform : translateX(-800px);
@@ -43,132 +41,120 @@ const fadeout = keyframes`
 `;
 
 const Sidebackground = styled.div`
-    position : fixed;
-    top : 0;
-    width : 100vw;
-    height : 100vh;
-    background : rgba(0,0,0,0.6);
-    z-index : 29999;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 29999;
 
-    animation-duration : 0.7s;
-    animation-timing-function : linear;
-    animation-name : ${fadein};
+    animation-duration: 0.7s;
+    animation-timing-function: linear;
+    animation-name: ${fadein};
 
-    ${props => 
-        props.disappear && 
+    ${(props) =>
+        props.disappear &&
         css`
-            animation-duration : 0.5s;
-            animation-name : ${fadeout};
-            animation-timing-function : ease-out;
+            animation-duration: 0.5s;
+            animation-name: ${fadeout};
+            animation-timing-function: ease-out;
         `}
-  
 `;
 
-
 const Sidebars = styled.div`
-    position : absolute;
-    top : 0;
-    left : 0;
-    margin : 0;
-    padding : 0;
-    width : 30%;
-    height : 100vh;
-    background-color : white;
-    z-index : 29999;
-    
-    animation-duration : 0.5s;
-    animation-timing-function : ease-out;
-    animation-name : ${slidein};
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 30%;
+    height: 100vh;
+    background-color: white;
+    z-index: 29999;
 
-    ${props => 
-        props.disappear && 
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-name: ${slidein};
+
+    ${(props) =>
+        props.disappear &&
         css`
-            animation-duration : 0.8s;
-            animation-name : ${slidedown};
-            animation-timing-function : ease-out;
+            animation-duration: 0.8s;
+            animation-name: ${slidedown};
+            animation-timing-function: ease-out;
         `}
 
     @media screen and (max-width: 600px) {
-        width : 40%;
+        width: 40%;
     }
 `;
 
-const Container = styled.div` //버튼 우측 정렬을 위한 컨테이너
-    text-align : right;
-`
+const Container = styled.div`
+    //버튼 우측 정렬을 위한 컨테이너
+    text-align: right;
+`;
 
 const togglebtn = {
-    margin : '4px 8px',
-    padding : '4px 8px',
-    borderRadius : '50%',
-    fontSize : '20px',
+    margin: '4px 8px',
+    padding: '4px 8px',
+    borderRadius: '50%',
+    fontSize: '20px',
 };
 
-
-const styleds={
-    btn : {
-        width : '100%',
-        padding : '12px',
-        border : 'none'
-    }
-}
-
+const styleds = {
+    btn: {
+        width: '100%',
+        padding: '12px',
+        border: 'none',
+    },
+};
 
 const list = [
     {
-        name : '조회순',
-        path : '/menu/조회순'
+        name: '조회순',
+        path: '/menu/조회순',
     },
     {
-        name : '좋아요순',
-        path : '/menu/좋아요순'
+        name: '좋아요순',
+        path: '/menu/좋아요순',
     },
     {
-        name : '별점순',
-        path : '/menu/별점순'
+        name: '별점순',
+        path: '/menu/별점순',
     },
     {
-        name : '커뮤니티',
-        path : '/community'
-    }
-]
-
-
+        name: '커뮤니티',
+        path: '/community',
+    },
+];
 
 const Sidebar = ({ onClicks, toggle }) => {
-
     const [animate, setAnimate] = useState(false);
     const [localvisible, setLocalvisible] = useState(toggle);
 
-    useEffect( () => {
-        if(localvisible && !toggle) {
+    useEffect(() => {
+        if (localvisible && !toggle) {
             setAnimate(true);
-            setTimeout(() => setAnimate(false),400);
+            setTimeout(() => setAnimate(false), 400);
         }
         setLocalvisible(toggle);
-    },[localvisible, toggle]);
-    
+    }, [localvisible, toggle]);
 
-
-   
-
-
-    if(!animate && !localvisible) {
+    if (!animate && !localvisible) {
         return null;
     }
-    return(
+    return (
         <Sidebackground disappear={!toggle}>
             <Sidebars disappear={!toggle}>
                 <Container>
-                    <Button onClicks={onClicks} styled={togglebtn}><FaTimes data-testid='close'/></Button>
+                    <Button onClicks={onClicks} styled={togglebtn}>
+                        <FaTimes data-testid="close" />
+                    </Button>
                 </Container>
                 <Navlist list={list} styled={styleds} onClicks={onClicks} />
             </Sidebars>
         </Sidebackground>
-    )
-    
-}
-
-
+    );
+};
 
 export default React.memo(Sidebar);

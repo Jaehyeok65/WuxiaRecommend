@@ -23,7 +23,7 @@ const Formstyle = {
     },
 };
 
-const SignUp = ({ onClose, setLoginstate, setNickname }) => {
+const SignUp = ({ onClose }) => {
 
     return (
         <React.Fragment>
@@ -34,16 +34,14 @@ const SignUp = ({ onClose, setLoginstate, setNickname }) => {
                     marginTop: '5%',
                 }}
             >
-                SignUp
+                Sign Up
             </Title>
             <SignUpForm
                 styled={Formstyle}
-                username="userEmail"
-                userpassword="userPassword"
-                usernickname="userNickname"
+                userEmail="userEmail"
+                userPassword="userPassword"
+                userNickname="userNickname"
                 onClose={onClose}
-                setLoginstate={setLoginstate}
-                setNickname={setNickname}
             />
             <Button onClicks={onClose} styled={Formstyle.button}>
                 닫기

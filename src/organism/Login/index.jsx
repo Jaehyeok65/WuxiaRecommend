@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import Button from '../../atoms/Button';
 import Title from '../../atoms/Title';
 import LoginForm from '../../molecule/LoginForm';
 
-const Logins = styled.div``;
 const LoginFormstyle = {
     input1: {
         margin: '15% 0px 0px 18%',
@@ -48,7 +46,7 @@ const Login = ({ onClose, setLoginstate, setNickname }) => {
     };
 
     return (
-        <Logins>
+        <React.Fragment>
             <Title
                 styled={{
                     textAlign: 'center',
@@ -72,7 +70,7 @@ const Login = ({ onClose, setLoginstate, setNickname }) => {
             <Button onClicks={onClose} styled={LoginFormstyle.button}>
                 닫기
             </Button>
-        </Logins>
+        </React.Fragment>
     );
 };
 

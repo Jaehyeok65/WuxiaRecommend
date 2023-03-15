@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../../atoms/Icon';
 import { FaPen } from 'react-icons/fa';
 import Loading from '../../module/Loading';
+import Error from '../../module/Error';
 
 const Content = styled.div`
     margin-bottom: 10%;
@@ -58,7 +59,7 @@ const Comment = ({
     onRecommendClick,
 }) => {
     if (loading) return <Loading width="5%" height="5%" marginTop="5%" />;
-    if (error) return <div>에러 발생!</div>;
+    if (error) return <Error error={error} />
     if (!data) return null;
 
     return (

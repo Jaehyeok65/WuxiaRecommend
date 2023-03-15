@@ -6,6 +6,7 @@ import Modal from '../../molecule/Modal';
 import StarRate from '../../molecule/StarRate';
 import Button from '../../atoms/Button';
 import { Text } from '../../atoms/Text';
+import Error from '../../module/Error';
 
 const Details = styled.div`
     display: grid;
@@ -54,7 +55,7 @@ const Detail = ({
 }) => {
     const [texttoggle, setTextToggle] = useState(false); //본문용 토글 UI와 관련된 기능이기 때문에 프리젠테이셔널 컴포넌트에 둠
 
-    if (error) return <div>에러 발생!</div>;
+    if (error) return <Error error={error} />
     if (!data) return null;
 
     return (

@@ -7,6 +7,7 @@ import { FaPen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Loading from '../../module/Loading';
 import Pagination from '../../molecule/Pagination';
+import Error from '../../module/Error';
 
 const Navi = styled.div`
     display: flex;
@@ -50,7 +51,7 @@ const Community = ({
     setPage,
 }) => {
     if (loading) return <Loading width="5%" height="5%" marginTop="5%" />;
-    if (error) return <div>에러 발생!</div>;
+    if (error) return <Error error={error} />;
     if (!data) return null;
 
     return (

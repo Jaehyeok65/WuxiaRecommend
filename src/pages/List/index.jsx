@@ -9,6 +9,7 @@ import { getPage } from '../../redux/action';
 import { getTotal } from '../../api/WuxiaAPI';
 import { FaArrowUp } from 'react-icons/fa';
 import Loading from '../../module/Loading';
+import Error from '../../module/Error';
 
 const Lists = styled.div`
     display: grid;
@@ -170,7 +171,7 @@ const List = () => {
         dispatch(getPage(title, page.current)); //초기에 데이터를 가져오기 위함
     }, [dispatch, title, data]);
 
-    if (error) return <div>에러 발생!</div>;
+    if (error) return <Error error={error} />;
     if (!data) return null;
 
     return (

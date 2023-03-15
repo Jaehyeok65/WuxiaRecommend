@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCommentUpdate, getComment } from '../../redux/action';
 import { useParams } from 'react-router-dom';
+import Error from '../../module/Error';
 
 const WriteArea = styled.div`
     display: flex;
@@ -69,6 +70,7 @@ const CommentUpdate = ({ loginstate }) => {
     };
 
     if (!data) return null;
+    if (error) return <Error error={error} />
 
     return (
         <React.Fragment>

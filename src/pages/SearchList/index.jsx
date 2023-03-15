@@ -6,6 +6,7 @@ import Card from '../../molecule/Card';
 import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSearch } from '../../redux/action';
+import Error from '../../module/Error';
 
 const Lists = styled.div`
     display: grid;
@@ -96,7 +97,7 @@ const SearchList = () => {
     }, [input]); //input이 변경될 때만 dispatch하도록 input만 의존성 추가
 
     //if (loading) return <div>로딩중...</div>;
-    if (error) return <div>에러 발생!</div>;
+    if (error) return <Error error={error} />;
     if (!data) return null;
 
     if (data && data.length === 0)

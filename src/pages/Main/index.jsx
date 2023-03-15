@@ -5,6 +5,7 @@ import MainList from '../../organism/MainList';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMain } from '../../redux/action';
+import Error from '../../module/Error';
 
 const liststyle = {
     pcgrid: 'repeat(6,1fr)',
@@ -43,7 +44,7 @@ const Main = () => {
     }, [dispatch, data]);
 
     if (loading) return <div>로딩중...</div>;
-    if (error) return <div>에러 발생!</div>;
+    if (error) return <Error error={error} />;
     if (!data) return null;
 
     return (

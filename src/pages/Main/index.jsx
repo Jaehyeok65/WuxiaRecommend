@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMain } from '../../redux/action';
 import Error from '../../module/Error';
+import Loading from '../../module/Loading';
 
 const liststyle = {
     pcgrid: 'repeat(6,1fr)',
@@ -43,7 +44,7 @@ const Main = () => {
         dispatch(getMain());
     }, [dispatch, data]);
 
-    if (loading) return <div>로딩중...</div>;
+    if (loading && performance.timing.loadEventEnd - performance.timing.navigationStart > 1000) return <Loading />;
     if (error) return <Error error={error} />;
     if (!data) return null;
 

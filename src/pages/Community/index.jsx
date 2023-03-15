@@ -50,7 +50,7 @@ const Community = ({
     page,
     setPage,
 }) => {
-    if (loading) return <Loading width="5%" height="5%" marginTop="5%" />;
+    if (loading && performance.timing.loadEventEnd - performance.timing.navigationStart > 1000) return <Loading width="5%" height="5%" marginTop="5%" />;
     if (error) return <Error error={error} />;
     if (!data) return null;
 

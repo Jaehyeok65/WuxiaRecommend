@@ -3,7 +3,6 @@ import { Input } from '../../atoms/Input';
 import { FaSearch } from 'react-icons/fa';
 import Icon from '../../atoms/Icon';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 const Form = styled.form`
     width: ${(props) => props.styled.div.pcwidth};
@@ -22,19 +21,12 @@ const Form = styled.form`
 const SearchInput = ({ styled, name, values, onChange, onClear }) => {
     const [toggle, setToggle] = useState(true);
     const inputstyles = { ...styled.input, width: '50%' };
-    const navigate = useNavigate();
 
     const searchref = useRef();
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (values.trim() === '') {
-            //value의 공백 제거 후 빈칸이면 리턴(유효성 검사)
-            window.alert('검색어를 입력하세요');
-            return;
-        }
         setToggle((prev) => !prev);
-        navigate(`/search/검색결과/${values}`);
         onClear();
     };
 

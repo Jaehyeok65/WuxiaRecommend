@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import HeadText from '../molecule/HeadText';
 import SearchInput from '../molecule/SearchInput';
 import Button from '../atoms/Button';
 import { getLogout } from '../api/LoginAPI';
+import useDebounce from '../hook/useDebounce';
+import { useNavigate } from 'react-router-dom';
 
 const Head = styled.div`
     display: flex;
@@ -73,7 +75,16 @@ const Header = (
     },
     ref
 ) => {
+    const navigate = useNavigate();
     const [input, setInput] = useState('');
+
+    const debounceVal = useDebounce(input);
+
+    useEffect(() => {
+        if (!debounceVal) return;
+        if (debounceVal.trim() === '') return;
+        navigate(`/search/검색결과/${debounceVal}`);
+    }, [debounceVal]);
 
     const onChange = (e) => {
         const { value } = e.target;

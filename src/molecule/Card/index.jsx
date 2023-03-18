@@ -22,7 +22,7 @@ const Cards = styled.div`
     border-radius: 8px;
     overflow: hidden;
     height: 100%;
-    width: 100%;
+    width: 99%;
     max-width: 200px;
 
     > div {

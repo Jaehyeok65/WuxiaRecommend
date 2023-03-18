@@ -8,17 +8,33 @@ const NavLists = styled.div`
         &:hover {
             background-color : black;
             color : white;
+            transform : translateY(-2px);
         };
+        width : ${props => props.nav && '250px'};
+        font-weight : ${props => props.nav && 'bold'};
     };
+
+    position : ${props => props.nav && 'sticky'};
+    top : ${props => props.nav && '65px'};
+    z-index : ${props => props.nav && '20000'};
+    background-color : white;
+    display : ${props => props.nav && 'flex'};
+    justify-content : ${props => props.nav && 'space-between'};
+    width : ${props => props.nav && '100%'};
+
+    @media screen and (max-width: 1200px) {
+        display : ${props => props.nav && 'none'}
+    }
+
 `
 
 
 
-const NavList = ( { list = [], styled, onClick }) => {
+const NavList = ( { list = [], styled, onClick, nav = false }) => {
 
 
     return(
-        <NavLists styled={styled}>
+        <NavLists styled={styled} nav={nav}>
             {list.map((item, index) => (
                 <Link to={item.path} key={index}><Button styled={styled.btn} onClick={onClick}>{item.name}</Button></Link>
             ))}

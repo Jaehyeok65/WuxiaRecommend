@@ -4,6 +4,7 @@ import Title from '../../atoms/Title';
 import Carusel from '../../molecule/Carusel';
 
 const Main = styled.div`
+    margin-top : 2%;
     margin-bottom: 10%;
 `;
 

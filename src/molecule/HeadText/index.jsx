@@ -15,11 +15,22 @@ const HeadTexts = styled.div`
     @media screen and (max-width: 1000px) {
         width: ${(props) => props.styled.head.mobilewidth};
     }
+
+
+    @media screen and (min-width: 1200px) {
+        margin-left : 45%;
+    }
 `;
 
 const Container = styled.div`
     display: flex;
     align-items: center;
+`;
+
+const SidebarBtn = styled.div`
+    @media screen and (min-width: 1200px) {
+        display : none;
+    }
 `;
 
 const StyledLink = styled(Link)`
@@ -42,11 +53,13 @@ const HeadText = ({ styled, onClick }) => {
 
     return (
         <HeadTexts styled={styled}>
+            <SidebarBtn>
             <Button onClick={onClick} styled={btnstyle}>
                 <Icon styled={{ fontSize: '30px' }}>
                     <FaBars data-testid="side" />
                 </Icon>
             </Button>
+            </SidebarBtn>
             <Container>
                 <StyledLink to="/">
                     <Icon styled={Iconstyle}>

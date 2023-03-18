@@ -101,7 +101,7 @@ const togglebtn = {
     fontSize: '20px',
 };
 
-const styleds = {
+export const styleds = {
     btn: {
         width: '100%',
         padding: '12px',
@@ -109,7 +109,7 @@ const styleds = {
     },
 };
 
-const list = [
+export const list = [
     {
         name: '조회순',
         path: '/menu/조회순',

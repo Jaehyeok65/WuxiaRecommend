@@ -1,37 +1,39 @@
 import React from 'react';
-import Button from '../../atoms/Button';
 import Title from '../../atoms/Title';
 import SignUpForm from '../../molecule/SignUpForm';
+import MainFrame from '../MainFrame';
 
 const Formstyle = {
     input1: {
-        margin: '15% 0px 0px 18%',
+        margin: '5% 0px 0px 32%',
         padding: '12px',
-        width: '60%',
+        width: '35%',
     },
     input2: {
-        margin: '3% 0px 0px 18%',
+        margin: '2% 0px 0px 32%',
         padding: '12px',
-        width: '60%',
+        width: '35%',
     },
     button: {
-        margin: '3% 0px 0px 18%',
+        margin: '2% 0px 8% 32%',
         padding: '12px',
-        width: '66%',
+        width: '37%',
         borderRadius: '4px',
         marginTop: '2%',
     },
+    text: {
+        margin: '10px 0px 0px 32%',
+    },
 };
 
-const SignUp = ({ onClose }) => {
-
+const SignUp = () => {
     return (
-        <React.Fragment>
+        <MainFrame>
             <Title
                 styled={{
                     textAlign: 'center',
                     fontSize: '25px',
-                    marginTop: '5%',
+                    marginTop: '2%',
                 }}
             >
                 Sign Up
@@ -41,12 +43,9 @@ const SignUp = ({ onClose }) => {
                 userEmail="userEmail"
                 userPassword="userPassword"
                 userNickname="userNickname"
-                onClose={onClose}
+                userPasswordCheck="userPasswordCheck"
             />
-            <Button onClick={onClose} styled={Formstyle.button}>
-                닫기
-            </Button>
-        </React.Fragment>
+        </MainFrame>
     );
 };
 

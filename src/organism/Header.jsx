@@ -6,6 +6,7 @@ import Button from '../atoms/Button';
 import { getLogout } from '../api/LoginAPI';
 import useDebounce from '../hook/useDebounce';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Head = styled.div`
     display: flex;
@@ -14,6 +15,19 @@ const Head = styled.div`
     top: 0;
     z-index: 20000;
     background-color: white;
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: inherit;
+
+    &:focus,
+    &:hover,
+    &:visited,
+    &:link,
+    &:active {
+        text-decoration: none;
+    }
 `;
 
 const LoginHead = styled.div`
@@ -114,7 +128,9 @@ const Header = (
             <LoginHead>
                 {loginstate ? (
                     <Button onClick={onClickLoginModal} styled={loginbtnstyle}>
+                    <StyledLink to='/login'> 
                         로그인
+                    </StyledLink>
                     </Button>
                 ) : (
                     <Button
@@ -125,7 +141,9 @@ const Header = (
                     </Button>
                 )}
                 <Button onClick={onClickSignUpModal} styled={loginbtnstyle}>
+                <StyledLink to='/signup'>
                     회원가입
+                </StyledLink>
                 </Button>
             </LoginHead>
         </Head>

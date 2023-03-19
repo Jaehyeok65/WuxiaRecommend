@@ -82,3 +82,20 @@ export const getLogout = async(setLoginstate) => {
         window.alert("로그아웃 실패");
     }
 };
+
+export const getEmailCheck = async(Email) => {
+
+    const data = await axios.post(`${API}/emailcheck`, {
+        userEmail : Email
+    });
+
+    return data.data;
+};
+
+export const getNicknameCheck = async(Nickname) => {
+    const data = await axios.post(`${API}/nicknamecheck`, {
+        userNickname : Nickname
+    });
+
+    return data.data;
+};

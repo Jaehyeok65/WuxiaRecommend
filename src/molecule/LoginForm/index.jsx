@@ -5,6 +5,7 @@ import { getLogin } from '../../api/LoginAPI';
 import { Text } from '../../atoms/Text';
 import useDebounce from '../../hook/useDebounce';
 import { CheckEmail, CheckPassword } from '../../module/CheckValidation';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = ({
     styled,
@@ -31,6 +32,8 @@ const LoginForm = ({
     const EmaildebounceVal = useDebounce(input.userEmail);
 
     const PassworddebounceVal = useDebounce(input.userPassword);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!EmaildebounceVal) return;
@@ -93,6 +96,7 @@ const LoginForm = ({
             setLoginstate();
             init();
             Textinit();
+            navigate('/');
         }
     };
 

@@ -10,6 +10,7 @@ import {
     CheckRePassword,
 } from '../../module/CheckValidation';
 import { Text } from '../../atoms/Text';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpForm = ({
     styled,
@@ -52,6 +53,8 @@ const SignUpForm = ({
     const PasswordCheckdebounceVal = useDebounce(input.userPasswordCheck);
 
     const NicknamedebounceVal = useDebounce(input.userNickname);
+
+    const navigate = useNavigate();
 
     const getEmailMessage = async () => {
         const result = await CheckId(EmaildebounceVal);
@@ -149,7 +152,7 @@ const SignUpForm = ({
         }
         const result = await getSignUp(input);
         if (result) {
-            console.log('회원가입 완료');
+            navigate('/login');
         }
         Init();
     };

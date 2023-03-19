@@ -20,7 +20,8 @@ const NavLists = styled.div`
     background-color : white;
     display : ${props => props.nav && 'flex'};
     justify-content : ${props => props.nav && 'space-between'};
-    width : ${props => props.nav && '100%'};
+    width : ${props => props.nav && '80%'};
+    margin : ${props => props.nav && '0 auto'};
 
     @media screen and (max-width: 1200px) {
         display : ${props => props.nav && 'none'}

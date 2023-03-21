@@ -7,7 +7,7 @@ const Buttons = styled.button`
         props.styled ? props.styled.borderRadius : '3px'};
     border: ${(props) =>
         props.styled ? props.styled.border : '1px solid gray'};
-    color: black;
+    color: ${props => props.color ? props.color : 'black'};
     padding: ${(props) => (props.styled ? props.styled.padding : '12px')};
     margin: ${(props) => (props.styled ? props.styled.margin : '0px')};
     margin-bottom: ${(props) =>
@@ -26,13 +26,14 @@ const Buttons = styled.button`
     cursor: pointer;
     overflow: hidden;
     outline: none;
+    font-weight: ${(props => props.styled && props.styled.fontWeight)}
 `;
 
-const Button = ({ children, onClick, styled }) => {
+const Button = ({ children, onClick, styled, color }) => {
     //외부에 동작을 위임하는 button 컴포넌트 작성
 
     return (
-        <Buttons onClick={onClick} styled={styled}>
+        <Buttons onClick={onClick} styled={styled} color={color}>
             {children}
         </Buttons>
     );

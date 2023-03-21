@@ -13,11 +13,14 @@ const Btngrid = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px 20px;
-    margin-top : 2%;
+    margin-top: 2%;
+`;
 
-    button {
-        font-weight : bold;
-    }
+const None = styled.div`
+    text-align: center;
+    font-size: 20px;
+    color: gray;
+    margin-top: 2%;
 `;
 
 const cardstyle = {
@@ -65,9 +68,8 @@ const MyPage = ({ loginstate }) => {
 
     useEffect(() => {
         //메뉴 전용
-        if (data) return;
         dispatch(getMyPage(title)); //초기에 데이터를 가져오기 위함
-    }, [dispatch, title, data]);
+    }, [dispatch, title]);
 
     if (
         loading &&
@@ -81,20 +83,35 @@ const MyPage = ({ loginstate }) => {
         <React.Fragment>
             {loginstate ? (
                 <MainFrame>
-                    <Btngrid>
+                    <Btngrid title={title}>
                         <Button
-                            styled={{ border: 'none' }}
+                            styled={{
+                                border: 'none',
+                                fontWeight: title === '좋아요' && 'bold',
+                                fontSize: title === '좋아요' && '15px',
+                            }}
                             onClick={() => setTitle('좋아요')}
+                            fontWeight={title === '좋아요순' ? true : false}
                         >
                             좋아요 표시한 작품
                         </Button>
                         <Button
-                            styled={{ border: 'none' }}
+                            styled={{
+                                border: 'none',
+                                fontWeight: title === '별점' && 'bold',
+                                fontSize: title === '별점' && '15px',
+                            }}
                             onClick={() => setTitle('별점')}
                         >
                             별점 표시한 작품
                         </Button>
                     </Btngrid>
+                    {data && data.length === 0 && title === '좋아요' && (
+                        <None>아직 좋아요를 표시한 작품이 없습니다.</None>
+                    )}
+                    {data && data.length === 0 && title === '별점' && (
+                        <None>아직 별점을 표시한 작품이 없습니다.</None>
+                    )}
                     {data && (
                         <ListView
                             data={data}

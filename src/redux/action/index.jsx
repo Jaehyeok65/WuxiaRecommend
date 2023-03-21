@@ -278,9 +278,22 @@ export const getMyPage = (title) => async(dispatch) => {
         dispatch({ type : 'MYPAGE_SUCCESS', data, title});
     }
     catch(e) {
-        dispatch({ type : 'MYPAGE_ERROR', e, title});
+        dispatch({ type : 'MYPAGE_ERROR', error : e, title});
     }
 };
+
+export const getMyPageLogout = (title) => async(dispatch) => {
+
+    dispatch({type : 'MYPAGE', title});
+
+    try {
+        const data = [];
+        dispatch({ type : 'MYPAGE_SUCCESS', data, title});
+    }
+    catch(e) {
+        dispatch({ type : 'MYPAGE_ERROR', error : e, title});
+    }
+}
 
 
 

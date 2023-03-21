@@ -7,6 +7,8 @@ import { getLogout } from '../api/LoginAPI';
 import useDebounce from '../hook/useDebounce';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getMyPageLogout } from '../redux/action';
 
 const Head = styled.div`
     display: flex;
@@ -91,6 +93,7 @@ const Header = (
     ref
 ) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [input, setInput] = useState('');
 
     const debounceVal = useDebounce(input);
@@ -113,6 +116,8 @@ const Header = (
     const onLogoutClick = () => {
         setLoginstate();
         setNickname();
+        dispatch(getMyPageLogout('좋아요'));
+        dispatch(getMyPageLogout('별점'));
     };
 
     return (

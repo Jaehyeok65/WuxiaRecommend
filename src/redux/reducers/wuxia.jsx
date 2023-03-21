@@ -121,6 +121,18 @@ const initialState = {
       '조회순' : 1,
       '별점순' : 1,
       '좋아요순' : 1
+    },
+    mypage : {
+      '좋아요' : {
+        loading : false,
+        data : null,
+        error : null
+      },
+      '별점' : {
+        loading : false,
+        data : null,
+        error : null
+      }
     }
   };
 
@@ -160,7 +172,11 @@ export default function wuxia(state = initialState, action) {
             ...state.page,
             [action.title] : action.data
           }
-        }
+        };
+      case 'MYPAGE':
+      case 'MYPAGE_SUCCESS':
+      case 'MYPAGE_ERROR':
+        return handleAsyncActionsbyTitle('MYPAGE','mypage',true)(state, action);
       default:
         return state;
     }

@@ -1,4 +1,4 @@
-import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain, SubmitPage } from "../../api/WuxiaAPI";
+import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain, SubmitPage, SubmitMyPage } from "../../api/WuxiaAPI";
 import { CommentList, CommentSubmit, Comment, CommentRecommend, CommentUpdate, CommentDelete } from "../../api/CommentAPI";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
@@ -268,6 +268,19 @@ export const getPage = (title, page) => async(dispatch, getState) => { //redux-t
         dispatch({type : LIST_ERROR, error : e , title });
     }
 }
+
+export const getMyPage = (title) => async(dispatch) => {
+
+    dispatch({type : 'MYPAGE', title});
+
+    try {
+        const data = await SubmitMyPage(title);
+        dispatch({ type : 'MYPAGE_SUCCESS', data, title});
+    }
+    catch(e) {
+        dispatch({ type : 'MYPAGE_ERROR', e, title});
+    }
+};
 
 
 

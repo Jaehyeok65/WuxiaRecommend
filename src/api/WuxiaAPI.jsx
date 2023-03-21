@@ -109,3 +109,14 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n));
     });
     return data.data;
   }
+
+  export const SubmitMyPage = async(title) => {
+    let data;
+    if(title === '좋아요') {
+      data = await axios.get(`${API}/mylike`);
+    }
+    else if(title === '별점'){
+      data = await axios.get(`${API}/myrate`);
+    }
+    return data.data;
+  }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getCommentList } from '../../redux/action';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleScroll } from '../List';
-import { LoginModal } from '../../redux/reducers/modal';
+import { useNavigate } from 'react-router-dom';
 import Community from '.';
 
 const Container = ({ loginstate }) => {
@@ -22,6 +22,7 @@ const Container = ({ loginstate }) => {
 
     const dispatch = useDispatch();
     const selectList = ['최신순', '추천순'];
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getCommentList(Selected)); //게시글 리스트를 가져오는 redux-thunk 함수
@@ -31,8 +32,6 @@ const Container = ({ loginstate }) => {
         handleScroll();
     }, [page]);
 
-    const LoginToggle = (data) => dispatch(LoginModal(data));
-
     const handleSelect = (e) => {
         setSelected(e.target.value);
         setPage(1); //페이지를 1페이지로 바꿈
@@ -40,7 +39,7 @@ const Container = ({ loginstate }) => {
 
     const isLoginToggle = () => {
         window.alert('로그인이 필요한 기능입니다.');
-        LoginToggle(true);
+        navigate('/login');
     };
 
     return (

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
 import { StarSubmit, LikeSubmit } from '../../redux/action';
 import { SubmitView } from '../../api/WuxiaAPI';
-import { LoginModal } from '../../redux/reducers/modal';
+import { useNavigate } from 'react-router-dom';
 import Detail from '.';
 
 const Container = ({ loginstate }) => {
@@ -27,6 +27,7 @@ const Container = ({ loginstate }) => {
         error: null,
     };
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data) return;
@@ -40,7 +41,6 @@ const Container = ({ loginstate }) => {
         }
     }, [data, view]);
 
-    const LoginToggle = (data) => dispatch(LoginModal(data));
 
     const handleStar = (index) => {
         let clickStates = [...handleclicked];
@@ -82,7 +82,7 @@ const Container = ({ loginstate }) => {
     const onLikeClick = async () => {
         if (!loginstate) {
             window.alert('로그인이 필요한 기능입니다.');
-            LoginToggle(true);
+            navigate('/login');
             return;
         }
         dispatch(LikeSubmit(title, data));
@@ -91,7 +91,7 @@ const Container = ({ loginstate }) => {
     const onRateToggle = () => {
         if (!loginstate) {
             window.alert('로그인이 필요한 기능입니다.');
-            LoginToggle(true);
+            navigate('/login');
             return;
         }
         setRateToggle((prev) => !prev);

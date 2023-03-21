@@ -2,30 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import Card from '../../molecule/Card';
-import CardInfo from '../../molecule/CardInfo';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPage } from '../../redux/action';
 import { getTotal } from '../../api/WuxiaAPI';
 import { FaArrowUp } from 'react-icons/fa';
 import Loading from '../../module/Loading';
 import Error from '../../module/Error';
-
-const Lists = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 40px 40px;
-    margin-top: 5%;
-    margin-bottom: 10%;
-
-    @media screen and (max-width: 1200px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    @media screen and (max-width: 800px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-`;
+import ListView from '../../module/ListView';
 
 const Btn = styled.button`
     position: fixed;
@@ -37,27 +20,15 @@ const Btn = styled.button`
         transform: translateY(-4px);
         cursor: pointer;
     }
-
     @media screen and (max-width: 2000px) {
         right: 20px;
         bottom: 50%;
         font-size: 22px;
     }
-
     @media screen and (max-width: 800px) {
         bottom: 20px;
         right: 50%;
         font-size: 16px;
-    }
-`;
-
-const Grids = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 20px;
-
-    > div {
-        align-self: center;
     }
 `;
 
@@ -179,22 +150,11 @@ const List = () => {
             <h2 id={'viewPort'} style={{ fontSize: '20px', marginTop: '2%' }}>
                 {title}
             </h2>
-            <Lists>
-                {data ? (
-                    data.map((item) => (
-                        <Grids key={item.id}>
-                            <Card
-                                url={item.url}
-                                title={item.title}
-                                styled={cardstyle}
-                            />
-                            <CardInfo product={item} styled={cardinfostyle} />
-                        </Grids>
-                    ))
-                ) : (
-                    <div style={{ height: '100vh' }} />
-                )}
-            </Lists>
+            <ListView
+                data={data}
+                cardstyle={cardstyle}
+                cardinfostyle={cardinfostyle}
+            />
             <div ref={setBottom} />
             {loading && <Loading height="5%" width="3%" marginBottom="5%" />}
             <Btn onClick={handleScroll}>

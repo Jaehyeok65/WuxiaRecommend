@@ -8,7 +8,8 @@ export const getRecentView = () => {
     let recent = window.sessionStorage.getItem('view')
     recent = JSON.parse(recent);
 
-    return recent;
+    
+    return recent.reverse(); //역순으로 리턴하여 가장 최근에 방문한 것이 가장 최근에 오도록함
 };
 
 

@@ -118,6 +118,7 @@ const Header = (
         setNickname();
         dispatch(getMyPageLogout('좋아요'));
         dispatch(getMyPageLogout('별점'));
+        window.sessionStorage.clear();
     };
 
     return (

@@ -5,6 +5,7 @@ import { getProduct } from '../../redux/action';
 import { StarSubmit, LikeSubmit } from '../../redux/action';
 import { SubmitView } from '../../api/WuxiaAPI';
 import { useNavigate } from 'react-router-dom';
+import { setRecentView } from '../../module/RecentView'
 import Detail from '.';
 
 const Container = ({ loginstate }) => {
@@ -30,7 +31,10 @@ const Container = ({ loginstate }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (data) return;
+        if (data) {
+            setRecentView(data);
+            return;
+        }
         dispatch(getProduct(title));
     }, [title, dispatch, data]);
 
@@ -104,6 +108,8 @@ const Container = ({ loginstate }) => {
         }
         setClicked(clickStates);
     };
+
+    //console.log(window.sessionStorage.getItem('view'));
 
     return (
         <React.Fragment>

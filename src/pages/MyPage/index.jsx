@@ -11,7 +11,7 @@ import Loading from '../../module/Loading';
 
 const Btngrid = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px 20px;
     margin-top: 2%;
 `;
@@ -54,7 +54,7 @@ const cardinfostyle = {
 };
 
 const MyPage = ({ loginstate }) => {
-    const [title, setTitle] = useState('좋아요'); //default는 좋아요
+    const [title, setTitle] = useState('방문'); //default는 최근 방문한 작품
 
     const { data, loading, error } = useSelector(
         (state) => state.wuxia.mypage[title]
@@ -68,7 +68,7 @@ const MyPage = ({ loginstate }) => {
 
     useEffect(() => {
         //메뉴 전용
-        dispatch(getMyPage(title)); //초기에 데이터를 가져오기 위함
+        dispatch(getMyPage(title));
     }, [dispatch, title]);
 
     if (
@@ -84,6 +84,16 @@ const MyPage = ({ loginstate }) => {
             {loginstate ? (
                 <MainFrame>
                     <Btngrid title={title}>
+                        <Button
+                            styled={{
+                                border: 'none',
+                                fontWeight: title === '방문' && 'bold',
+                                fontSize: title === '방문' && '15px',
+                            }}
+                            onClick={() => setTitle('방문')}
+                        >
+                            최근 방문한 작품
+                        </Button>
                         <Button
                             styled={{
                                 border: 'none',

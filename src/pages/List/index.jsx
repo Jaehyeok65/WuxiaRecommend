@@ -9,6 +9,7 @@ import { FaArrowUp } from 'react-icons/fa';
 import Loading from '../../module/Loading';
 import Error from '../../module/Error';
 import ListView from '../../module/ListView';
+import useThrottling from '../../hook/useThrottling';
 
 const Btn = styled.button`
     position: fixed;
@@ -62,15 +63,7 @@ const cardinfostyle = {
     },
 };
 
-export const handleScroll = () => {
-    if (!window.scrollY) return;
-    // 현재 위치가 이미 최상단일 경우 return
 
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-    });
-};
 
 const List = () => {
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
@@ -90,6 +83,7 @@ const List = () => {
         }
     );
 
+    const scroll = useThrottling();
     const limit = 12;
 
     const total = useRef(0);
@@ -125,14 +119,28 @@ const List = () => {
         };
     }, [bottom]);
 
+    useEffect(() => {
+        //쓰로틀링 훅으로 스크롤 위치 저장함
+        window.sessionStorage.setItem(
+            `${callbacktitle.current}_scroll`,
+            scroll
+        );
+    }, [scroll]);
+
     const getTotals = async () => {
         const data = await getTotal();
         total.current = data;
     };
 
+    const handleScroll = (title) => {
+        window.scrollTo({
+            top: window.sessionStorage.getItem(`${title}_scroll`),
+        });
+    };
+
     useEffect(() => {
         callbacktitle.current = title; // ObserverAPI가 title 참조 최신화를 못하므로 ref로 title값 관리
-        handleScroll();
+        handleScroll(callbacktitle.current);
         getTotals();
     }, [title]);
 

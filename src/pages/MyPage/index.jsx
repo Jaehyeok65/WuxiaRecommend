@@ -92,7 +92,7 @@ const MyPage = ({ loginstate }) => {
                             }}
                             onClick={() => setTitle('방문')}
                         >
-                            최근 방문한 작품
+                            최근 본 작품
                         </Button>
                         <Button
                             styled={{
@@ -117,7 +117,7 @@ const MyPage = ({ loginstate }) => {
                         </Button>
                     </Btngrid>
                     {data === null && title === '방문' && (
-                        <None>아직 방문한 작품이 없습니다.</None>
+                        <None>아직 본 작품이 없습니다.</None>
                     )}
                     {data && data.length === 0 && title === '좋아요' && (
                         <None>아직 좋아요를 표시한 작품이 없습니다.</None>

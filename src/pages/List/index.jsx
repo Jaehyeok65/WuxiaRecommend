@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -63,8 +63,6 @@ const cardinfostyle = {
     },
 };
 
-
-
 const List = () => {
     const { title } = useParams(); //title에 맞게 서버에 데이터 요청할 것
     const callbacktitle = useRef(title); //ObserverAPI title 참조용 ref
@@ -89,21 +87,25 @@ const List = () => {
     const total = useRef(0);
     const [bottom, setBottom] = useState(null);
     const dispatch = useDispatch();
+    const memoizedDispatch = useCallback(dispatch, []);
 
-    const observerCallback = ([entries]) => {
-        if (
-            entries.isIntersecting &&
-            page.current[callbacktitle.current] * limit < total.current
-        ) {
-            page.current[callbacktitle.current] += 1;
-            dispatch(getPage(callbacktitle.current, page.current));
-            dispatch({
-                type: 'PAGE',
-                data: page.current[callbacktitle.current],
-                title: callbacktitle.current,
-            });
-        }
-    };
+    const observerCallback = useCallback(
+        ([entries]) => {
+            if (
+                entries.isIntersecting &&
+                page.current[callbacktitle.current] * limit < total.current
+            ) {
+                page.current[callbacktitle.current] += 1;
+                memoizedDispatch(getPage(callbacktitle.current, page.current));
+                memoizedDispatch({
+                    type: 'PAGE',
+                    data: page.current[callbacktitle.current],
+                    title: callbacktitle.current,
+                });
+            }
+        },
+        [memoizedDispatch, limit]
+    );
 
     const option = { threshold: 0.25, rootMargin: '80px' };
 
@@ -132,11 +134,11 @@ const List = () => {
         total.current = data;
     };
 
-    const handleScroll = (title) => {
+    const handleScroll = useCallback((title) => {
         window.scrollTo({
             top: window.sessionStorage.getItem(`${title}_scroll`),
         });
-    };
+    }, []);
 
     useEffect(() => {
         callbacktitle.current = title; // ObserverAPI가 title 참조 최신화를 못하므로 ref로 title값 관리
@@ -147,8 +149,8 @@ const List = () => {
     useEffect(() => {
         //메뉴 전용
         if (data) return;
-        dispatch(getPage(title, page.current)); //초기에 데이터를 가져오기 위함
-    }, [dispatch, title, data]);
+        memoizedDispatch(getPage(title, page.current)); //초기에 데이터를 가져오기 위함
+    }, [memoizedDispatch, title, data]);
 
     if (error) return <Error error={error} />;
     if (!data) return null;

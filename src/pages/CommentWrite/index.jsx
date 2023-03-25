@@ -1,5 +1,4 @@
 import React from 'react';
-import { Input } from '../../atoms/Input';
 import MainFrame from '../MainFrame';
 import styled from 'styled-components';
 
@@ -7,12 +6,53 @@ const WriteArea = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 `;
 
-const TextArea = styled.textarea`
-    width: 300px;
+const TitleInput = styled.input`
+    width: 100%;
+    max-width: 600px;
+    height: 40px;
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+`;
+
+const ContentTextArea = styled.textarea`
+    width: 100%;
+    max-width: 600px;
     height: 300px;
-    margin-top: 1%;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+`;
+
+const SubmitButton = styled.input`
+    width: 100px;
+    height: 40px;
+    background-color: #0077ff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: #0055cc;
+    }
+
+    &:active {
+        transform: translateY(2px);
+    }
 `;
 
 const CommentWrite = ({ comment, onSubmit, onChange }) => {
@@ -20,17 +60,19 @@ const CommentWrite = ({ comment, onSubmit, onChange }) => {
         <MainFrame>
             <form onSubmit={onSubmit}>
                 <WriteArea>
-                    <Input
+                    <TitleInput
                         name="title"
                         value={comment.title}
                         onChange={onChange}
+                        placeholder="제목을 입력하세요."
                     />
-                    <TextArea
+                    <ContentTextArea
                         name="content"
                         value={comment.content}
                         onChange={onChange}
+                        placeholder="내용을 입력하세요."
                     />
-                    <input className="submit" type="submit" value="전송" />
+                    <SubmitButton type="submit" value="전송" />
                 </WriteArea>
             </form>
         </MainFrame>

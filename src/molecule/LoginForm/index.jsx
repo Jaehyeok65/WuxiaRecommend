@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from '../../atoms/Button';
 import { Input } from '../../atoms/Input';
 import { getLogin } from '../../api/LoginAPI';
@@ -34,6 +34,7 @@ const LoginForm = ({
     const PassworddebounceVal = useDebounce(input.userPassword);
 
     const navigate = useNavigate();
+    const memoizedNavigate = useCallback(navigate, []);
 
     useEffect(() => {
         if (!EmaildebounceVal) return;
@@ -55,23 +56,23 @@ const LoginForm = ({
         });
     }, [PassworddebounceVal]);
 
-    const onChange = (e) => {
+    const onChange = useCallback((e) => {
         const { name, value } = e.target;
-        setInput({
-            ...input,
+        setInput((prev) => ({
+            ...prev,
             [name]: value,
-        });
-    };
+        }));
+    }, []);
 
-    const init = () => {
+    const init = useCallback(() => {
         //상태 초기화
         setInput({
             userEmail: '',
             userPassword: '',
         });
-    };
+    }, []);
 
-    const Textinit = () => {
+    const Textinit = useCallback(() => {
         //유효성 메시지 초기화
         setEmailMessage({
             userEmail: '',
@@ -81,24 +82,27 @@ const LoginForm = ({
             userPassword: '',
             effectiveness: false,
         });
-    };
+    }, []);
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (input.userEmail === '' || input.userPassword === '') {
-            alert('아이디와 비밀번호를 입력해주세요');
-            return;
-        }
-        const nickname = await getLogin(input);
-        if (nickname) {
-            // 로그인 성공했을 경우
-            setNickname(nickname);
-            setLoginstate();
-            init();
-            Textinit();
-            navigate('/');
-        }
-    };
+    const onSubmit = useCallback(
+        async (e) => {
+            e.preventDefault();
+            if (input.userEmail === '' || input.userPassword === '') {
+                alert('아이디와 비밀번호를 입력해주세요');
+                return;
+            }
+            const nickname = await getLogin(input);
+            if (nickname) {
+                // 로그인 성공했을 경우
+                setNickname(nickname);
+                setLoginstate();
+                init();
+                Textinit();
+                memoizedNavigate(-1);
+            }
+        },
+        [input, setNickname, setLoginstate]
+    );
 
     if (!styled || !input) return <div>에러 발생</div>;
 

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getCommentList } from '../../redux/action';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleScroll } from '../List';
 import { useNavigate } from 'react-router-dom';
 import Community from '.';
 
@@ -21,26 +20,37 @@ const Container = ({ loginstate }) => {
     const offset = (page - 1) * limit;
 
     const dispatch = useDispatch();
+    const memoizedDispatch = useCallback(dispatch, []);
     const selectList = ['최신순', '추천순'];
     const navigate = useNavigate();
+    const memoizedNavigate = useCallback(navigate, []);
 
     useEffect(() => {
-        dispatch(getCommentList(Selected)); //게시글 리스트를 가져오는 redux-thunk 함수
-    }, [dispatch, Selected]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
+        memoizedDispatch(getCommentList(Selected)); //게시글 리스트를 가져오는 redux-thunk 함수
+    }, [memoizedDispatch, Selected]); //Selected가 변경될 때마다 dispatch 수행 == 이미 data가 존재하면 불필요한 dispatch방지
 
     useEffect(() => {
         handleScroll();
     }, [page]);
 
-    const handleSelect = (e) => {
+    const handleSelect = useCallback((e) => {
         setSelected(e.target.value);
         setPage(1); //페이지를 1페이지로 바꿈
-    };
+    }, []);
 
-    const isLoginToggle = () => {
+    const isLoginToggle = useCallback(() => {
         window.alert('로그인이 필요한 기능입니다.');
-        navigate('/login');
-    };
+        memoizedNavigate('/login');
+    }, []);
+
+    const handleScroll = useCallback(() => {
+        if (window.scrollY > 0) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            });
+        }
+    }, []);
 
     return (
         <React.Fragment>

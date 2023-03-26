@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { LoginModal } from '../../redux/reducers/modal';
 import {
     getCommentRecommend,
     getCommentDelete,
@@ -20,32 +19,32 @@ const CommentContainer = ({ loginstate, nickname }) => {
     };
 
     const dispatch = useDispatch();
+    const memoizedDispatch = useCallback(dispatch, []);
     const navigate = useNavigate();
+    const memoizedNavigate = useCallback(navigate, []);
 
-    const LoginToggle = (data) => dispatch(LoginModal(data));
-
-    const onRecommendClick = () => {
+    const onRecommendClick = useCallback(() => {
         if (!loginstate) {
             window.alert('로그인이 필요한 기능입니다.');
-            LoginToggle(true);
+            memoizedNavigate('/login');
             return;
         }
-        dispatch(getCommentRecommend(data));
-    };
+        memoizedDispatch(getCommentRecommend(data));
+    }, [data]);
 
-    const onRemoveClick = async () => {
+    const onRemoveClick = useCallback(async () => {
         const confirm = window.confirm('글을 삭제하시겠습니까?');
         if (confirm) {
-            await dispatch(getCommentDelete(id, '최신순'));
-            navigate(`/community`);
+            await memoizedDispatch(getCommentDelete(id, '최신순'));
+            memoizedNavigate(`/community`);
         }
-    };
+    }, [id]);
 
     useEffect(() => {
         //메뉴 전용
         if (data) return;
-        dispatch(getComment(id));
-    }, [dispatch, id, data]);
+        memoizedDispatch(getComment(id));
+    }, [memoizedDispatch, id, data]);
 
     return (
         <React.Fragment>

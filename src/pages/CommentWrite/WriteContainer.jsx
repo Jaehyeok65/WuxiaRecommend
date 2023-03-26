@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Formatting } from '../../api/CommentAPI';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -17,7 +17,9 @@ const WriteContainer = ({ loginstate, nickname }) => {
     });
 
     const dispatch = useDispatch();
+    const memoizedDispatch = useCallback(dispatch, []);
     const navigate = useNavigate();
+    const memoizedNavigate = useCallback(navigate, []);
 
     useEffect(() => {
         if (!loginstate) {
@@ -30,24 +32,27 @@ const WriteContainer = ({ loginstate, nickname }) => {
         setComment({ ...comment, writer: nickname });
     }, [nickname]);
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (comment.title.trim() === '') {
-            window.alert('제목을 입력하세요');
-            return;
-        }
-        if (comment.content.trim() === '') {
-            window.alert('내용을 입력하세요');
-            return;
-        }
-        await dispatch(getCommentSubmit(comment, '최신순')); // 서버에 Comment 저장이 끝난 후 이동시키기 위해 await 지정
-        navigate(`/community`);
-    };
+    const onSubmit = useCallback(
+        async (e) => {
+            e.preventDefault();
+            if (comment.title.trim() === '') {
+                window.alert('제목을 입력하세요');
+                return;
+            }
+            if (comment.content.trim() === '') {
+                window.alert('내용을 입력하세요');
+                return;
+            }
+            await memoizedDispatch(getCommentSubmit(comment, '최신순')); // 서버에 Comment 저장이 끝난 후 이동시키기 위해 await 지정
+            memoizedNavigate(`/community`);
+        },
+        [comment]
+    );
 
-    const onChange = (e) => {
+    const onChange = useCallback((e) => {
         const { name, value } = e.target;
-        setComment({ ...comment, [name]: value });
-    };
+        setComment((prev) => ({ ...prev, [name]: value }));
+    }, []);
 
     return (
         <React.Fragment>

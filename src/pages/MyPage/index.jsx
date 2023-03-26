@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MainFrame from '../MainFrame';
 import { Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -65,11 +65,11 @@ const MyPage = ({ loginstate }) => {
     };
 
     const dispatch = useDispatch();
-
+    const memoizedDispatch = useCallback(dispatch, []);
     useEffect(() => {
         //메뉴 전용
-        dispatch(getMyPage(title));
-    }, [dispatch, title]);
+        memoizedDispatch(getMyPage(title));
+    }, [memoizedDispatch, title]);
 
     if (
         loading &&

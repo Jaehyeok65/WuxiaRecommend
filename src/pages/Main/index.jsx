@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import MainFrame from '../MainFrame';
 import MainCarousel from '../../organism/MainCarousel';
 import MainList from '../../organism/MainList';
@@ -24,16 +24,16 @@ const Main = () => {
         error: null,
     };
     const dispatch = useDispatch();
+    const memoizedDispatch = useCallback(dispatch, []);
 
-    const handleScroll = () => {
-        if (!window.scrollY) return;
-        // 현재 위치가 이미 최상단일 경우 return
-
-        window.scrollTo({
+    const handleScroll = useCallback(() => {
+        if (window.scrollY > 0) {
+          window.scrollTo({
             top: 0,
             behavior: 'smooth',
-        });
-    };
+          });
+        }
+      }, []);
 
     useEffect(() => {
         handleScroll();
@@ -41,8 +41,8 @@ const Main = () => {
 
     useEffect(() => {
         if (data) return;
-        dispatch(getMain());
-    }, [dispatch, data]);
+        memoizedDispatch(getMain());
+    }, [memoizedDispatch, data]);
 
     if (loading && performance.timing.loadEventEnd - performance.timing.navigationStart > 1000) return <Loading />;
     if (error) return <Error error={error} />;

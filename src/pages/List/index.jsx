@@ -81,6 +81,8 @@ const List = () => {
         }
     );
 
+    console.log("렌더링 되냐");
+
     const scroll = useThrottling();
     const limit = 12;
 
@@ -129,10 +131,14 @@ const List = () => {
         );
     }, [scroll]);
 
-    const getTotals = async () => {
-        const data = await getTotal();
-        total.current = data;
-    };
+    const getTotals = useCallback(async () => {
+        try {
+          const data = await getTotal();
+          total.current = data;
+        } catch (error) {
+          console.error(error);
+        }
+      }, []);
 
     const handleScroll = useCallback((title) => {
         window.scrollTo({

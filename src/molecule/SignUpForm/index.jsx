@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Button from '../../atoms/Button';
 import { Input } from '../../atoms/Input';
 import { getSignUp } from '../../api/LoginAPI';
@@ -55,22 +55,37 @@ const SignUpForm = ({
     const NicknamedebounceVal = useDebounce(input.userNickname);
 
     const navigate = useNavigate();
+    const memoizedNavigate = useCallback(navigate, []);
 
-    const getEmailMessage = async () => {
-        const result = await CheckId(EmaildebounceVal);
-        setEmailMessage({
-            userEmail: result[0],
-            effectiveness: result[1],
-        });
-    };
+    const getEmailMessage = useCallback(async () => {
+        try {
+            const result = await CheckId(EmaildebounceVal);
+            setEmailMessage({
+                userEmail: result[0],
+                effectiveness: result[1],
+            });
+        } catch (error) {
+            console.error(
+                'Error occurred while getting nickname message:',
+                error
+            );
+        }
+    }, [EmaildebounceVal]);
 
-    const getNicknameMessage = async () => {
-        const result = await CheckNickname(NicknamedebounceVal);
-        setNicknameMessage({
-            userNickname: result[0],
-            effectiveness: result[1],
-        });
-    };
+    const getNicknameMessage = useCallback(async () => {
+        try {
+            const result = await CheckNickname(NicknamedebounceVal);
+            setNicknameMessage({
+                userNickname: result[0],
+                effectiveness: result[1],
+            });
+        } catch (error) {
+            console.error(
+                'Error occurred while getting nickname message:',
+                error
+            );
+        }
+    }, [NicknamedebounceVal]);
 
     useEffect(() => {
         if (!EmaildebounceVal) return;
@@ -107,15 +122,15 @@ const SignUpForm = ({
         });
     }, [PasswordCheckdebounceVal]);
 
-    const onChange = (e) => {
+    const onChange = useCallback((e) => {
         const { name, value } = e.target;
-        setInput({
-            ...input,
+        setInput((prev) => ({
+            ...prev,
             [name]: value,
-        });
-    };
+        }));
+    }, []);
 
-    const Init = () => {
+    const Init = useCallback(() => {
         setInput({
             userEmail: '',
             userPassword: '',
@@ -138,24 +153,27 @@ const SignUpForm = ({
             userPasswordCheck: '',
             effectiveness: false,
         });
-    };
+    }, []);
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        if (
-            input.userEmail === '' ||
-            input.userPassword === '' ||
-            input.userNickname === ''
-        ) {
-            alert('아이디와 비밀번호 또는 닉네임을 입력해주세요');
-            return;
-        }
-        const result = await getSignUp(input);
-        if (result) {
-            navigate('/login');
-        }
-        Init();
-    };
+    const onSubmit = useCallback(
+        async (e) => {
+            e.preventDefault();
+            if (
+                input.userEmail === '' ||
+                input.userPassword === '' ||
+                input.userNickname === ''
+            ) {
+                alert('아이디와 비밀번호 또는 닉네임을 입력해주세요');
+                return;
+            }
+            const result = await getSignUp(input);
+            if (result) {
+                memoizedNavigate('/login');
+            }
+            Init();
+        },
+        [input]
+    );
 
     if (!styled || !input) return <div>에러 발생</div>;
 

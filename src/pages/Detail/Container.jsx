@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProduct } from '../../redux/action';
 import { StarSubmit, LikeSubmit } from '../../redux/action';
 import { SubmitView } from '../../api/WuxiaAPI';
 import { useNavigate } from 'react-router-dom';
-import { setRecentView } from '../../module/RecentView'
+import { setRecentView } from '../../module/RecentView';
 import Detail from '.';
 
 const Container = ({ loginstate }) => {
@@ -28,15 +28,17 @@ const Container = ({ loginstate }) => {
         error: null,
     };
     const dispatch = useDispatch();
+    const memoizedDispatch = useCallback(dispatch, []);
     const navigate = useNavigate();
+    const memoizedNavigate = useCallback(navigate, []);
 
     useEffect(() => {
         if (data) {
             setRecentView(data);
             return;
         }
-        dispatch(getProduct(title));
-    }, [title, dispatch, data]);
+        memoizedDispatch(getProduct(title));
+    }, [title, memoizedDispatch, data]);
 
     useEffect(() => {
         if (!view && data) {
@@ -45,68 +47,67 @@ const Container = ({ loginstate }) => {
         }
     }, [data, view]);
 
+    const handleStar = useCallback((index) => {
+        setHandleClicked((prev) => prev.map((_, i) => i <= index));
+    }, []);
 
-    const handleStar = (index) => {
-        let clickStates = [...handleclicked];
-        for (let i = 0; i < 5; i++) {
-            clickStates[i] = i <= index ? true : false;
-        }
-        setHandleClicked(clickStates);
-    };
-
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setRateToggle((prev) => !prev);
-    };
+    }, []);
 
-    const handleSubmit = () => {
+    const handleSubmit = useCallback(() => {
         const star = handleclicked.filter((item) => item === true).length;
         const rate = StarRateUpdate(star);
-        dispatch(
+        memoizedDispatch(
             StarSubmit(title, rate, data, () => setRateToggle((prev) => !prev))
-        ); //콜백함수로 SetToggle 전달
+        );
         handleRate(rate);
-    };
+    }, [handleclicked, memoizedDispatch, setRateToggle, title, data]);
 
-    const StarRateUpdate = (star) => {
-        const ratesum = Number(data.rate * data.people);
-        const rate = Number(
-            Number(ratesum + star) / Number(data.people + 1)
-        ).toFixed(1);
-        return rate;
-    };
+    const StarRateUpdate = useCallback(
+        (star) => {
+            const ratesum = Number(data.rate * data.people);
+            const rate = Number(
+                Number(ratesum + star) / Number(data.people + 1)
+            ).toFixed(1);
+            return rate;
+        },
+        [data]
+    );
 
-    const handleRate = (rate) => {
-        let clickStates = [false, false, false, false, false];
-        for (let i = 0; i < 5; i++) {
-            clickStates[i] = i < rate ? true : false;
-        }
-        setClicked(clickStates);
-    };
+    const handleRate = useCallback((rate) => {
+        setClicked(
+            Array(5)
+                .fill(false)
+                .map((_, i) => i < rate)
+        );
+    }, []);
 
-    const onLikeClick = async () => {
+    const onLikeClick = useCallback(async () => {
         if (!loginstate) {
             window.alert('로그인이 필요한 기능입니다.');
-            navigate('/login');
+            memoizedNavigate('/login');
             return;
         }
-        dispatch(LikeSubmit(title, data));
-    };
+        memoizedDispatch(LikeSubmit(title, data));
+    }, [title, data]);
 
-    const onRateToggle = () => {
+    const onRateToggle = useCallback(() => {
         if (!loginstate) {
             window.alert('로그인이 필요한 기능입니다.');
-            navigate('/login');
+            memoizedNavigate('/login');
             return;
         }
         setRateToggle((prev) => !prev);
-    };
+    }, [setRateToggle]);
 
     const init = () => {
-        let clickStates = [...clicked];
-        for (let i = 0; i < 5; i++) {
-            clickStates[i] = i < data.rate ? true : false;
-        }
-        setClicked(clickStates);
+        setClicked(() => {
+            const clickStates = Array(5)
+                .fill(false)
+                .map((_, index) => index < data.rate);
+            return clickStates;
+        });
     };
 
     //console.log(window.sessionStorage.getItem('view'));

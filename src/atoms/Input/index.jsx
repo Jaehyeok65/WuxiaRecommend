@@ -6,6 +6,7 @@ const Inputs = styled.input`
     width: ${(props) => (props.styled ? props.styled.width : '200px')};
     margin: ${(props) => (props.styled ? props.styled.margin : '0px')};
     padding: ${(props) => (props.styled ? props.styled.padding : '0px')};
+    max-width: ${(props) => (props.styled && props.styled.maxwidth)};
 `;
 
 export const Input = forwardRef(

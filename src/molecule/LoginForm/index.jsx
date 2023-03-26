@@ -6,6 +6,8 @@ import { Text } from '../../atoms/Text';
 import useDebounce from '../../hook/useDebounce';
 import { CheckEmail, CheckPassword } from '../../module/CheckValidation';
 import { useNavigate } from 'react-router-dom';
+import styleds from 'styled-components';
+
 
 const LoginForm = ({
     styled,
@@ -107,8 +109,8 @@ const LoginForm = ({
     if (!styled || !input) return <div>에러 발생</div>;
 
     return (
-        <React.Fragment>
-            <form onSubmit={onSubmit}>
+        <Container>
+            <Form onSubmit={onSubmit}>
                 <Input
                     type="email"
                     name={userName}
@@ -145,9 +147,30 @@ const LoginForm = ({
                         passwordMessage.userPassword}
                 </Text>
                 <Button styled={styled.button}>로그인</Button>
-            </form>
-        </React.Fragment>
+            </Form>
+        </Container>
     );
 };
+
+const Container = styleds.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Form = styleds.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 500px;
+  margin-top: 50px;
+  padding : 0;
+
+  @media only screen and (min-width: 768px) {
+    width: 100%;
+  }
+`;
+
 
 export default React.memo(LoginForm);

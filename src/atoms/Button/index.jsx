@@ -26,7 +26,8 @@ const Buttons = styled.button`
     cursor: pointer;
     overflow: hidden;
     outline: none;
-    font-weight: ${(props => props.styled && props.styled.fontWeight)}
+    font-weight: ${(props => props.styled && props.styled.fontWeight)};
+    max-width : ${(props) => (props.styled && props.styled.maxwidth)};
 `;
 
 const Button = ({ children, onClick, styled, color }) => {

@@ -5,24 +5,27 @@ import MainFrame from '../MainFrame';
 
 const LoginFormstyle = {
     input1: {
-        margin: '5% 0px 0px 32%',
+        margin: '2% 0px 0px 0px',
         padding: '12px',
-        width: '35%',
+        width: '100%',
+        maxwidth: '420px',
     },
     input2: {
-        margin: '2% 0px 0px 32%',
+        margin: '2% 0px 0px 0px',
         padding: '12px',
-        width: '35%',
+        width: '100%',
+        maxwidth: '420px',
     },
     button: {
-        margin: '2% 0px 10% 32%',
+        margin: '2% 0px 10% 0px',
         padding: '12px',
-        width: '37%',
+        width: '100%',
         borderRadius: '4px',
         marginTop: '2%',
+        maxwidth: '420px',
     },
     text: {
-        margin: '10px 0px 0px 32%',
+        margin: '10px 0px 0px 0px',
     },
 };
 

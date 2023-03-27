@@ -11,18 +11,9 @@ import CommentWrite from './pages/CommentWrite/WriteContainer';
 import Comment from './pages/Comment/CommentContainer';
 import CommentUpdate from './pages/CommentUpdate';
 import Navigate from './pages/Navigate';
-import Navlist from './molecule/Navlist';
-import { list } from './organism/Sidebar';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-
-const styleds = {
-    btn: {
-        width: '10%',
-        padding: '12px',
-        border: 'none',
-    },
-};
+import MyPage from './pages/MyPage';
 
 function App() {
     const [loginstate, setLoginstate] = useState(
@@ -41,7 +32,6 @@ function App() {
                 setNickname={setNickname}
                 setLoginstate={setLoginstate}
             />
-            <Navlist list={list} styled={styleds} nav={true} />
             <Routes>
                 <Route exact path="/" element={<Main />} />
                 <Route
@@ -93,6 +83,7 @@ function App() {
                     }
                 />
                 <Route exact path="/signup" element={<SignUp />} />
+                <Route exact path="/mypage" element={<MyPage loginstate={loginstate} />} />
                 <Route exact path="/save" element={<Submit />} />
             </Routes>
         </Router>

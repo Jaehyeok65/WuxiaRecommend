@@ -116,7 +116,7 @@ const MyPage = ({ loginstate }) => {
                             별점 표시한 작품
                         </Button>
                     </Btngrid>
-                    {data === null && title === '방문' && (
+                    {data && data.length === 0 && title === '방문' && (
                         <None>아직 본 작품이 없습니다.</None>
                     )}
                     {data && data.length === 0 && title === '좋아요' && (

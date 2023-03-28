@@ -41,9 +41,13 @@ const Container = ({ loginstate }) => {
     }, [title, memoizedDispatch, data]);
 
     useEffect(() => {
-        if (!view && data) {
+        if (!view && data) { //중복 방문을 방지하기 위함
             SubmitView(data);
             setView(true);
+        }
+        if(data) { //data가 변경될 때 별점도 변경하기 위함
+            handleStar(data.rate-1);
+            init();
         }
     }, [data, view]);
 
@@ -55,25 +59,13 @@ const Container = ({ loginstate }) => {
         setRateToggle((prev) => !prev);
     }, []);
 
-    const handleSubmit = useCallback(() => {
-        const star = handleclicked.filter((item) => item === true).length;
-        const rate = StarRateUpdate(star);
-        memoizedDispatch(
+    const handleSubmit = useCallback(async() => {
+        const rate = handleclicked.filter((item) => item === true).length;
+        await memoizedDispatch(
             StarSubmit(title, rate, data, () => setRateToggle((prev) => !prev))
         );
-        handleRate(rate);
     }, [handleclicked, memoizedDispatch, setRateToggle, title, data]);
 
-    const StarRateUpdate = useCallback(
-        (star) => {
-            const ratesum = Number(data.rate * data.people);
-            const rate = Number(
-                Number(ratesum + star) / Number(data.people + 1)
-            ).toFixed(1);
-            return rate;
-        },
-        [data]
-    );
 
     const handleRate = useCallback((rate) => {
         setClicked(

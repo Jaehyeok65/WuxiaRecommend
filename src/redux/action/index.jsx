@@ -1,5 +1,6 @@
-import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain, SubmitPage, SubmitMyPage } from "../../api/WuxiaAPI";
+import { SubmitLike, SubmitList, SubmitProduct, SubmitRate, SubmitMain, SubmitPage, SubmitMyPage, SubmitReRate } from "../../api/WuxiaAPI";
 import { CommentList, CommentSubmit, Comment, CommentRecommend, CommentUpdate, CommentDelete } from "../../api/CommentAPI";
+import { getRecentView } from "../../module/RecentView";
 
 export const MAIN = 'MAIN'; //데이터 초기 정보를 받아오는 요청
 export const MAIN_SUCCESS = 'MAIN_SUCCESS'; //데이터 받아오는데 성공
@@ -98,19 +99,27 @@ export const StarSubmit = (title, rate, data, setRateToggle) => async (dispatch)
     dispatch({ type : STAR_SUBMIT, title }); //데이터 초기 요청 시작
     
     try {
-        const people = (Number)(data.people+1);
-        const newdata = {...data, rate : rate, people : people};
-        const datas = await SubmitRate(newdata);
-        if(datas) { //false라면 이미 별점을 등록한 것
+        const newdata = {...data, rate};
+        let nextdata = await SubmitRate(newdata);
+        if(nextdata.flag) { //true라면 처음 별점 등록을 등록한 것
             window.alert("별점 등록에 성공하셨습니다");
             setRateToggle();
         }
-        else {
-            window.alert("이미 별점을 등록하셨습니다.");
-            setRateToggle();
-            return;
+        else { // false라면 이미 별점을 등록한 것 == 다시 별점을 등록할 것인지 여부 확인
+            const confirm = window.confirm("이미 별점을 등록하셨습니다. 별점을 다시 등록하시겠습니까?");
+            if(confirm) { //별점을 다시 등록하겠다고 한다면 rerate 호출
+                nextdata = await SubmitReRate(newdata);
+                if(nextdata.flag) {
+                    window.alert("별점 등록에 성공하셨습니다");
+                }
+                setRateToggle();
+            }
+            else {
+                setRateToggle();
+                return;
+            }
         }
-        dispatch({ type : STAR_SUBMIT_SUCCESS, data : newdata, title });
+        dispatch({ type : STAR_SUBMIT_SUCCESS, data : nextdata.wuxia, title });
     }
     catch(e) {
         dispatch({ type : STAR_SUBMIT_ERROR, error : e, title });
@@ -274,7 +283,13 @@ export const getMyPage = (title) => async(dispatch) => {
     dispatch({type : 'MYPAGE', title});
 
     try {
-        const data = await SubmitMyPage(title);
+        let data;
+        if(title === '방문') {
+            data = getRecentView();
+        }
+        else {
+            data = await SubmitMyPage(title);
+        }
         dispatch({ type : 'MYPAGE_SUCCESS', data, title});
     }
     catch(e) {

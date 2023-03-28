@@ -24,11 +24,16 @@ export const getLogin = async(logininfo) => {
         window.alert("취소하셨습니다.");
         }
     }
-    else if(data.data === false) { //최초 로그인 성공
-        window.alert("로그인 실패");
+    else if(data.data === "비밀번호가 다릅니다!") { //비밀번호가 다르므로 로그인 실패
+        window.alert(data.data);
+        return data.data;
+    }
+    else if(data.data === "존재하지 않는 아이디입니다!") {
+        window.alert(data.data);
+        return data.data;
     }
     else {
-        window.alert("로그인 성공");
+        window.alert("로그인에 성공하였습니다!"); //최초 로그인 성공
         return data.data;
     }
 };
@@ -38,7 +43,7 @@ export const getOverlapLogin = async(logininfo) => {
         userEmail : logininfo.userEmail,
         userPassword : logininfo.userPassword
     });
-    window.alert("로그인 성공");
+    window.alert("로그인에 성공하였습니다!");
     if(data) {
         return data.data;
     }
@@ -64,7 +69,7 @@ export const getSignUp = async(logininfo) => {
         userNickname : logininfo.userNickname
     });
     window.alert(data.data);
-    if(data.data === "회원가입 완료") { //회원가입이 성공했을때만 닫기
+    if(data.data === "회원가입을 완료하였습니다!") { //회원가입이 성공했을때만 닫기
         return true;
     }
     return false;
@@ -76,10 +81,11 @@ export const getLogout = async(setLoginstate) => {
 
     const data = await axios.get(`${API}/logout`);
     if(data.data) {
+        window.alert("로그아웃을 완료하였습니다!");
         setLoginstate();
     }
     else {
-        window.alert("로그아웃 실패");
+        window.alert("로그아웃에 실패하였습니다");
     }
 };
 

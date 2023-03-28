@@ -93,14 +93,35 @@ const LoginForm = ({
                 alert('아이디와 비밀번호를 입력해주세요');
                 return;
             }
-            const nickname = await getLogin(input);
-            if (nickname) {
+            const loginresult = await getLogin(input);
+            if(loginresult === "비밀번호가 다릅니다!") {
+                setPasswordMessage({
+                    userPassword: loginresult,
+                    effectiveness: false,
+                });
+                setEmailMessage({
+                    userEmail: '',
+                    effectiveness: false,
+                });
+            }
+            else if(loginresult === "존재하지 않는 아이디입니다!") {
+                setPasswordMessage({
+                    userPassword: '',
+                    effectiveness: false,
+                });
+                setEmailMessage({
+                    userEmail: loginresult,
+                    effectiveness: false,
+                });
+            }
+            else {
                 // 로그인 성공했을 경우
-                setNickname(nickname);
+                setNickname(loginresult);
                 setLoginstate();
                 init();
                 Textinit();
                 memoizedNavigate(-1);
+                console.log(loginresult);
             }
         },
         [input, setNickname, setLoginstate]

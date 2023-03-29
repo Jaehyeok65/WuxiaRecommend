@@ -46,7 +46,6 @@ const Container = ({ loginstate }) => {
             setView(true);
         }
         if(data) { //data가 변경될 때 별점도 변경하기 위함
-            handleStar(data.rate-1);
             init();
         }
     }, [data, view]);

@@ -33,7 +33,7 @@ const StarRate = ({ styled, handleStar, clicked, init, rate }) => {
                 </Icon>
             ))}
             {rate ? (
-                <span style={{ fontSize: '14px' }}>&nbsp;{rate} / 5.0</span>
+                <span style={{ fontSize: '14px' }}>&nbsp;{rate.toFixed(1)} / 5.0</span>
             ) : null}
         </Star>
     );

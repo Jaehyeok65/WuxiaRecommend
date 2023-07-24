@@ -30,4 +30,10 @@ describe('MyPage component', () => {
             'font-weight: bold'
         );
     });
+
+    it('should render nickname props', () => {
+        render(<MyPage loginstate={true} nickname={'팔협지'} />);
+        const nick = screen.getByText('팔협지');
+        expect(nick).toBeInTheDocument();
+    });
 });

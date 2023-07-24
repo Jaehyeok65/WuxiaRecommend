@@ -23,6 +23,14 @@ const None = styled.div`
     margin-top: 2%;
 `;
 
+const UserMessage = styled.div`
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 2% 0% 2% 0%;
+`;
+
 const cardstyle = {
     height: '100%',
     mobileheight: '100%',
@@ -53,7 +61,7 @@ const cardinfostyle = {
     },
 };
 
-const MyPage = ({ loginstate }) => {
+const MyPage = ({ loginstate, nickname }) => {
     const [title, setTitle] = useState('방문'); //default는 최근 방문한 작품
 
     const { data, loading, error } = useSelector(
@@ -83,6 +91,7 @@ const MyPage = ({ loginstate }) => {
         <React.Fragment>
             {loginstate ? (
                 <MainFrame>
+                    <UserMessage>{nickname}님 반갑습니다.</UserMessage>
                     <Btngrid title={title}>
                         <Button
                             styled={{
@@ -134,7 +143,7 @@ const MyPage = ({ loginstate }) => {
                     )}
                 </MainFrame>
             ) : (
-                <Navigate to="/login" replace={true} />
+                <Navigate to="/login" replace={false} />
             )}
         </React.Fragment>
     );
